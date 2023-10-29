@@ -14,6 +14,8 @@
                     <a href="{% url 'core:delete-post' post.id %}">Delete</a>
                 {% endif %}
                 <br>
+                <a href="{% url 'core:vote-post' post.id %}">Vote</a>
+                {{ post.vote_count }}
                 {{ post.language }}
             </div>
         {% endfor %}

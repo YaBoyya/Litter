@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import author_only
 from .forms import PostForm, CommentForm
-from .models import Post, Comment
+from .models import Comment, CommentVote, Post, PostVote
 
 
 def feed(request):
@@ -12,6 +12,7 @@ def feed(request):
     return render(request, 'core/feed.html', context)
 
 
+# TODO separate comment form
 def post_details(request, pk):
     post = get_object_or_404(Post, id=pk)
     comments = Comment.objects.filter(post=post)
@@ -69,3 +70,36 @@ def delete_post(request, pk):
         return redirect('core:feed')
     context = {'obj': post}
     return render(request, 'delete.html', context)
+
+
+# TODO a generic view for voting?
+@login_required(login_url='users:login')
+def vote_post(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    try:
+        vote = PostVote.objects.get(user=request.user, post=post)
+    except (PostVote.DoesNotExist):
+        vote = None
+
+    if vote:
+        vote.delete()
+    else:
+        PostVote.objects.create(user=request.user, post=post)
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='users:login')
+def vote_comment(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    try:
+        vote = CommentVote.objects.get(user=request.user, comment=comment)
+    except (CommentVote.DoesNotExist):
+        vote = None
+
+    if vote:
+        vote.delete()
+    else:
+        CommentVote.objects.create(user=request.user, comment=comment)
+
+    return redirect(request.META.get('HTTP_REFERER'))

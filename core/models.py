@@ -1,6 +1,7 @@
 from django.db import models
 from pygments.lexers import get_all_lexers
 
+from .managers import VotingManager
 from users.models import LitterUser
 
 # TODO setup get_text_lazy
@@ -22,6 +23,8 @@ class Post(models.Model):
     views = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
+    objects = VotingManager()
+
     def __str__(self):
         return self.title
 
@@ -32,14 +35,18 @@ class Comment(models.Model):
     text = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
 
+    objects = VotingManager()
+
 
 class PostVote(models.Model):
     user = models.ForeignKey(LitterUser, on_delete=models.DO_NOTHING)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name='vote',
+                             on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
 
 class CommentVote(models.Model):
     user = models.ForeignKey(LitterUser, on_delete=models.DO_NOTHING)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, related_name='vote',
+                                on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
