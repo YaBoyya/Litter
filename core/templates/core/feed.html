@@ -1,11 +1,13 @@
-{% extends 'main.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <a href="{% url 'core:create-post' %}">New Post</a>
     <div>
         {% for post in posts %}
             <br><hr>
-            {{post.title}}
+            <a href="{% url 'core:delete-post' post.id %}">Delete</a>
+            <br>
+            <a href="{% url 'core:details-post' post.id %}">{{post.title}}</a>
         {% endfor %}
     </div>
 {% endblock %}

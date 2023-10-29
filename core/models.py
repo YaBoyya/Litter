@@ -22,6 +22,9 @@ class Post(models.Model):
     views = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     # user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
