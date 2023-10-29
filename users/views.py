@@ -22,17 +22,20 @@ def register(request):
     return render(request, 'users/login-register.html', context)
 
 
+# TODO check the next value, cuz it doesn't seem to exist
 def user_login(request):
     type = 'login'
     if request.method == 'POST':
         form = LoginForm(request.POST)
+        next = request.GET.get('next', 'core:feed')
         user = authenticate(request,
                             usertag=request.POST.get('usertag'),
                             password=request.POST.get('password'))
+        print(request.GET)
         if user is not None:
             login(request, user)
             messages.success(request, "Logged in succesfully.")
-            return redirect('core:feed')
+            return redirect(next)
         else:
             messages.info(request, "Invalid usertag or password.")
     else:

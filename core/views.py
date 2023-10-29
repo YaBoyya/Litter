@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PostForm
@@ -31,16 +32,18 @@ def post_edit(request, pk):
     return render(request, 'core/edit_post.html', context)
 
 
+@login_required(login_url='users:login')
 def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.user = request.user
             return redirect('core:feed')
     else:
         form = PostForm()
     context = {'form': form}
-    return render(request, 'create_post.html', context)
+    return render(request, 'core/create_post.html', context)
 
 
 def delete_post(request, pk):
