@@ -2,8 +2,24 @@
 
 {% block content %}
     <div>
-        <a href="{% url 'core:edit-post' post.id %}">Edit</a>
+        {% if request.user == post.user %}
+            <a href="{% url 'core:edit-post' post.id %}">Edit</a>
+        {% endif %}
         <h1>{{ post.title }}</h1>
         <p>{{ post.description }}</p>
+    </div>
+    <div>
+        <form method='POST'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" hidden>
+        </form>
+    </div>
+    <div>
+        {% for comment in comments %}
+            <br><hr>
+            <p>{{ comment.user.usertag }}, {{ comment.created|timesince }}</p>
+            {{ comment.text }}
+        {% endfor %}
     </div>
 {% endblock %}

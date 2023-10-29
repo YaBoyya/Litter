@@ -29,7 +29,7 @@ class Post(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    text = models.TextField(max_length=200)
+    text = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
 
 
