@@ -18,7 +18,7 @@ class Post(models.Model):
         ('M', 'Medium'),
         ('H', 'Hard'),
     ]
-    tag = models.CharField(choices=DIFFICULTY, null=True)
+    difficulty = models.CharField(choices=DIFFICULTY, null=True)
     views = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 

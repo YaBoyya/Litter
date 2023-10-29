@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <a href="{% url 'core:create-post' %}">New Post</a>
+    <div>
+        {% for post in posts %}
+            <br><hr>
+            {{post.title}}
+        {% endfor %}
+    </div>
+{% endblock %}
