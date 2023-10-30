@@ -10,14 +10,22 @@ LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0])for item in LEXERS])
 
 
-# TODO add was_edited option
+# TODO change models
+class Language(models.Model):
+    name = models.CharField(max_length=50)
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+
+
 class Post(models.Model):
     user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
+    language = models.ManyToManyField(Language)
     title = models.CharField(_("Title"), max_length=100)
     text = models.TextField(_("Description"), max_length=500, null=True,
                             blank=True)
-    language = models.CharField(_("Programming language"),
-                                choices=LANGUAGE_CHOICES)
     DIFFICULTY = [
         ('E', 'Easy'),
         ('M', 'Medium'),
