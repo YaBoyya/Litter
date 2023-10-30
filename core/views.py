@@ -24,6 +24,9 @@ def post_details(request, pk):
             obj.user = request.user
             obj.post = post
             obj.save()
+    else:
+        post.views += 1
+        post.save()
 
     form = CommentForm()
 

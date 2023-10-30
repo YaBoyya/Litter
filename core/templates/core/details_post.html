@@ -10,6 +10,7 @@
             <small><bold>Edited</bold></small>
         {% endif %}
         <p>{{ post.text }}</p>
+        <small>{{ post.views }} views</small>
     </div>
     {% if request.user.is_authenticated %}
         <div>
