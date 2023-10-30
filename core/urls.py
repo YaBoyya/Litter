@@ -13,5 +13,8 @@ urlpatterns = [
     path('post/<str:pk>/delete', views.delete_post, name="delete-post"),
     path('post/<str:pk>/vote', views.vote_post, name='vote-post'),
 
+    path('comment/<str:pk>/edit', views.edit_comment, name="edit-comment"),
+    path('comment/<str:pk>/delete', views.delete_comment,
+         name='delete-comment'),
     path('comment/<str:pk>/vote', views.vote_comment, name='vote-comment'),
 ]

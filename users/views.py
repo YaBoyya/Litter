@@ -22,7 +22,6 @@ def register(request):
     return render(request, 'users/login-register.html', context)
 
 
-# TODO check the next value, cuz it doesn't seem to exist
 def user_login(request):
     type = 'login'
     if request.method == 'POST':

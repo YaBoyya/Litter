@@ -29,7 +29,7 @@ class LitterUser(AbstractUser):
             "unique": _("A user with that usertag already exists."),
         },
     )
-    bio = models.TextField(max_length=200, null=True, blank=True)
+    bio = models.TextField(_("Bio"), max_length=200, null=True, blank=True)
     # TODO install Pillow and setup pfp
     # picture = models.ImageField()
     objects = LitterUserManager()
