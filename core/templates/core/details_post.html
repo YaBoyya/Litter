@@ -6,6 +6,9 @@
             <a href="{% url 'core:edit-post' post.id %}">Edit</a>
         {% endif %}
         <h1>{{ post.title }}</h1>
+        {% if post.was_edited %}
+            <small><bold>Edited</bold></small>
+        {% endif %}
         <p>{{ post.text }}</p>
     </div>
     {% if request.user.is_authenticated %}
@@ -22,6 +25,9 @@
             <br><hr>
             <p>
                 {{ comment.user.usertag }}, {{ comment.created|timesince }}
+                {% if comment.was_edited %}
+                    <small><bold>Edited</bold></small>
+                {% endif %}
                 {% if request.user == comment.user%}
                 <a href="{% url 'core:edit-comment' comment.id %}">Edit</a>
                 <a href="{% url 'core:delete-comment' comment.id %}">Delete</a>

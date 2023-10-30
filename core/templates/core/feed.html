@@ -10,6 +10,9 @@
                 <br><hr>
                 <a href="{% url 'core:details-post' post.id %}">{{post.title}}</a>
                 {{ post.created|timesince }} ago
+                {% if post.was_edited %}
+                    <small><bold>Edited</bold></small>
+                {% endif %}
                 {% if request.user == post.user %}
                     <a href="{% url 'core:delete-post' post.id %}">Delete</a>
                 {% endif %}

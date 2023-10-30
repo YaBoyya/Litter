@@ -39,7 +39,10 @@ def post_edit(request, pk):
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            # TODO change it signals?
+            obj.was_edited = True
+            obj.save()
             return redirect('core:details-post', pk)
     else:
         form = PostForm(instance=post)
@@ -77,9 +80,10 @@ def delete_post(request, pk):
 @author_only(obj=Comment, message="You cannot delete this comment.")
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, id=pk)
+    post_id = comment.post.id
     if request.method == 'POST':
         comment.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect('core:details-post', post_id)
     context = {'obj': comment}
     return render(request, 'delete.html', context)
 
@@ -92,7 +96,9 @@ def edit_comment(request, pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             print(form)
-            form.save()
+            obj = form.save(commit=False)
+            obj.was_edited = True
+            obj.save()
             return redirect('core:details-post', comment.post.id)
     else:
         form = CommentForm(instance=comment)

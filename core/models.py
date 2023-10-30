@@ -10,6 +10,7 @@ LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0])for item in LEXERS])
 
 
+# TODO add was_edited option
 class Post(models.Model):
     user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
@@ -26,6 +27,7 @@ class Post(models.Model):
                                   null=True)
     views = models.IntegerField(_("Views"), default=0)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
+    was_edited = models.BooleanField(_('Was edited'), default=False)
 
     objects = VotingManager()
 
@@ -33,11 +35,13 @@ class Post(models.Model):
         return f'{self.text[:50]}...' if len(self.title) > 50 else self.title
 
 
+# TODO add was_edited option
 class Comment(models.Model):
     user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = models.CharField(_("Text"), max_length=200)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
+    was_edited = models.BooleanField(_('Was edited'), default=False)
 
     objects = VotingManager()
 
