@@ -13,7 +13,6 @@ def feed(request):
 
 
 # TODO separate comment form
-# TODO restrict it so forms aren't available from POST url, or are they?
 def post_details(request, pk):
     post = get_object_or_404(Post, id=pk)
     comments = Comment.objects.filter(post=post).order_by('-created')
@@ -34,6 +33,7 @@ def post_details(request, pk):
     return render(request, 'core/details_post.html', context)
 
 
+# TODO fix post creation with multiple language choices
 @login_required(login_url='users:login')
 @author_only(obj=Post, message="You cannot edit this post")
 def post_edit(request, pk):
@@ -43,9 +43,10 @@ def post_edit(request, pk):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             obj = form.save(commit=False)
-            # TODO change it signals?
             obj.was_edited = True
             obj.save()
+            form.save_m2m()
+            # TODO change it signals?
             return redirect('core:details-post', pk)
     else:
         form = PostForm(instance=post)
@@ -58,9 +59,11 @@ def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             post = form.save(commit=False)
             post.user = request.user
             post.save()
+            form.save_m2m()
             return redirect('core:feed')
     else:
         form = PostForm()

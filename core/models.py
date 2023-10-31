@@ -1,28 +1,19 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from pygments.lexers import get_all_lexers
 
 from .managers import VotingManager
-from users.models import LitterUser
 
 
-LEXERS = [item for item in get_all_lexers() if item[1]]
-LANGUAGE_CHOICES = sorted([(item[1][0], item[0])for item in LEXERS])
-
-
-# TODO change models
 class Language(models.Model):
     name = models.CharField(max_length=50)
 
-
-class Follow(models.Model):
-    user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
-    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
-    user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
-    language = models.ManyToManyField(Language)
+    user = models.ForeignKey('users.LitterUser', on_delete=models.CASCADE)
+    languages = models.ManyToManyField(Language)
     title = models.CharField(_("Title"), max_length=100)
     text = models.TextField(_("Description"), max_length=500, null=True,
                             blank=True)
@@ -43,9 +34,8 @@ class Post(models.Model):
         return f'{self.text[:50]}...' if len(self.title) > 50 else self.title
 
 
-# TODO add was_edited option
 class Comment(models.Model):
-    user = models.ForeignKey(LitterUser, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.LitterUser', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = models.CharField(_("Text"), max_length=200)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
@@ -58,14 +48,14 @@ class Comment(models.Model):
 
 
 class PostVote(models.Model):
-    user = models.ForeignKey(LitterUser, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
     post = models.ForeignKey(Post, related_name='vote',
                              on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
 
 
 class CommentVote(models.Model):
-    user = models.ForeignKey(LitterUser, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
     comment = models.ForeignKey(Comment, related_name='vote',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)

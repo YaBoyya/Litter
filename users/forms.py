@@ -12,6 +12,8 @@ class RegisterForm(UserCreationForm):
 
 
 class LoginForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = LitterUser
         fields = ['usertag', 'password']

@@ -10,6 +10,9 @@
             <small><bold>Edited</bold></small>
         {% endif %}
         <p>{{ post.text }}</p>
+        {% for language in post.languages.all %}
+            {{ language }}
+        {% endfor %}
         <small>{{ post.views }} views</small>
     </div>
     {% if request.user.is_authenticated %}

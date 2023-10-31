@@ -19,7 +19,9 @@
                 <br>
                 <a href="{% url 'core:vote-post' post.id %}">Vote</a>
                 {{ post.vote_count }}
-                {{ post.language }}
+                {% for language in post.languages.all %}
+                    {{ language }}
+                {% endfor %}
             </div>
         {% endfor %}
     </div>

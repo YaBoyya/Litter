@@ -12,6 +12,7 @@ class LitterUserManager(UserManager):
 
 
 class LitterUser(AbstractUser):
+    languages = models.ManyToManyField('core.Language')
     username = models.CharField(
         _("username"),
         max_length=150
