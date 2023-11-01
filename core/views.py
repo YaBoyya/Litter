@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import author_only
@@ -7,8 +8,14 @@ from .models import Comment, CommentVote, Post, PostVote
 
 
 def feed(request):
-    posts = Post.objects.all().order_by('-created')
-    context = {'posts': posts}
+    q = request.GET.get('q', "")
+    if q:
+        posts = Post.objects.filter(Q(title__icontains=q)
+                                    | Q(text__icontains=q)
+                                    | Q(languages__name__icontains=q))
+    else:
+        posts = Post.objects.all().order_by('-created')
+    context = {'posts': posts, 'q': q}
     return render(request, 'core/feed.html', context)
 
 
@@ -33,7 +40,6 @@ def post_details(request, pk):
     return render(request, 'core/details_post.html', context)
 
 
-# TODO fix post creation with multiple language choices
 @login_required(login_url='users:login')
 @author_only(obj=Post, message="You cannot edit this post")
 def post_edit(request, pk):
@@ -57,7 +63,7 @@ def post_edit(request, pk):
 @login_required(login_url='users:login')
 def create_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             print(form.cleaned_data)
             post = form.save(commit=False)

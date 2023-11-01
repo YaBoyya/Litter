@@ -9,6 +9,9 @@
         {% if post.was_edited %}
             <small><bold>Edited</bold></small>
         {% endif %}
+        {% if post.picture %}
+            <img src="{{ post.picture.url }}">
+        {% endif %}
         <p>{{ post.text }}</p>
         {% for language in post.languages.all %}
             {{ language }}
@@ -28,6 +31,8 @@
         {% for comment in comments %}
             <br><hr>
             <p>
+                <img src="{{ comment.user.picture.url }}">
+                {{ comment.user.picture }}
                 {{ comment.user.usertag }}, {{ comment.created|timesince }}
                 {% if comment.was_edited %}
                     <small><bold>Edited</bold></small>

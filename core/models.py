@@ -1,7 +1,23 @@
+import os
+from uuid import uuid4
+
+from django.conf import settings
 from django.db import models
+from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
 from .managers import VotingManager
+
+
+@deconstructible
+class PathAndRename(object):
+    def __init__(self, sub_path):
+        self.path = sub_path
+
+    def __call__(self, instance, filename):
+        ext = filename.split('.')[-1]
+        filename = f'{uuid4()}.{ext}'
+        return os.path.join(self.path, filename)
 
 
 class Language(models.Model):
@@ -17,6 +33,9 @@ class Post(models.Model):
     title = models.CharField(_("Title"), max_length=100)
     text = models.TextField(_("Description"), max_length=500, null=True,
                             blank=True)
+    picture = models.ImageField(upload_to=PathAndRename('post_pictures/'),
+                                null=True)
+
     DIFFICULTY = [
         ('E', 'Easy'),
         ('M', 'Medium'),
@@ -32,6 +51,14 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.title) > 50 else self.title
+
+    def delete(self):
+        if self.picture:
+            root = settings.MEDIA_ROOT
+            relative_path = str(self.picture).replace("/", "\\")
+            absolute_path = os.path.join(root, relative_path)
+            os.remove(absolute_path)
+        super().delete()
 
 
 class Comment(models.Model):

@@ -3,6 +3,8 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from core.models import PathAndRename
+
 
 class LitterUserManager(UserManager):
     def create_superuser(self, usertag, email, password, **extra_fields):
@@ -31,7 +33,8 @@ class LitterUser(AbstractUser):
         },
     )
     bio = models.TextField(_("Bio"), max_length=200, null=True, blank=True)
-    # TODO install Pillow and setup pfp
-    # picture = models.ImageField()
+    picture = models.ImageField(default='default_pp.png',
+                                upload_to=PathAndRename(
+                                    'profile_pics/'))
     objects = LitterUserManager()
     USERNAME_FIELD = "usertag"
