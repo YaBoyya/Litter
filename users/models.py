@@ -14,6 +14,7 @@ class LitterUserManager(UserManager):
 
 
 class LitterUser(AbstractUser):
+    email = models.EmailField(_("email address"), error_messages={'unique': "This email has already been registered."})  # noqa
     languages = models.ManyToManyField('core.Language')
     username = models.CharField(
         _("username"),

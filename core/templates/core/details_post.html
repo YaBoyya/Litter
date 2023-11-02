@@ -32,7 +32,6 @@
             <br><hr>
             <p>
                 <img src="{{ comment.user.picture.url }}">
-                {{ comment.user.picture }}
                 {{ comment.user.usertag }}, {{ comment.created|timesince }}
                 {% if comment.was_edited %}
                     <small><bold>Edited</bold></small>

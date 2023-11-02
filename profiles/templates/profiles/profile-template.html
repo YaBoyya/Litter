@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <img src="{{ user.picture.url }}">
+        <bold>{{ user.username }}</bold>
+        <br><hr>
+        @{{ user.usertag }}
+        <br><hr>
+        {% if user.bio %}
+            {{ user.bio }}
+        {% endif%}
+    </div>
+    {% block feed %}
+
+    {% endblock %}
+{% endblock %}

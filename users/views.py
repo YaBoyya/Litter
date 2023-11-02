@@ -13,7 +13,7 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.username = user.usertag
+            user.username = request.POST.get('usertag')
             user.save()
             return redirect('core:feed')
     else:
