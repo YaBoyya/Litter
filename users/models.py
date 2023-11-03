@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from core.models import PathAndRename
@@ -12,7 +13,13 @@ class LitterUserManager(UserManager):
         return super().create_superuser(usertag, email, password,
                                         **extra_fields)
 
+    def get_queryset(self) -> QuerySet:
+        return super().get_queryset().annotate(
+            followers_count=models.Count('followers')
+        )
 
+
+# TODO modify database for user following
 class LitterUser(AbstractUser):
     email = models.EmailField(_("email address"), error_messages={'unique': "This email has already been registered."})  # noqa
     languages = models.ManyToManyField('core.Language')
@@ -39,3 +46,26 @@ class LitterUser(AbstractUser):
                                     'profile_pics/'))
     objects = LitterUserManager()
     USERNAME_FIELD = "usertag"
+
+
+class UserFollowing(models.Model):
+    """
+    If you filter user=request.user, you'll get what he is following
+    and if you filter following_user=request.user, you'll get his followers
+    """
+    # is following
+    user = models.ForeignKey(LitterUser, related_name="following",
+                             on_delete=models.CASCADE)
+    # is being followed
+    followed_user = models.ForeignKey(LitterUser, related_name="followers",
+                                      on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'followed_user'],
+                                    name="unique_followers")
+            ]
+
+    def __str__(self):
+        return f'{self.user.usertag} follows {self.followed_user.usertag}.'

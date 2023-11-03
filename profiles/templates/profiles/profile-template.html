@@ -6,12 +6,20 @@
         <bold>{{ user.username }}</bold>
         <br><hr>
         @{{ user.usertag }}
+        {% if is_followed %}
+            <a href="{% url 'profiles:follow' user.usertag %}">Unfollow</a>
+        {% else %}
+            <a href="{% url 'profiles:follow' user.usertag %}">Follow</a>
+        {% endif %}
+        {{ user.followers_count }}
         <br><hr>
         {% if user.bio %}
             {{ user.bio }}
-        {% endif%}
+        {% endif %}
+        <a href="{% url 'profiles:posts' user.usertag %}">Posts</a>
+        <a href="{% url 'profiles:comments' user.usertag %}">Comments</a>
+        <a href="{% url 'profiles:stats' user.usertag %}">Stats</a>
     </div>
     {% block feed %}
-
     {% endblock %}
 {% endblock %}
