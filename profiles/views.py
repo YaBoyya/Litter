@@ -25,6 +25,7 @@ def profile_comments(request, usertag):
     return render(request, 'profiles/profile-comments.html', context)
 
 
+# TODO profile stats
 def profile_stats(request, usertag):
     pass
 

@@ -80,9 +80,21 @@ class PostVote(models.Model):
                              on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'post'],
+                                    name="Unique post vote.")
+            ]
+
 
 class CommentVote(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
     comment = models.ForeignKey(Comment, related_name='vote',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'comment'],
+                                    name="Unique comment vote.")
+            ]
