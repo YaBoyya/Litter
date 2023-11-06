@@ -8,6 +8,7 @@ from .models import Comment, CommentVote, Post, PostVote
 
 
 def feed(request):
+    # TODO multiple images per post
     q = request.GET.get('q', "")
     if q:
         posts = Post.objects.filter(Q(title__icontains=q)

@@ -7,19 +7,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Litter</title>
-        <link rel="stylesheet" href="{% url 'static/' %}">
+        <link type="text/css" rel="stylesheet" href="{% static 'root/css/base.css' %}">
+        <script type="text/javascript" src="{% static 'root/js/javascript.js' %}"></script>
+        {% block cssjs %}
+        {% endblock %}
     </head>
     <body>
-        <a href="{% url 'core:feed' %}"><h1>Litter</h1></a>
-        <ul>
-            {% if request.user.is_authenticated %}
-                <p>Welcome, @{{request.user.usertag}}</p>
-                <li><a href="{% url 'users:logout' %}">Logout</a></li>	
-            {% else %}
-                <li><a href="{% url 'users:register' %}">Register</a></li>
-                <li><a href="{% url 'users:login' %}">Login</a></li>
-            {% endif %}
-        </ul>
+        <div class="side-bar container">
+            <a href="{% url 'core:feed' %}"><img id="logo" src="images/logo.webp"></a>
+            <ul id="nav-list" class="button-list icon-text-list">
+                <li><a href="{% url 'core:feed' %}"><img src="images/home.jpg">Home</a></li>
+                <li><a><img src="images/popular.jpg">Popular</a></li>
+                <li><a><img src="images/notification.jpg">Notifications</a></li>
+                <li><a><img src="images/chat.png">Chat</a></li>
+                <li><a href="{% url 'profiles:posts' request.user.usertag %}"><img src="images/profile.avif">Profile</a></li>
+                {% if request.user.is_authenticated %}
+                    <p>Welcome, @{{request.user.usertag}}</p>
+                    <li><a href="{% url 'users:logout' %}">Logout</a></li>	
+                {% else %}
+                    <li><a href="{% url 'users:register' %}">Register</a></li>
+                    <li><a href="{% url 'users:login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
 
         {% for message in messages %}
             <br>
@@ -27,6 +37,7 @@
         {% endfor %}
         
         {% block content %}
+        
         {% endblock %}
     </body>
 </html>

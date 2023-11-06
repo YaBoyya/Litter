@@ -30,6 +30,7 @@ def profile_stats(request, usertag):
     pass
 
 
+# TODO post template
 def profile_following(request, usertag):
     """
     Will create a UserFollowing object,
