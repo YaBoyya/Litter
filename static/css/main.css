@@ -1,0 +1,17 @@
+@import url("base.css");
+@import url("post.css");
+
+/* SIZE, MARGIN AND PADDING */
+#search {
+  margin-bottom: var(--small-gap);
+}
+#search button {
+  height: fit-content;
+}
+/*}}}*/
+
+/* SPECIFICS {{{*/
+#search {
+  display: flex;
+}
+/*}}}*/

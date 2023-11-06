@@ -1,0 +1,28 @@
+@import url("base.css");
+@import url("post.css");
+
+/* SIZE, MARGIN AND PADDING */
+.post-utility-bar {
+  margin-top: var(--small-gap);
+}
+.post-utility-bar>ul>li {
+  margin-right: var(--small-gap);
+}
+#profile-name {
+  height: 10rem;
+}
+#profile-buttons {
+  height: 3rem;
+}
+#profile-buttons>li{
+  width: 4rem;
+  margin-left: var(--tiny-gap);
+}
+#profile-bio {
+  height: 10rem;
+  margin-top: var(--big-gap);
+}
+/*}}}*/
+
+/* SPECIFICS {{{*/
+/*}}}*/
