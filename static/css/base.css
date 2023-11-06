@@ -6,12 +6,12 @@
   --color3: #608060;
   --color4: #80a0a0;
   --color5: #a0c0a0;
-  */
-  --huge-gap: 1.5vw;
-  --big-gap: 1vw;
-  --small-gap: 0.5vw;
-  --tiny-gap: 0.3vw;
-  --radius: 2vw;
+   */
+--huge-gap: 1.5vw;
+--big-gap: 1vw;
+--small-gap: 0.5vw;
+--tiny-gap: 0.3vw;
+--radius: 2vw;
 }
 /*}}}*/
 
@@ -29,17 +29,20 @@
   background-color: var(--color5);
   color: var(--color1);
 }
-input[type="text"], .button, .button-list>li {
+input[type="text"], .button, .button-list>li, input[type="password"],
+input[type="email"], input[type="submit"]
+{
   background-color: var(--color3);
   border-style: solid;
   border-color: var(--color4);
   color: var(--color5);
 }
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="password"]:focus,
+input[type="email"]:focus {
   background-color: var(--color4);
   color: var(--color1);
 }
-.button:hover {
+.button:hover, input[type="submit"]:hover {
   background-color: var(--color5);
   color: var(--color1);
 }
@@ -47,17 +50,21 @@ input[type="text"]:focus {
 
 /* GENERAL STYLES {{{*/
 * {
-    all: unset;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style-type: none;
-    outline: none;
-    border-radius: 2vw;
-    display: block;
+  all: unset;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  outline: none;
+  border-radius: 2vw;
+  display: block;
 }
 img {
   height: 100%;
+}
+title {
+  display: none;
+  visibility: collapse;
 }
 a {
   height: 100%;
@@ -65,14 +72,14 @@ a {
   display: block;
   cursor: pointer;
 }
-input, button {
+input[type="submit"], button {
   cursor: pointer;
 }
 input[type="checkbox"] {
   visibility: collapse;
   display: none;
 }
-input[type="text"] {
+input[type="text"], input[type="password"] {
   flex-grow: 1;
   margin-right: var(--tiny-gap);
   padding: var(--small-gap);
@@ -93,7 +100,7 @@ body>div {
   display: flex;
   justify-content: center;
 }
-.center-vert, .center, .center-list>li, .center-vert-list>li {
+.center-vert, .center, .center-list>li, .center-list>li a, .center-vert-list>li, .center-vert-list>li a {
   align-items: center;
   display: flex;
 }
@@ -109,7 +116,7 @@ body>div {
   align-items: center;
   height: 100%;
 }
-.icon-text>a, .icon-text-list>li>a {
+.icon-text a, .icon-text-list>li a {
   display: inherit;
   align-items: inherit;
 }
@@ -136,7 +143,7 @@ body>div {
 
 /* SIZE, MARGIN AND PADDING {{{*/
 .side-bar {
-   width: 20%;
+  width: 20%;
   max-height: 95vh;
   min-height: 35rem;
   margin-left: var(--big-gap);

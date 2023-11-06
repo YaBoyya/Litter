@@ -1,11 +1,8 @@
-@import url("base.css");
-@import url("post.css");
-
 /* SIZE, MARGIN AND PADDING */
 .post-utility-bar {
   margin-top: var(--small-gap);
 }
-.post-utility-bar>ul>li {
+.post-utility-bar>ul>li a, .post-utility-bar>ul>li {
   margin-right: var(--small-gap);
 }
 #profile-name {

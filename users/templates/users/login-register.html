@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
+    <div class="container">
         {% if type == 'register' %}
             <form method='POST'>
                 {% csrf_token %}

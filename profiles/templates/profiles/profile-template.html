@@ -2,74 +2,51 @@
 {% load static %}
 
 {% block cssjs %}
-
+<link type="text/css" rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'feed/css/post.css' %}">
 {% endblock %}
 
 {% block content %}
-<div id="main">
-    <div class="container">
-        <div class="space-between">
-            <div id="profile-name">
-                <div class="icon-text">
-                    <img src="{{ user.picture.url }}">
-                    
-                </div>
-            </div>
-            <ul id="profile-buttons" class="flex button-list center-list">
-                <li>
-                {% if is_followed %}
-                    <a href="{% url 'profiles:follow' user.usertag %}">Unfollow</a>
-                {% else %}
-                    <a href="{% url 'profiles:follow' user.usertag %}">Follow</a>
-                {% endif %}
-                {{ user.followers_count }}
-                </li>
-                <li>DM</li>
-                <li>...</li>
-            </ul>
-        </div>
-        <div id="profile-bio">
-            {% if user.bio %}
-                {{ user.bio }}
-            {% endif %}
-        </div>
-    </div>
-    <div>
-        <div class="space-between post-utility-bar">
-            <ul class="flex button-list centered-text-list">
-                <li><a href="{% url 'profiles:posts' user.usertag %}">Posts</a></li>
-                <li><a href="{% url 'profiles:comments' user.usertag %}">Comments</a></li>
-                <li><a href="{% url 'profiles:stats' user.usertag %}">Stats</a></li>
-            </ul>
-            <button id="sort" class="button">
-                <span class="centered-text">New</span>
-            </button>
-        </div>
-        {% block feed %}
-        {% endblock %}
-    </div>
-  </div>
-  </div>
-  <div class="side-bar container">
-  </div>
-    
-{% endblock %}
-{% comment %} <div>
+<div class="container">
+  <div class="space-between">
+    <div id="profile-name">
+      <div class="icon-text">
         <img src="{{ user.picture.url }}">
-        <bold>{{ user.username }}</bold>
-        <br><hr>
-        @{{ user.usertag }}
-        {% if is_followed %}
-            <a href="{% url 'profiles:follow' user.usertag %}">Unfollow</a>
-        {% else %}
-            <a href="{% url 'profiles:follow' user.usertag %}">Follow</a>
-        {% endif %}
+        {{ user.username }}
+      </div>
+    </div>
+    <ul id="profile-buttons" class="flex button-list center-list">
         {{ user.followers_count }}
-        <br><hr>
-        {% if user.bio %}
-            {{ user.bio }}
+      <li>
+        {% if is_followed %}
+        <a href="{% url 'profiles:follow' user.usertag %}">Unfollow</a>
+        {% else %}
+        <a href="{% url 'profiles:follow' user.usertag %}">Follow</a>
         {% endif %}
-        <a href="{% url 'profiles:posts' user.usertag %}">Posts</a>
-        <a href="{% url 'profiles:comments' user.usertag %}">Comments</a>
-        <a href="{% url 'profiles:stats' user.usertag %}">Stats</a>
-    </div> {% endcomment %}
+      </li>
+      <li><a href="#">DM</a></li>
+      <li><a href="#">...</a></li>
+    </ul>
+  </div>
+  <div id="profile-bio">
+    {% if user.bio %}
+    {{ user.bio }}
+    {% endif %}
+  </div>
+</div>
+<div>
+  <div class="space-between post-utility-bar">
+    <ul class="flex button-list centered-text-list">
+      <li><a href="{% url 'profiles:posts' user.usertag %}">Posts</a></li>
+      <li><a href="{% url 'profiles:comments' user.usertag %}">Comments</a></li>
+      <li><a href="{% url 'profiles:stats' user.usertag %}">Stats</a></li>
+    </ul>
+    <button id="sort" class="button">
+      <span class="centered-text">New</span>
+    </button>
+  </div>
+  {% block feed %}
+  {% endblock %}
+</div>
+</div>
+{% endblock %}

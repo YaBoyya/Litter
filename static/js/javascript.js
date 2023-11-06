@@ -58,17 +58,18 @@ function randomPalette() {
 
 
 let input
-//Add listener for tag checkboxes
-for(let ul of document.getElementsByClassName("tag-list")) {
-  for(let li of ul.getElementsByTagName("li"))
-    li.style.borderColor = langs[li.textContent]
-  if(ul.classList.contains("tag-list")) {
-    for(let li of ul.getElementsByTagName("li")) {
-      if(li.firstChild instanceof HTMLInputElement) {
-        li.addEventListener("click", check)
+function script() {
+  //Add listener for tag checkboxes
+  for(let ul of document.getElementsByClassName("tag-list")) {
+    for(let li of ul.getElementsByTagName("li"))
+      li.style.borderColor = langs[li.textContent]
+    if(ul.classList.contains("tag-list")) {
+      for(let li of ul.getElementsByTagName("li")) {
+        if(li.firstChild instanceof HTMLInputElement) {
+          li.addEventListener("click", check)
+        }
       }
     }
   }
+  randomPalette()
 }
-randomPalette()
-
