@@ -34,19 +34,5 @@
     {% endif %}
   </div>
 </div>
-<div>
-  <div class="space-between post-utility-bar">
-    <ul class="flex button-list centered-text-list">
-      <li><a href="{% url 'profiles:posts' user.usertag %}">Posts</a></li>
-      <li><a href="{% url 'profiles:comments' user.usertag %}">Comments</a></li>
-      <li><a href="{% url 'profiles:stats' user.usertag %}">Stats</a></li>
-    </ul>
-    <button id="sort" class="button">
-      <span class="centered-text">New</span>
-    </button>
-  </div>
-  {% block feed %}
-  {% endblock %}
-</div>
-</div>
+{% include 'list-template.html' %}
 {% endblock %}

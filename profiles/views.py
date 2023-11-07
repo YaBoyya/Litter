@@ -12,7 +12,7 @@ def profile_posts(request, usertag):
                                                followed_user=user).exists()
 
     context = {'posts': posts, 'user': user, 'is_followed': is_followed}
-    return render(request, 'profiles/profile-posts.html', context)
+    return render(request, 'profiles/profile.html', context)
 
 
 def profile_comments(request, usertag):
@@ -22,7 +22,7 @@ def profile_comments(request, usertag):
                                                followed_user=user).exists()
 
     context = {'comments': comments, 'user': user, 'is_followed': is_followed}
-    return render(request, 'profiles/profile-comments.html', context)
+    return render(request, 'profiles/profile.html', context)
 
 
 # TODO profile stats

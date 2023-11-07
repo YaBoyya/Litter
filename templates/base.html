@@ -42,12 +42,13 @@
                   {% endif %}
       </ul>
     </div>
-
+    {% comment %}
+    TODO: Popup this
     {% for message in messages %}
     <br>
     {{message}}
     {% endfor %}
-
+    {% endcomment %}
     <div id="main">
       {% block content %}
       {% endblock %}

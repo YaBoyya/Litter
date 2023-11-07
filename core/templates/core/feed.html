@@ -7,28 +7,9 @@
 {% endblock %}
 
 {% block content %}
-<div>
-  <div class="space-between post-utility-bar">
-    {% if request.user.is_authenticated %}
-    <button class="button">
-      <a class="centered-text" href="{% url 'core:create-post' %}">+ POST</a>
-    </button>
-    {% endif %}
-    <button id="sort" class="button">
-      <span class="centered-text">New</span>
-    </button>
-  </div>
-  <ul class="post-list container-list">
-    {% for post in posts %}
-    <li>
-      {% include 'post-template.html' %}
-    </li>
-    {% endfor %}
-  </ul>
-</div>
-
-</div>
+{% include 'list-template.html' %}
 {% endblock %}
+
 {% block rightbar %}
 <form>
   <div id="search" class="center-vert">
@@ -38,7 +19,6 @@
         <img src="images/search.jpg">
       </button>
     </form>
-
   </div>
   <ul class="button-list tag-list">
     <li><input type="checkbox">New</li>
@@ -54,31 +34,3 @@
   </ul>
 </form>
 {% endblock %}
-
-
-{% comment %} <form method='GET'>
-  <input type="text" placeholder="Search" name="q" value={{ q }}>
-  <input type="submit" hidden>
-</form>
-{% for post in posts %}
-<div>
-  <br><hr>
-  <a href="{% url 'core:details-post' post.id %}">{{post.title}}</a>
-  {{ post.created|timesince }} ago
-  {% if post.was_edited %}
-  <small><bold>Edited</bold></small>
-  {% endif %}
-  {% if request.user == post.user %}
-  <a href="{% url 'core:delete-post' post.id %}">Delete</a>
-  {% endif %}
-  {% if post.picture %}
-  <img src="{{ post.picture.url }}">
-  {% endif %}
-  <br>
-  <a href="{% url 'core:vote-post' post.id %}">Vote</a>
-  {{ post.vote_count }}
-  {% for language in post.languages.all %}
-  {{ language }}
-  {% endfor %}
-</div>
-{% endfor %} {% endcomment %}
