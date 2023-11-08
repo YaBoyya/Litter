@@ -17,7 +17,6 @@
       </div>
     </div>
     <ul id="profile-buttons" class="flex button-list center-list">
-      {{ user.followers_count }}
       <li>
         {% if is_followed %}
         <a href="{% url 'profiles:follow' user.usertag %}">
@@ -38,4 +37,7 @@
   </div>
 </div>
 {% include 'core/list-template.html' %}
+{% endblock %}
+{% block rightbar %}
+  Followers: {{ user.followers_count }}
 {% endblock %}
