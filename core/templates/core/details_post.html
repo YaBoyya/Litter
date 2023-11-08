@@ -3,6 +3,7 @@
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/details_post.css' %}" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -10,24 +11,24 @@
   <li>
     {% include 'core/post-template.html' %}
   </li>
-    <li class="center">
+  <li class="center edit-status-list">
     {% if request.user == post.user %}
-    <a href="{% url 'core:edit-post' post.id %}">Edit</a>
+    <a id="edit-button" class="button" href="{% url 'core:edit-post' post.id %}">Edit</a>
     {% endif %}
     {% if post.was_edited %}
-    <small><bold>Edited</bold></small>
+    <bold>Edited</bold>
     {% endif %}
     <small>{{ post.views }} views</small>
   </li>
-{% if request.user.is_authenticated %}
-<li class="center">
-  <form method='POST'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" hidden>
-  </form>
-</li>
-{% endif %}
+  {% if request.user.is_authenticated %}
+  <li class="center">
+    <form method='POST'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" hidden>
+    </form>
+  </li>
+  {% endif %}
 </ul>
 <div>
   {% for comment in comments %}

@@ -1,0 +1,7 @@
+.edit-status-list * {
+  margin-right: var(--small-gap);
+  width: auto;
+}
+#edit-button {
+  padding: var(--small-gap);
+}
