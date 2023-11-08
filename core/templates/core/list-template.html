@@ -1,10 +1,9 @@
 <div>
   <div class="space-between post-utility-bar">
-    {% if request.user.is_authenticated %}
-    <button class="button">
-      <a class="center" href="{% url 'core:create-post' %}">+ POST</a>
-    </button>
-    {% endif %}
+    <ul class="button-list flex">
+    {% block buttons %}
+    {% endblock %}
+    </ul>
     <button id="sort" class="button">
       <a class="center" href="#" >New</a>
     </button>

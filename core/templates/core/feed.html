@@ -3,12 +3,12 @@
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'root/css/post-template.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'root/css/list-template.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/list-template.css' %}" type="text/css">
 {% endblock %}
 
 {% block content %}
-{% include 'core/list-template.html' %}
+{% include 'core/feed-list-template.html' %}
 {% endblock %}
 
 {% block rightbar %}

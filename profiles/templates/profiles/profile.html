@@ -3,8 +3,8 @@
 
 {% block cssjs %}
 <link type="text/css" rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
-<link type="text/css" rel="stylesheet" href="{% static 'root/css/post-template.css' %}">
-<link type="text/css" rel="stylesheet" href="{% static 'root/css/list-template.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'core/css/post-template.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'core/css/list-template.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -36,7 +36,7 @@
     {% endif %}
   </div>
 </div>
-{% include 'core/list-template.html' %}
+{% include 'core/profile-list-template.html' %}
 {% endblock %}
 {% block rightbar %}
   Followers: {{ user.followers_count }}

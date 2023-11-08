@@ -5,9 +5,15 @@
   margin-bottom: var(--small-gap);
   width: auto;
 }
-.post-utility-bar>button a {
+.post-utility-bar>ul>li {
+  margin-right: var(--small-gap);
+}
+.post-utility-bar>button a, .post-utility-bar>ul>li a {
   padding: 0 var(--small-gap);
   width: calc(100%+var(--small-gap)*2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .post-list>li {
   margin-top: var(--small-gap);
