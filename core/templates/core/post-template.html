@@ -1,53 +1,57 @@
-<div class="space-between post-margin">
-  <div>
-    <div class="space-between center-vert">
-      <ul class="flex post-margin post-info center-vert-list">
-        <li>
-          <img src="{{ post.user.picture.url }}">
-        </li>
-        <li>
-          {{ post.user.username }}
-        </li>
-        <li class="post-time">
-          {{ post.created|timesince }}
-        </li>
-        <li class="post-options">
-          <ul class="button-list">
-            {% if request.user == post.user %}
-            <li> <a href="{% url 'core:delete-post' post.id %}">Delete</a> </li>
-            {% endif %}
-          </ul>
-        </li>
+<div>
+  <div class="space-between post-margin">
+    <ul class="flex center-vert-list post-info">
+      <li>
+        <img src="{{ post.user.picture.url }}">
+      </li>
+      <li>
+        {{ post.user.username }}
+      </li>
+      <li class="post-time">
+        {{ post.created|timesince }}
+    </ul>
+    <div class="flex center">
+      <ul class="post-indicators flag-list center-list">
+        {% if post.was_edited %}
+        <li>E</li>
+        {% endif %}
+      </ul>
+      <ul class="button-list post-options center-list">
+        {% if request.user == post.user %}
+        <li> <a href="{% url 'core:delete-post' post.id %}">Delete</a> </li>
+        {% endif %}
       </ul>
     </div>
-    <div class="post-title">
-      {{ post.title }}
-    </div>
-    <div class="post-text">
-      {{ post.text }}
-      {% if post.was_edited %}
-      <small><bold>Edited</bold></small>
-      {% endif %}
-    </div>
   </div>
-  {% if post.picture %}
-  <ul class="post-images">
-    <li><img src="{{ post.picture.url }}"></li>
-  </ul>
-  {% endif %}
-</div>
-<div class="post-status space-between">
-  <ul class="tag-list">
-    <li>{{ post.difficulty }}</li>
-    {% for language in post.languages.all %}
-    {{ language }}
-    {% endfor %}
-  </ul>
-  <ul class="post-indicators space-between icon-text-list">
-    <li>
-      <a href="{% url 'core:vote-post' post.id %}"><img src="/images/up.png"></a>
-      {{ post.vote_count }}
-    </li>
-    <li><img src="images/comment.jpg">3</li>
-  </ul>
+  <div class="space-between post-margin">
+    <div>
+      <div class="post-title">
+        {{ post.title }}
+      </div>
+      <div class="post-text">
+        {{ post.text }}
+
+      </div>
+    </div>
+    {% if post.picture %}
+    <ul class="post-images">
+      <li><img src="{{ post.picture.url }}"></li>
+    </ul>
+    {% endif %}
+  </div>
+  <div class="post-status space-between">
+    <ul class="tag-list">
+      <li>{{ post.difficulty }}</li>
+      {% for language in post.languages.all %}
+      {{ language }}
+      {% endfor %}
+    </ul>
+    <ul class="post-counters space-between icon-text-list">
+      <li>
+        <a href="{% url 'core:vote-post' post.id %}"><img src="/images/up.png"></a>
+        {{ post.vote_count }}
+      </li>
+      <li><img src="images/comment.jpg">3</li>
+    </ul>
+  </div>
 </div>

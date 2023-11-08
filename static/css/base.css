@@ -30,7 +30,7 @@
   color: var(--color1);
 }
 input[type="text"], .button, .button-list>li, input[type="password"],
-input[type="email"], input[type="submit"], textarea
+input[type="email"], input[type="submit"], textarea, button
 {
   background-color: var(--color3);
   border-style: solid;
@@ -42,7 +42,7 @@ input[type="email"]:focus, textarea:focus {
   background-color: var(--color4);
   color: var(--color1);
 }
-.button:hover, input[type="submit"]:hover {
+.button:hover, input[type="submit"]:hover, button:hover {
   background-color: var(--color5);
   color: var(--color1);
 }
@@ -158,12 +158,11 @@ body>div {
   margin-right: var(--big-gap);
 }
 .tag-list {
-  margin-bottom: var(--small-gap);
+  margin-bottom: var(--big-gap);
 }
-.tag-list>li {
+.tag-list>li, .flag-list>li {
   min-width: 2.2em;
   margin-right: var(--small-gap);
-  margin-bottom: var(--small-gap);
   padding: var(--tiny-gap);
 }
 .container, .container-list>li {
@@ -198,7 +197,7 @@ body>div {
   flex-wrap: wrap;
   flex: 1 0 auto;
 }
-.tag-list>li {
+.tag-list>li, .flag-list>li {
   font-weight: bold;
   text-align: center;
   flex: 0 0 auto;
