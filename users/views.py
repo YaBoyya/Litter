@@ -56,6 +56,7 @@ def activation(request, uidb64, token):
         return HttpResponse("Activation link is invalid.")
 
 
+# TODO fix redirects for logging in probably after AJAX make it keep vote value
 def user_login(request):
     type = 'login'
     if request.method == 'POST':
