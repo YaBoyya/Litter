@@ -1,50 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block cssjs %}
+<link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
+{% endblock %}
 
 {% block content %}
-    <div>
-        {% if request.user == post.user %}
-            <a href="{% url 'core:edit-post' post.id %}">Edit</a>
-        {% endif %}
-        <h1>{{ post.title }}</h1>
-        {% if post.was_edited %}
-            <small><bold>Edited</bold></small>
-        {% endif %}
-        {% if post.picture %}
-            <img src="{{ post.picture.url }}">
-        {% endif %}
-        <p>{{ post.text }}</p>
-        {% for language in post.languages.all %}
-            {{ language }}
-        {% endfor %}
-        <small>{{ post.views }} views</small>
-    </div>
-    {% if request.user.is_authenticated %}
-        <div>
-            <form method='POST'>
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" hidden>
-            </form>
-        </div>
+<ul class="container-list">
+  <li>
+    {% include 'core/post-template.html' %}
+  </li>
+    <li class="center">
+    {% if request.user == post.user %}
+    <a href="{% url 'core:edit-post' post.id %}">Edit</a>
     {% endif %}
-    <div>
-        {% for comment in comments %}
-            <br><hr>
-            <p>
-                <img src="{{ comment.user.picture.url }}">
-                {{ comment.user.usertag }}, {{ comment.created|timesince }}
-                {% if comment.was_edited %}
-                    <small><bold>Edited</bold></small>
-                {% endif %}
-                {% if request.user == comment.user%}
-                <a href="{% url 'core:edit-comment' comment.id %}">Edit</a>
-                <a href="{% url 'core:delete-comment' comment.id %}">Delete</a>
-                {% endif %}
-            </p>
-            {{ comment.text }}
-            <br>
-            <a href="{% url 'core:vote-comment' comment.id %}">Vote</a>
-            {{ comment.vote_count }}
-        {% endfor %}
-    </div>
+    {% if post.was_edited %}
+    <small><bold>Edited</bold></small>
+    {% endif %}
+    <small>{{ post.views }} views</small>
+  </li>
+{% if request.user.is_authenticated %}
+<li class="center">
+  <form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" hidden>
+  </form>
+</li>
+{% endif %}
+</ul>
+<div>
+  {% for comment in comments %}
+  <br><hr>
+  <p>
+  <img src="{{ comment.user.picture.url }}">
+  {{ comment.user.usertag }}, {{ comment.created|timesince }}
+  {% if comment.was_edited %}
+  <small><bold>Edited</bold></small>
+  {% endif %}
+  {% if request.user == comment.user%}
+  <a href="{% url 'core:edit-comment' comment.id %}">Edit</a>
+  <a href="{% url 'core:delete-comment' comment.id %}">Delete</a>
+  {% endif %}
+  </p>
+  {{ comment.text }}
+  <br>
+  <a href="{% url 'core:vote-comment' comment.id %}">Vote</a>
+  {{ comment.vote_count }}
+  {% endfor %}
+</div>
 {% endblock %}

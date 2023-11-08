@@ -71,5 +71,11 @@ function script() {
       }
     }
   }
+  //Add listener to posts
+  for(let ul of document.getElementsByClassName("post-list")) {
+    for(let li of ul.getElementsByTagName("li")) {
+      li.addEventListener("click", () => window.location.href="/post/2");
+    }
+  }
   randomPalette()
 }

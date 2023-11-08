@@ -166,8 +166,11 @@ body>div {
   margin-bottom: var(--small-gap);
   padding: var(--tiny-gap);
 }
-.container {
+.container, .container-list>li {
   padding: var(--huge-gap);
+}
+.container-list>li {
+  margin-bottom:  var(--big-gap);
 }
 #main {
   width: 60%;
