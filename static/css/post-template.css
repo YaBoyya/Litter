@@ -1,5 +1,6 @@
 /* SIZE, MARGIN AND PADDING */
-.post-info  {
+.post-info li {
+  margin-right: var(--small-gap);
   height: 3rem;
 }
 .post-margin {

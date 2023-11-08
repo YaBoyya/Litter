@@ -119,11 +119,12 @@ body>div {
 .icon-text a, .icon-text-list>li a {
   display: inherit;
   align-items: inherit;
+  width: auto;
 }
 .icon-text>input, .icon-text-list>li>input, .expand, .expand-list>li {
   flex-grow: 1;
 }
-.icon-text img, .icon-text-list>li img {
+.icon-text img, .icon-text-list>li img, .icon-text-list>li a, .icon-text a {
   border-radius: 100vw;
   margin-right: var(--small-gap);
   aspect-ratio: 1/1;
