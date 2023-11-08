@@ -13,7 +13,7 @@
   <ul class="post-list container-list">
     {% for post in posts %}
     <li>
-      {% include 'post-template.html' %}
+      {% include 'core/post-template.html' %}
     </li>
     {% endfor %}
   </ul>
@@ -21,7 +21,7 @@
   <ul class="comment-list container-list">
     {% for comment in comments %}
     <li>
-      {% include 'comment-template.html' %}
+      {% include 'core/comment-template.html' %}
     </li>
     {% endfor %}
   </ul>
