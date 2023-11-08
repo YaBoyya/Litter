@@ -1,18 +1,19 @@
 /* SIZE, MARGIN AND PADDING */
 .post-utility-bar {
-  margin-top: var(--small-gap);
-}
-.post-utility-bar>ul>li a, .post-utility-bar>ul>li {
-  margin-right: var(--small-gap);
+  margin-top: var(--big-gap);
 }
 #profile-name {
   height: 10rem;
 }
 #profile-buttons {
   height: 3rem;
+  width: 15rem;
+  justify-content: flex-end;
 }
-#profile-buttons>li{
-  width: 4rem;
+#profile-buttons>li a {
+  padding: 0 var(--small-gap);
+}
+#profile-buttons>li {
   margin-left: var(--tiny-gap);
 }
 #profile-bio {

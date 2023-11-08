@@ -7,6 +7,7 @@
 }
 .post-utility-bar>button a {
   padding: 0 var(--small-gap);
+  width: calc(100%+var(--small-gap)*2);
 }
 .post-list>li {
   margin-top: var(--small-gap);
