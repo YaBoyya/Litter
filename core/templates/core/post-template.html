@@ -11,10 +11,12 @@
         <li class="post-time">
           {{ post.created|timesince }}
         </li>
-        <li class="post-options"
+        <li class="post-options">
+          <ul class="button-list">
             {% if request.user == post.user %}
-            <a href="{% url 'core:delete-post' post.id %}">Delete</a>
+            <li> <a href="{% url 'core:delete-post' post.id %}">Delete</a> </li>
             {% endif %}
+          </ul>
         </li>
       </ul>
     </div>

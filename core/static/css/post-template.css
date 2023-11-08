@@ -23,6 +23,9 @@
 .post-time {
   margin-right: var(--small-gap);
 }
+.post-options>ul>li>a {
+  padding: var(--small-gap);
+}
 /*}}}*/
 
 /* SPECIFICS {{{*/
