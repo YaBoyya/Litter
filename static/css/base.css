@@ -96,7 +96,7 @@ body>div {
 /*}}}*/
 
 /* UTILITY CLASSES {{{*/
-.center-hor, .center, .center-list>li, .center-hor-list>li {
+.center-hor, .center, .center-list>li, .center-hor-list>li, .center-list>li a, .center-list>li {
   display: flex;
   justify-content: center;
 }
