@@ -4,8 +4,8 @@
       <li>
         <img src="{{ post.user.picture.url }}">
       </li>
-      <li>
-        {{ post.user.username }}
+      <li class="nowrap">
+        {{ post.user.username }} (@{{ post.user.usertag }})
       </li>
       <li class="post-time">
         {{ post.created|timesince }}
