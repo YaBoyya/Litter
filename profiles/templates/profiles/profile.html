@@ -3,7 +3,7 @@
 
 {% block cssjs %}
 <link type="text/css" rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
-<link type="text/css" rel="stylesheet" href="{% static 'root/css/post.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'root/css/post-template.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'root/css/list-template.css' %}">
 {% endblock %}
 
@@ -17,7 +17,7 @@
       </div>
     </div>
     <ul id="profile-buttons" class="flex button-list center-list">
-        {{ user.followers_count }}
+      {{ user.followers_count }}
       <li>
         {% if is_followed %}
         <a href="{% url 'profiles:follow' user.usertag %}">Unfollow</a>
