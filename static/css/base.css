@@ -140,6 +140,9 @@ body>div {
 .flex {
   display: flex;
 }
+.nowrap {
+  white-space: nowrap;
+}
 /*}}}*/
 
 /* SIZE, MARGIN AND PADDING {{{*/

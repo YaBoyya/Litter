@@ -32,12 +32,14 @@
                 </a></li>
                 {% if request.user.is_authenticated %}
                 <li><a href="{% url 'profiles:posts' request.user.usertag %}">
-                    <img src="{% static 'root/img/profile.avif' %}">Profile
+                    <img src="{% static 'root/img/profile.avif' %}">
+                    <span class="nowrap">
+                      {{request.user.username}} | @{{request.user.usertag}}
+                    </span>
                   </a></li>
-                  <p>Welcome, @{{request.user.usertag}}</p>
                   <li><a href="{% url 'users:logout' %}">Logout</a></li>
                   {% else %}
-                  <li><a href="{% url 'users:register' %}">Register</a></li>
+                  <li class="flex" ><a href="{% url 'users:register' %}">Register</a></li>
                   <li><a href="{% url 'users:login' %}">Login</a></li>
                   {% endif %}
       </ul>
