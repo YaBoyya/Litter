@@ -1,9 +1,12 @@
 /* SIZE, MARGIN AND PADDING */
 .post-utility-bar>button, .post-utility-bar>ul>li {
   height: 3.5rem;
-  padding: var(--big-gap);
   position: relative;
   margin-bottom: var(--small-gap);
+  width: auto;
+}
+.post-utility-bar>button a {
+  padding: 0 var(--small-gap);
 }
 .post-list>li {
   margin-top: var(--small-gap);

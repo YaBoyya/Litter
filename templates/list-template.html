@@ -2,11 +2,11 @@
   <div class="space-between post-utility-bar">
     {% if request.user.is_authenticated %}
     <button class="button">
-      <a class="centered-text" href="{% url 'core:create-post' %}">+ POST</a>
+      <a class="center" href="{% url 'core:create-post' %}">+ POST</a>
     </button>
     {% endif %}
     <button id="sort" class="button">
-      <span class="centered-text">New</span>
+      <a class="center" href="#" >New</a>
     </button>
   </div>
   {% if posts %}
