@@ -1,14 +1,4 @@
 /* SIZE, MARGIN AND PADDING */
-.post-utility-bar>button, .post-utility-bar>ul>li {
-  height: 3.5rem;
-  padding: var(--big-gap);
-  position: relative;
-}
-.post-list>li {
-  margin-top: var(--small-gap);
-  padding: var(--big-gap);
-  max-height: 20rem;
-}
 .post-info  {
   height: 3rem;
 }
@@ -38,8 +28,5 @@
 .post-title {
   font-weight: bold;
 }
-.post-list>li div{
-  overflow: hidden;
-  border-radius: 0;
-}
+
 /*}}}*/

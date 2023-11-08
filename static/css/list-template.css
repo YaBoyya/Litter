@@ -1,0 +1,20 @@
+/* SIZE, MARGIN AND PADDING */
+.post-utility-bar>button, .post-utility-bar>ul>li {
+  height: 3.5rem;
+  padding: var(--big-gap);
+  position: relative;
+  margin-bottom: var(--small-gap);
+}
+.post-list>li {
+  margin-top: var(--small-gap);
+  padding: var(--big-gap);
+  max-height: 20rem;
+}
+/*}}}*/
+
+/* SPECIFICS {{{*/
+.post-list>li div{
+  overflow: hidden;
+  border-radius: 0;
+}
+/*}}}*/
