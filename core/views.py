@@ -21,6 +21,34 @@ def feed(request):
     return render(request, 'core/feed.html', context)
 
 
+@login_required(login_url='users:login')
+def post_create(request):
+    if request.method != 'POST':
+        return render(request, 'core/post_create.html', {'form': PostForm()})
+
+    form = PostForm(request.POST, request.FILES)
+    if not form.is_valid():
+        messages.info(request, "Your post is invalid.")
+        return redirect(request.path_info)
+    print(form.cleaned_data)
+    post = form.save(commit=False)
+    post.user = request.user
+    post.save()
+    form.save_m2m()
+    return redirect('core:feed')
+
+
+@login_required(login_url='users:login')
+@author_only(obj=Post, message="You cannot delete this post.")
+def post_delete(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.method != 'POST':
+        return render(request, 'delete.html', {'obj': post})
+
+    post.delete()
+    return redirect('core:feed')
+
+
 # TODO separate comment form
 def post_details(request, pk):
     post = Post.objects.prefetch_related('comment').get(id=pk)
@@ -28,7 +56,7 @@ def post_details(request, pk):
     if request.method != 'POST':
         post.views += 1
         post.save()
-        return render(request, 'core/details_post.html', context)
+        return render(request, 'core/post_details.html', context)
 
     form = CommentForm(request.POST)
     if not form.is_valid():
@@ -40,7 +68,7 @@ def post_details(request, pk):
     obj.post = post
     obj.save()
     context.update({'form': form})
-    return render(request, 'core/details_post.html', context)
+    return render(request, 'core/post_details.html', context)
 
 
 @login_required(login_url='users:login')
@@ -61,71 +89,12 @@ def post_edit(request, pk):
     obj.save()
     form.save_m2m()
     # TODO change it signals?
-    return redirect('core:details-post', pk)
-
-
-@login_required(login_url='users:login')
-def create_post(request):
-    if request.method != 'POST':
-        return render(request, 'core/create_post.html', {'form': PostForm()})
-
-    form = PostForm(request.POST, request.FILES)
-    if not form.is_valid():
-        messages.info(request, "Your post is invalid.")
-        return redirect(request.path_info)
-    print(form.cleaned_data)
-    post = form.save(commit=False)
-    post.user = request.user
-    post.save()
-    form.save_m2m()
-    return redirect('core:feed')
-
-
-@login_required(login_url='users:login')
-@author_only(obj=Post, message="You cannot delete this post.")
-def delete_post(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    if request.method != 'POST':
-        return render(request, 'delete.html', {'obj': post})
-
-    post.delete()
-    return redirect('core:feed')
-
-
-@login_required(login_url='users:login')
-@author_only(obj=Comment, message="You cannot delete this comment.")
-def delete_comment(request, pk):
-    comment = Comment.objects.select_related('post').get(id=pk)
-    post_id = comment.post.id
-    if request.method != 'POST':
-        return render(request, 'delete.html', {'obj': comment})
-
-    comment.delete()
-    return redirect('core:details-post', post_id)
-
-
-@login_required(login_url='user:login')
-@author_only(obj=Comment, message="You cannot edit this comment.")
-def edit_comment(request, pk):
-    comment = get_object_or_404(Comment, id=pk)
-    if request.method != 'POST':
-        return render(request, 'edit.html',
-                      {'form': CommentForm(instance=comment)})
-
-    form = CommentForm(request.POST, instance=comment)
-    if not form.is_valid():
-        messages.info(request, "Your comment is invalid.")
-        return redirect(request.path_info)
-
-    obj = form.save(commit=False)
-    obj.was_edited = True
-    obj.save()
-    return redirect('core:details-post', comment.post.id)
+    return redirect('core:post-details', pk)
 
 
 # TODO a generic view for voting?
 @login_required(login_url='users:login')
-def vote_post(request, pk):
+def post_vote(request, pk):
     post = get_object_or_404(Post, id=pk)
     try:
         vote = PostVote.objects.get(user=request.user, post=post)
@@ -141,7 +110,38 @@ def vote_post(request, pk):
 
 
 @login_required(login_url='users:login')
-def vote_comment(request, pk):
+@author_only(obj=Comment, message="You cannot delete this comment.")
+def comment_delete(request, pk):
+    comment = Comment.objects.select_related('post').get(id=pk)
+    post_id = comment.post.id
+    if request.method != 'POST':
+        return render(request, 'delete.html', {'obj': comment})
+
+    comment.delete()
+    return redirect('core:post-details', post_id)
+
+
+@login_required(login_url='user:login')
+@author_only(obj=Comment, message="You cannot edit this comment.")
+def comment_edit(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    if request.method != 'POST':
+        return render(request, 'edit.html',
+                      {'form': CommentForm(instance=comment)})
+
+    form = CommentForm(request.POST, instance=comment)
+    if not form.is_valid():
+        messages.info(request, "Your comment is invalid.")
+        return redirect(request.path_info)
+
+    obj = form.save(commit=False)
+    obj.was_edited = True
+    obj.save()
+    return redirect('core:post-details', comment.post.id)
+
+
+@login_required(login_url='users:login')
+def comment_vote(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     try:
         vote = CommentVote.objects.get(user=request.user, comment=comment)

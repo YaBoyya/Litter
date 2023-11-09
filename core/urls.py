@@ -7,14 +7,14 @@ app_name = "core"
 urlpatterns = [
     path('', views.feed, name="feed"),
 
-    path('create/', views.create_post, name="create-post"),
-    path('post/<str:pk>', views.post_details, name='details-post'),
-    path('post/<str:pk>/edit', views.post_edit, name="edit-post"),
-    path('post/<str:pk>/delete', views.delete_post, name="delete-post"),
-    path('post/<str:pk>/vote', views.vote_post, name='vote-post'),
+    path('create/', views.post_create, name="post-create"),
+    path('post/<str:pk>', views.post_details, name='post-details'),
+    path('post/<str:pk>/edit', views.post_edit, name="post-edit"),
+    path('post/<str:pk>/delete', views.post_delete, name="post-delete"),
+    path('post/<str:pk>/vote', views.post_vote, name='post-vote'),
 
-    path('comment/<str:pk>/edit', views.edit_comment, name="edit-comment"),
-    path('comment/<str:pk>/delete', views.delete_comment,
-         name='delete-comment'),
-    path('comment/<str:pk>/vote', views.vote_comment, name='vote-comment'),
+    path('comment/<str:pk>/edit', views.comment_edit, name="comment-edit"),
+    path('comment/<str:pk>/delete', views.comment_delete,
+         name='comment-delete'),
+    path('comment/<str:pk>/vote', views.comment_vote, name='comment-vote'),
 ]

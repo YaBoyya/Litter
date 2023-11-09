@@ -18,7 +18,7 @@
       </ul>
       <ul class="button-list post-options center-list">
         {% if request.user == post.user %}
-        <li> <a href="{% url 'core:delete-post' post.id %}">Delete</a> </li>
+        <li> <a href="{% url 'core:post-delete' post.id %}">Delete</a> </li>
         {% endif %}
       </ul>
     </div>
@@ -47,7 +47,7 @@
   </ul>
   <ul class="post-indicators space-between icon-text-list">
     <li>
-      <a href="{% url 'core:vote-post' post.id %}"><img src="/images/up.png"></a>
+      <a href="{% url 'core:post-vote' post.id %}"><img src="/images/up.png"></a>
       {{ post.vote_count }}
     </li>
     <li><img src="images/comment.jpg">{{ post.comment_count }}</li>

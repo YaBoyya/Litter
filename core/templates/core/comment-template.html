@@ -6,11 +6,11 @@
   <small><bold>Edited</bold></small>
 {% endif %}
 {% if request.user == comment.user%}
-  <a href="{% url 'core:edit-comment' comment.id %}">Edit</a>
-  <a href="{% url 'core:delete-comment' comment.id %}">Delete</a>
+  <a href="{% url 'core:comment-edit' comment.id %}">Edit</a>
+  <a href="{% url 'core:comment-delete' comment.id %}">Delete</a>
 {% endif %}
 </p>
 {{ comment.text }}
 <br>
-<a href="{% url 'core:vote-comment' comment.id %}">Vote</a>
+<a href="{% url 'core:comment-vote' comment.id %}">Vote</a>
 {{ comment.vote_count }}
