@@ -48,6 +48,6 @@
       <a href="{% url 'core:vote-post' post.id %}"><img src="/images/up.png"></a>
       {{ post.vote_count }}
     </li>
-    <li><img src="images/comment.jpg">3</li>
+    <li><img src="images/comment.jpg">{{ post.comment_count }}</li>
   </ul>
 </div>

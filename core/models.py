@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
-from .managers import VotingManager
+from .managers import CommentManager, PostManager
 
 
 @deconstructible
@@ -47,7 +47,7 @@ class Post(models.Model):
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     was_edited = models.BooleanField(_('Was edited'), default=False)
 
-    objects = VotingManager()
+    objects = PostManager()
 
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.title) > 50 else self.title
@@ -63,12 +63,13 @@ class Post(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name='comment',
+                             on_delete=models.CASCADE)
     text = models.CharField(_("Text"), max_length=200)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     was_edited = models.BooleanField(_('Was edited'), default=False)
 
-    objects = VotingManager()
+    objects = CommentManager()
 
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.text) > 50 else self.text

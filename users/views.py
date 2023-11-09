@@ -16,29 +16,33 @@ from .tokens import account_activation_token
 # TODO email activation later on
 def register(request):
     type = 'register'
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = request.POST.get('usertag')
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Activation link for your litter account.'
-            message = render_to_string('users/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data['email']
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-            return render(request, 'users/please_activate.html')
-    else:
-        form = RegisterForm()
-    context = {'form': form, 'type': type}
-    return render(request, 'users/login-register.html', context)
+    context = {'type': type}
+    if request.method != 'POST':
+        context.update({'form': RegisterForm()})
+        return render(request, 'users/login-register.html', context)
+
+    form = RegisterForm(request.POST)
+
+    if not form.is_valid():
+        messages.info(request, "Invalid registration info.")
+        return redirect(request.path_info)
+
+    user = form.save(commit=False)
+    user.username = request.POST.get('usertag')
+    user.is_active = False
+    user.save()
+    current_site = get_current_site(request)
+    mail_subject = 'Activation link for your litter account.'
+    message = render_to_string('users/account_activation_email.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+    })
+    to_email = form.cleaned_data['email']
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    email.send()
+    return render(request, 'users/please_activate.html')
 
 
 def activation(request, uidb64, token):
@@ -59,24 +63,23 @@ def activation(request, uidb64, token):
 # TODO fix redirects for logging in probably after AJAX make it keep vote value
 def user_login(request):
     type = 'login'
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        next = request.GET.get('next', 'core:feed')
-        user = authenticate(request,
-                            usertag=request.POST.get('usertag'),
-                            password=request.POST.get('password'))
-        if user is not None and user.is_active:
-            login(request, user)
-            messages.success(request, "Logged in succesfully.")
-            return redirect(next)
-        elif not user.is_active:
-            messages.info(request,
-                          "Please activate your account before logging in.")
-        else:
-            messages.info(request, "Invalid usertag or password.")
+    context = {'type': type, 'form': LoginForm()}
+    if request.method != 'POST':
+        return render(request, 'users/login-register.html', context)
+
+    next = request.GET.get('next', 'core:feed')
+    user = authenticate(request,
+                        usertag=request.POST.get('usertag'),
+                        password=request.POST.get('password'))
+    if user is None:
+        messages.info(request, "Invalid usertag or password.")
+    elif not user.is_active:
+        messages.info(request,
+                      "Please activate your account before logging in.")
     else:
-        form = LoginForm()
-    context = {'form': form, 'type': type}
+        login(request, user)
+        messages.success(request, "Logged in succesfully.")
+        return redirect(next)
     return render(request, 'users/login-register.html', context)
 
 
