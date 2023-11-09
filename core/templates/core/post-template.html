@@ -1,23 +1,25 @@
-<div class="space-between post-margin">
-  <div>
-    <div class="space-between center-vert">
-      <ul class="flex post-margin post-info center-vert-list">
-        <li>
-          <img src="{{ post.user.picture.url }}">
-        </li>
-        <li>
-          {{ post.user.username }}
-        </li>
-        <li class="post-time">
-          {{ post.created|timesince }}
-        </li>
-        <li class="post-options">
-          <ul class="button-list">
-            {% if request.user == post.user %}
-            <li> <a href="{% url 'core:delete-post' post.id %}">Delete</a> </li>
-            {% endif %}
-          </ul>
-        </li>
+<div>
+  <div class="space-between post-margin">
+    <ul class="flex center-vert-list post-info">
+      <li>
+        <img src="{{ post.user.picture.url }}">
+      </li>
+      <li class="nowrap">
+        {{ post.user.username }} (@{{ post.user.usertag }})
+      </li>
+      <li class="post-time">
+        {{ post.created|timesince }}
+    </ul>
+    <div class="flex center">
+      <ul class="post-indicators flag-list center-list">
+        {% if post.was_edited %}
+        <li>E</li>
+        {% endif %}
+      </ul>
+      <ul class="button-list post-options center-list">
+        {% if request.user == post.user %}
+        <li> <a href="{% url 'core:delete-post' post.id %}">Delete</a> </li>
+        {% endif %}
       </ul>
     </div>
     <div class="post-title">

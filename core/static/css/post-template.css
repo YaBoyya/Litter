@@ -12,7 +12,7 @@
 .post-text {
   height: 9rem;
 }
-.post-indicators li {
+.post-counters li {
   width: 5rem;
 }
 .post-images li img {
@@ -23,8 +23,11 @@
 .post-time {
   margin-right: var(--small-gap);
 }
-.post-options>ul>li>a {
+.post-options>li>a {
   padding: var(--small-gap);
+}
+.post-indicators>li {
+  aspect-ratio: 1/1;
 }
 /*}}}*/
 
@@ -32,5 +35,4 @@
 .post-title {
   font-weight: bold;
 }
-
 /*}}}*/
