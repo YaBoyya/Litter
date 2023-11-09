@@ -56,7 +56,7 @@ def post_details(request, pk):
     if request.method != 'POST':
         post.views += 1
         post.save()
-        return render(request, 'core/post_details.html', context)
+        return render(request, 'core/post-details.html', context)
 
     form = CommentForm(request.POST)
     if not form.is_valid():
@@ -68,7 +68,7 @@ def post_details(request, pk):
     obj.post = post
     obj.save()
     context.update({'form': form})
-    return render(request, 'core/post_details.html', context)
+    return render(request, 'core/post-details.html', context)
 
 
 @login_required(login_url='users:login')
