@@ -22,14 +22,13 @@
         {% endif %}
       </ul>
     </div>
+  </div>
+  <div>
     <div class="post-title">
       {{ post.title }}
     </div>
     <div class="post-text">
       {{ post.text }}
-      {% if post.was_edited %}
-      <small><bold>Edited</bold></small>
-      {% endif %}
     </div>
   </div>
   {% if post.picture %}
@@ -42,10 +41,10 @@
   <ul class="tag-list">
     <li>{{ post.difficulty }}</li>
     {% for language in post.languages.all %}
-    {{ language }}
+    <li>{{ language }}</li>
     {% endfor %}
   </ul>
-  <ul class="post-indicators space-between icon-text-list">
+  <ul class="post-counters space-between icon-text-list">
     <li>
       <a href="{% url 'core:post-vote' post.id %}"><img src="/images/up.png"></a>
       {{ post.vote_count }}

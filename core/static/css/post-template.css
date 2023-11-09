@@ -26,7 +26,14 @@
 .post-options>li>a {
   padding: var(--small-gap);
 }
-.post-indicators>li {
+.post-indicators, .post-counters {
+  justify-content: flex-end;
+}
+.post-counters>li {
+  width: 5em;
+  margin-right: var(--small-gap);
+}
+.post-counters>li a {
   aspect-ratio: 1/1;
 }
 /*}}}*/
