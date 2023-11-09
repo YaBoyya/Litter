@@ -31,7 +31,7 @@
   {% endif %}
 </ul>
 <div>
-  {% for comment in comments %}
+  {% for comment in post.comment.all %}
   <br><hr>
   <p>
   <img src="{{ comment.user.picture.url }}">
