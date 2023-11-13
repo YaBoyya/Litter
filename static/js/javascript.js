@@ -66,7 +66,7 @@ function ajax(f, type, text) {
 function sendUpvote(e) {
   var counters = e.target;
   while(counters.className.split(" ").findIndex((x)=>x==="post-status")==-1) {
-    counters = t.parentNode;
+    counters = counters.parentNode;
   }
   var t = counters.parentNode;
   let location = t.getAttribute("onclick")
