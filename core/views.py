@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse  # , JsonResponse
+from django.http import HttpResponse  # JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import author_only
@@ -25,7 +25,7 @@ def feed(request):
 @login_required(login_url='users:login')
 def post_create(request):
     if request.method != 'POST':
-        return render(request, 'core/post_create.html', {'form': PostForm()})
+        return render(request, 'core/post-create.html', {'form': PostForm()})
 
     form = PostForm(request.POST, request.FILES)
     if not form.is_valid():
@@ -108,22 +108,6 @@ def post_vote(request, pk):
     PostVote.objects.create(user=request.user, post=post)
     return HttpResponse(status=200)
 
-# TODO a generic view for voting?
-# @login_required(login_url='users:login')
-# def post_vote(request, pk):
-#     post = get_object_or_404(Post, id=pk)
-#     try:
-#         vote = PostVote.objects.get(user=request.user, post=post)
-#     except (PostVote.DoesNotExist):
-#         vote = None
-
-#     if vote:
-#         vote.delete()
-#     else:
-#         PostVote.objects.create(user=request.user, post=post)
-
-#     return redirect(request.META.get('HTTP_REFERER'))
-
 
 @login_required(login_url='users:login')
 @author_only(obj=Comment, message="You cannot delete this comment.")
@@ -166,7 +150,7 @@ def comment_vote(request, pk):
 
     if vote:
         vote.delete()
-    else:
-        CommentVote.objects.create(user=request.user, comment=comment)
+        return HttpResponse(status=200)
 
-    return redirect(request.META.get('HTTP_REFERER'))
+    CommentVote.objects.create(user=request.user, comment=comment)
+    return HttpResponse(status=200)
