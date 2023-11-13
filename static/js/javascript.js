@@ -70,7 +70,7 @@ function sendUpvote(e) {
   }
   var t = counters.parentNode;
   let location = t.getAttribute("onclick")
-  let postid = location[location.length-2];
+  let postid = location;
   function UP() {
     let element = counters.getElementsByClassName("post-vote-count")[0];
     element.textContent = 1+Number(element.textContent);
