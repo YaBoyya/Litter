@@ -46,7 +46,11 @@
   </ul>
   <ul class="post-counters space-between icon-text-list">
     <li>
-      <a href="{% url 'core:post-vote' post.id %}"><img src="/images/up.png"></a>
+      <a href="#"
+         {% comment %}
+         {% url 'core:post-vote' post.id %}
+         {% endcomment %}
+         ><img src="/images/up.png"></a>
       {{ post.vote_count }}
     </li>
     <li><img src="images/comment.jpg">{{ post.comment_count }}</li>

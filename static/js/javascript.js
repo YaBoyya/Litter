@@ -56,6 +56,30 @@ function randomPalette() {
   }
 }
 
+function ajax(f, type, text) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = f;
+  xhttp.open(type, text, true);
+  xhttp.send();
+}
+
+function sendUpvote(e) {
+  var counters = e.target;
+  while(counters.className.split(" ").findIndex((x)=>x==="post-status")==-1) {
+    counters = t.parentNode;
+  }
+  var t = counters.parentNode;
+  let location = t.getAttribute("onclick")
+  let postid = location[location.length-2];
+  function UP() {
+    let element = counters.getElementsByClassName("post-counters")[0] 
+      .getElementsByTagName("li");
+     element.innerHTML = element.innerHTML+1; 
+  }
+  ajax(UP, "POST", postid);
+  console.log(postid);
+}
+
 
 let input
 function script() {
@@ -69,6 +93,11 @@ function script() {
           li.addEventListener("click", check)
         }
       }
+    }
+  }
+  for(let ul of document.getElementsByClassName("post-counters")) {
+    for(let li of ul.getElementsByTagName("li")) {
+      li.getElementsByTagName("img")[0].addEventListener("click",sendUpvote);
     }
   }
   randomPalette()
