@@ -75,7 +75,7 @@ function sendUpvote(e) {
     let element = counters.getElementsByClassName("post-vote-count")[0];
     element.textContent = 1+Number(element.textContent);
   }
-  ajax(UP, "POST", "post/" + postid + "/vote");
+  ajax(UP, "GET", "post/" + postid + "/vote");
   console.log(postid);
 }
 
