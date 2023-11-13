@@ -1,12 +1,3 @@
-function getRandomColor() {
-  var letters = '0123456789ABCDEF'
-  var color = '#'
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
-}
-
 let langs = {
   New: "#a0a000",
   Hot: "#ff0000",
@@ -27,15 +18,22 @@ let langs = {
   R: "#D994E9"
 }
 
-function check(e) {
-  let t = e.target
-  let status = t.getElementsByTagName("input")[0].checked
-  if (status) {
-    t.style.backgroundColor = ""
-  } else {
-    t.style.backgroundColor = langs[t.textContent]
+class Post {
+  constructor(postId, upvoted) {
+    this.postId = postId
+    this.upvoted = upvoted
   }
-  t.getElementsByTagName("input")[0].checked = !status
+}
+
+posts = []
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF'
+  var color = '#'
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
 }
 
 function randomPalette() {
@@ -57,6 +55,26 @@ function randomPalette() {
   }
 }
 
+function setTagState(tag, state) {
+  if (state) {
+    tag.style.backgroundColor = langs[tag.textContent]
+  } else {
+    tag.style.backgroundColor = ""
+  }
+}
+
+function selectTag(e) {
+  let tag = e.target
+  let input = tag.getElementsByTagName("input")[0];
+  let status = input.checked
+  if(input.getAttribute("type")==="radio") {
+    radios = tag.parentNode.getElementsByTagName("li")
+    for(li of radios) { setTagState(li, false) }
+  }
+  setTagState(tag, !status);
+  tag.getElementsByTagName("input")[0].checked = !status
+}
+
 function ajax(f, type, url) {
   const xhttp = new XMLHttpRequest();
   xhttp.onload = f;
@@ -64,16 +82,7 @@ function ajax(f, type, url) {
   xhttp.send();
 }
 
-class Post {
-  constructor(postId, upvoted) {
-    this.postId = postId
-    this.upvoted = upvoted
-  }
-}
-
-posts = []
-
-function sendUpvote(postId, upvoted) {
+function upvoteEvent(postId, upvoted) {
   let counter = event.target.parentNode
     .getElementsByClassName("post-vote-count")[0];
   function UP() {
@@ -90,16 +99,15 @@ function sendUpvote(postId, upvoted) {
   ajax(UP, "GET", "post/" + postId + "/vote");
 }
 
-let input
-function script() {
+function onLoad() {
   //Add listener for tag checkboxes
   for (let ul of document.getElementsByClassName("tag-list")) {
     for (let li of ul.getElementsByTagName("li"))
       li.style.borderColor = langs[li.textContent]
-    if (ul.classList.contains("tag-list")) {
+    if (ul.classList.contains("button-list")) {
       for (let li of ul.getElementsByTagName("li")) {
         if (li.firstChild instanceof HTMLInputElement) {
-          li.addEventListener("click", check)
+          li.addEventListener("click", selectTag)
         }
       }
     }

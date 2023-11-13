@@ -12,7 +12,7 @@
     {% block cssjs %}
     {% endblock %}
   </head>
-  <body onload="script();">
+  <body onload="onLoad();">
     <div class="side-bar container">
       <a id="logo" href="{% url 'core:feed' %}">
         <img src="{% static 'root/img/logo.webp' %}">
