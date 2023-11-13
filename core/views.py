@@ -41,7 +41,7 @@ def feed(request):
 @login_required(login_url='users:login')
 def post_create(request):
     if request.method != 'POST':
-        return render(request, 'core/post_create.html', {'form': PostForm()})
+        return render(request, 'core/post-create.html', {'form': PostForm()})
 
     form = PostForm(request.POST, request.FILES)
     if not form.is_valid():
