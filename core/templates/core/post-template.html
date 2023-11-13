@@ -47,10 +47,10 @@
   <ul class="post-counters space-between icon-text-list">
     <li>
       <a href="#"
-         {% comment %}
-         {% url 'core:post-vote' post.id %}
-         {% endcomment %}
-         ><img src="/images/up.png"></a>
+        {% comment %}
+        {% url 'core:post-vote' post.id %}
+        {% endcomment %}
+        ><img onclick = "sendUpvote({{ post.id }});" src="/images/up.png"></a>
       <span class="post-vote-count">
         {{ post.vote_count }}
       </span>
