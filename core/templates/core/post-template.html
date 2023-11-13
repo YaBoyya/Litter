@@ -51,7 +51,9 @@
          {% url 'core:post-vote' post.id %}
          {% endcomment %}
          ><img src="/images/up.png"></a>
-      {{ post.vote_count }}
+      <span class="post-vote-count">
+        {{ post.vote_count }}
+      </span>
     </li>
     <li><img src="images/comment.jpg">{{ post.comment_count }}</li>
   </ul>

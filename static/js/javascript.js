@@ -72,11 +72,10 @@ function sendUpvote(e) {
   let location = t.getAttribute("onclick")
   let postid = location[location.length-2];
   function UP() {
-    let element = counters.getElementsByClassName("post-counters")[0] 
-      .getElementsByTagName("li");
-     element.innerHTML = element.innerHTML+1; 
+    let element = counters.getElementsByClassName("post-vote-count")[0];
+    element.textContent = 1+Number(element.textContent);
   }
-  ajax(UP, "POST", postid);
+  ajax(UP, "POST", "post/" + postid + "/vote");
   console.log(postid);
 }
 
