@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse  # , JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import author_only
@@ -92,7 +93,6 @@ def post_edit(request, pk):
     return redirect('core:post-details', pk)
 
 
-# TODO a generic view for voting?
 @login_required(login_url='users:login')
 def post_vote(request, pk):
     post = get_object_or_404(Post, id=pk)
@@ -103,10 +103,26 @@ def post_vote(request, pk):
 
     if vote:
         vote.delete()
-    else:
-        PostVote.objects.create(user=request.user, post=post)
+        return HttpResponse(status=200)
 
-    return redirect(request.META.get('HTTP_REFERER'))
+    PostVote.objects.create(user=request.user, post=post)
+    return HttpResponse(status=200)
+
+# TODO a generic view for voting?
+# @login_required(login_url='users:login')
+# def post_vote(request, pk):
+#     post = get_object_or_404(Post, id=pk)
+#     try:
+#         vote = PostVote.objects.get(user=request.user, post=post)
+#     except (PostVote.DoesNotExist):
+#         vote = None
+
+#     if vote:
+#         vote.delete()
+#     else:
+#         PostVote.objects.create(user=request.user, post=post)
+
+#     return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='users:login')
