@@ -1,36 +1,40 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import author_only
-from .forms import CommentForm, PostForm
-from .models import Comment, CommentVote, Language, Post, PostVote
+from .forms import CommentForm, PostForm, SearchForm
+from .models import Comment, CommentVote, Post, PostVote
 
 
+# TODO multiple images per post
+# TODO sorting by Hot, New etc
 def feed(request):
-    # TODO multiple images per post
-    # TODO sorting by Hot, New etc
-    # TODO make a form for sidebar
-    q = request.GET.get('q', "")
-    languages = request.GET.getlist('languages', None)
-    difficulty = request.GET.get('difficulty', None)
+    form = SearchForm(request.GET)
+    # form.is_valid()
+
+    q = form.data.get('q', "")
+    # trend = form.data.get('trend', "")
+    languages = form.data.getlist('languages', None)
+    difficulty = form.data.get('difficulty', None)
+
+    print(form.data, difficulty)
     if q:
-        posts = Post.objects.filter(Q(title__icontains=q)
+        # TODO check if it works with .select_related('vote')
+        posts = Post.objects.select_related('user').filter(
+                                    Q(title__icontains=q)
                                     | Q(text__icontains=q)
                                     | Q(languages__name__icontains=q))
     else:
         posts = Post.objects.select_related('user').all().order_by('-created')
 
-    if languages:
-        posts = posts.filter(languages__name__in=languages)
-
     if difficulty:
         posts = posts.filter(difficulty=difficulty)
-    language_tags = Language.objects.annotate(
-        post_count=Count('post')
-    ).order_by('-post_count', 'name')[:10]
-    context = {'posts': posts, 'q': q, 'language_tags': language_tags}
+
+    if languages:
+        posts = posts.filter(languages__name__in=languages)
+    context = {'posts': posts, 'q': q, 'form': form}
     return render(request, 'core/feed.html', context)
 
 
