@@ -12,26 +12,27 @@
 {% endblock %}
 
 {% block rightbar %}
-<form>
+<form method='GET'>
   <div id="search" class="center-vert">
-    <form method='GET'>
       <input type="text" placeholder="Search..." name="q" value={{ q }}>
       <button class="button fill-img round">
         <img src="images/search.jpg">
       </button>
-    </form>
   </div>
   <ul class="button-list tag-list">
-    <li><input type="checkbox">New</li>
-    <li><input type="checkbox">Hot</li>
+    <li><input type="checkbox" value="New" name="trend">New</li>
+    <li><input type="checkbox" value="Hot" name="trend">Hot</li>
   </ul>
   <ul class="button-list tag-list">
-    <li><input type="checkbox">Easy</li>
-    <li><input type="checkbox">Medium</li>
-    <li><input type="checkbox">Hard</li>
+    {% comment %} TODO change to single selects both trend and diff {% endcomment %}
+    <li><input type="checkbox" value="Easy" name="difficulty">Easy</li>
+    <li><input type="checkbox" value="Medium" name="difficulty">Medium</li>
+    <li><input type="checkbox" value="Hard" name="difficulty">Hard</li>
   </ul>
   <ul class="button-list tag-list">
-    <li><input type="checkbox">C</li>
+      {% for tag in language_tags %}
+        <li><input type="checkbox" value="{{ tag.name }}" name="languages">{{ tag.name }}|{{ tag.post_count }}</li>
+      {% endfor %}
   </ul>
 </form>
 {% endblock %}

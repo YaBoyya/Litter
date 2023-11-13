@@ -1,23 +1,36 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import author_only
-from .forms import PostForm, CommentForm
-from .models import Comment, CommentVote, Post, PostVote
+from .forms import CommentForm, PostForm
+from .models import Comment, CommentVote, Language, Post, PostVote
 
 
 def feed(request):
     # TODO multiple images per post
+    # TODO sorting by Hot, New etc
+    # TODO make a form for sidebar
     q = request.GET.get('q', "")
+    languages = request.GET.getlist('languages', None)
+    difficulty = request.GET.get('difficulty', None)
     if q:
         posts = Post.objects.filter(Q(title__icontains=q)
                                     | Q(text__icontains=q)
                                     | Q(languages__name__icontains=q))
     else:
         posts = Post.objects.select_related('user').all().order_by('-created')
-    context = {'posts': posts, 'q': q}
+
+    if languages:
+        posts = posts.filter(languages__name__in=languages)
+
+    if difficulty:
+        posts = posts.filter(difficulty=difficulty)
+    language_tags = Language.objects.annotate(
+        post_count=Count('post')
+    ).order_by('-post_count', 'name')[:10]
+    context = {'posts': posts, 'q': q, 'language_tags': language_tags}
     return render(request, 'core/feed.html', context)
 
 
