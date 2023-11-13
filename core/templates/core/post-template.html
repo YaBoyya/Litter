@@ -46,11 +46,18 @@
   </ul>
   <ul class="post-counters space-between icon-text-list">
     <li>
-      <a href="#"
-        {% comment %}
-        {% url 'core:post-vote' post.id %}
-        {% endcomment %}
-        ><img onclick = "sendUpvote({{ post.id }});" src="/images/up.png"></a>
+      {% if request.user.is_authenticated %}
+      <img class="clickable"
+           onclick = "sendUpvote({{ post.id }},
+                                   {% if post.vote.exists %}
+                                    true
+                                   {% else %}
+                                    false
+                                   {% endif %});"
+           src="/images/up.png">
+      {% else %}
+      <img src="/images/up.png">
+      {% endif %}
       <span class="post-vote-count">
         {{ post.vote_count }}
       </span>

@@ -64,12 +64,30 @@ function ajax(f, type, url) {
   xhttp.send();
 }
 
-function sendUpvote(postid) {
-  let counter = event.target.parentNode.parentNode.getElementsByClassName("post-vote-count")[0];
-  function Up() {
-    counter.textContent = 1 + Number(counter.textContent);
+class Post {
+  constructor(postId, upvoted) {
+    this.postId = postId
+    this.upvoted = upvoted
   }
-  ajax(Up, "GET", "post/" + postid + "/vote");
+}
+
+posts = []
+
+function sendUpvote(postId, upvoted) {
+  let counter = event.target.parentNode
+    .getElementsByClassName("post-vote-count")[0];
+  function UP() {
+    index = posts.findIndex((x)=>x.postId==postId);
+    if(index==-1) {
+      change = upvoted;
+      posts.push(new Post(postId,!upvoted));
+    } else {
+      change = posts[index].upvoted;
+      posts[index].upvoted = !posts[index].upvoted;
+    }
+    counter.textContent = (change?-1:1)+Number(counter.textContent)
+  }
+  ajax(UP, "GET", "post/" + postId + "/vote");
 }
 
 let input

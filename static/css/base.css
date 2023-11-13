@@ -108,7 +108,7 @@ body>div {
   border-radius: 100vw;
   aspect-ratio: 1/1;
 }
-.button, .button-list>li {
+.button, .button-list>li, .clickable {
   cursor: pointer;
 }
 .icon-text, .icon-text-list>li {
