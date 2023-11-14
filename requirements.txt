@@ -1,6 +1,7 @@
 asgiref==3.7.2
 distlib==0.3.7
 Django==4.2.6
+django-debug-toolbar==4.2.0
 filelock==3.13.0
 Pillow==10.1.0
 platformdirs==3.11.0

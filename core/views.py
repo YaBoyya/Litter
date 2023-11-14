@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.cache import cache_page
 
 from .decorators import author_only
 from .forms import CommentForm, PostForm, SearchForm
@@ -10,16 +11,16 @@ from .models import Comment, CommentVote, Post, PostVote
 
 # TODO multiple images per post
 # TODO sorting by Hot, New etc
+@cache_page(10)  # 10 sec
 def feed(request):
     form = SearchForm(request.GET)
     # form.is_valid()
 
-    q = form.data.get('q', "")
+    q = form.data.get('q', '')
     # trend = form.data.get('trend', "")
     languages = form.data.getlist('languages', None)
     difficulty = form.data.get('difficulty', None)
 
-    print(form.data, difficulty)
     if q:
         # TODO check if it works with .select_related('vote')
         posts = Post.objects.select_related('user').filter(
@@ -67,6 +68,7 @@ def post_delete(request, pk):
 
 
 # TODO separate comment form
+@cache_page(10)
 def post_details(request, pk):
     post = Post.objects.prefetch_related('comment').get(id=pk)
     context = {'post': post, 'form': CommentForm()}
