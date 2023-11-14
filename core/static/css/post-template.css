@@ -23,7 +23,7 @@
 .post-time {
   margin-right: var(--small-gap);
 }
-.post-options>li>a {
+.post-options>li {
   padding: var(--small-gap);
 }
 .post-indicators, .post-counters {

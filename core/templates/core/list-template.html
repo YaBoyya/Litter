@@ -11,10 +11,7 @@
   {% if posts %}
   <ul class="post-list container-list">
     {% for post in posts %}
-    <li onclick="{{ post.id }}">
-      {% comment %}
-      "window.location.href='/post/{{ post.id }}'">
-      {% endcomment %}
+    <li onclick="window.location.href='/post/{{ post.id }}'">
       {% include 'core/post-template.html' %}
     </li>
     {% endfor %}

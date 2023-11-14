@@ -63,7 +63,7 @@ function setTagState(tag, state) {
   }
 }
 
-function selectTag(e) {
+function selectTagEvent(e) {
   e.preventDefault()
   let tag = e.currentTarget
   let input = tag.firstChild.getElementsByTagName("input")[0];
@@ -84,6 +84,7 @@ function ajax(f, type, url) {
 }
 
 function upvoteEvent(postId, upvoted) {
+  event.stopPropagation()
   let counter = event.target.parentNode
     .getElementsByClassName("post-vote-count")[0];
   function UP() {
@@ -111,7 +112,7 @@ function onLoad() {
       for (let li of ul.getElementsByTagName("li")) {
         if (li.firstChild instanceof HTMLInputElement ||
             li.firstChild.firstChild instanceof HTMLInputElement) {
-          li.addEventListener("click", selectTag)
+          li.addEventListener("click", selectTagEvent)
         }
       }
     }

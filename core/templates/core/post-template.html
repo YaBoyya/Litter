@@ -1,10 +1,10 @@
 <div>
   <div class="space-between post-margin">
     <ul class="flex center-vert-list post-info">
-      <li>
+      <li href="{% url 'profiles:posts' post.user.usertag %}" class="clickable">
         <img src="{{ post.user.picture.url }}">
       </li>
-      <li class="nowrap">
+      <li href="{% url 'profiles:posts' post.user.usertag %}" class="nowrap clickable">
         {{ post.user.username }} (@{{ post.user.usertag }})
       </li>
       <li class="post-time">
@@ -18,7 +18,7 @@
       </ul>
       <ul class="button-list post-options center-list">
         {% if request.user == post.user %}
-        <li> <a href="{% url 'core:post-delete' post.id %}">Delete</a> </li>
+        <li href="{% url 'core:post-delete' post.id %}">Delete</li>
         {% endif %}
       </ul>
     </div>
