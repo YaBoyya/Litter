@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .forms import ProfileForm
 from core.models import Post,  Comment
 from users.models import LitterUser, UserFollowing
 
@@ -31,7 +33,6 @@ def profile_stats(request, usertag):
     pass
 
 
-# TODO post template
 @login_required(login_url='users:login')
 def profile_following(request, usertag):
     """
@@ -59,5 +60,26 @@ def profile_settings(request, usertag):
 
     if request.user != user:
         return redirect('core:feed')
+# TODO finish settings
+    return render(request, 'profiles/profile-settings.html', {'user': user})
 
-    return render(request, 'profiles/settings.html')
+
+# TODO make a decorator is_owner to check is request.user == user
+@login_required(login_url='users:login')
+def profile_edit(request, usertag):
+    user = get_object_or_404(LitterUser, usertag=usertag)
+
+    if request.user != user:
+        return redirect('core:feed')
+
+    if request.method != 'POST':
+        return render(request, 'profiles/profile-edit.html',
+                      {'form': ProfileForm(instance=user)})
+
+    form = ProfileForm(request.POST, instance=user)
+    if not form.is_valid():
+        messages.info(request, "Profile information is not valid.")
+        return redirect(request.path_name)
+
+    form.save()
+    return redirect('profiles:posts', user.usertag)

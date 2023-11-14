@@ -10,4 +10,5 @@ urlpatterns = [
     path('<str:usertag>/stats', views.profile_stats, name='stats'),
     path('<str:usertag>/follow', views.profile_following, name='follow'),
     path('<str:usertag>/settings', views.profile_settings, name='settings'),
+    path('<str:usertag>/edit', views.profile_edit, name='edit'),
 ]

@@ -101,7 +101,7 @@ def post_edit(request, pk):
 
     form = PostForm(request.POST, instance=post)
     if not form.is_valid():
-        messages.infor(request, "Your post is invalid.")
+        messages.info(request, "Your post is invalid.")
         return redirect(request.path_info)
     obj = form.save(commit=False)
     obj.was_edited = True
