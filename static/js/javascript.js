@@ -57,22 +57,23 @@ function randomPalette() {
 
 function setTagState(tag, state) {
   if (state) {
-    tag.style.backgroundColor = langs[tag.textContent]
+    tag.style.backgroundColor = langs[tag.textContent.substring(2)]
   } else {
     tag.style.backgroundColor = ""
   }
 }
 
 function selectTag(e) {
-  let tag = e.target
-  let input = tag.getElementsByTagName("input")[0];
-  let status = input.checked
+  e.preventDefault()
+  let tag = e.currentTarget
+  let input = tag.firstChild.getElementsByTagName("input")[0];
+  let status = input.checked;
   if(input.getAttribute("type")==="radio") {
-    radios = tag.parentNode.getElementsByTagName("li")
+    radios = tag.parentNode.parentNode.getElementsByTagName("li")
     for(li of radios) { setTagState(li, false) }
   }
   setTagState(tag, !status);
-  tag.getElementsByTagName("input")[0].checked = !status
+  input.checked = !status
 }
 
 function ajax(f, type, url) {
@@ -102,11 +103,14 @@ function upvoteEvent(postId, upvoted) {
 function onLoad() {
   //Add listener for tag checkboxes
   for (let ul of document.getElementsByClassName("tag-list")) {
-    for (let li of ul.getElementsByTagName("li"))
-      li.style.borderColor = langs[li.textContent]
+    for (let li of ul.getElementsByTagName("li")) {
+      //newline and space before name, don't know why
+      li.style.borderColor = langs[li.textContent.substring(2)]
+    }
     if (ul.classList.contains("button-list")) {
       for (let li of ul.getElementsByTagName("li")) {
-        if (li.firstChild instanceof HTMLInputElement) {
+        if (li.firstChild instanceof HTMLInputElement ||
+            li.firstChild.firstChild instanceof HTMLInputElement) {
           li.addEventListener("click", selectTag)
         }
       }

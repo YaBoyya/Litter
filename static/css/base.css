@@ -158,12 +158,13 @@ body>div {
   margin-right: var(--big-gap);
 }
 .tag-list {
-  margin-bottom: var(--big-gap);
+  margin-bottom: var(--small-gap);
 }
 .tag-list>li, .flag-list>li {
   min-width: 2.2em;
   margin-right: var(--small-gap);
   padding: var(--tiny-gap);
+  margin-bottom: var(--tiny-gap)
 }
 .container, .container-list>li {
   padding: var(--huge-gap);
