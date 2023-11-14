@@ -23,19 +23,21 @@
       </ul>
     </div>
   </div>
-  <div>
-    <div class="post-title">
-      {{ post.title }}
+  <div class="space-between">
+    <div>
+      <div class="post-title">
+        {{ post.title }}
+      </div>
+      <div class="post-text">
+        {{ post.text }}
+      </div>
     </div>
-    <div class="post-text">
-      {{ post.text }}
-    </div>
+    {% if post.picture %}
+    <ul class="post-images">
+      <li><img src="{{ post.picture.url }}"></li>
+    </ul>
+    {% endif %}
   </div>
-  {% if post.picture %}
-  <ul class="post-images">
-    <li><img src="{{ post.picture.url }}"></li>
-  </ul>
-  {% endif %}
 </div>
 <div class="post-status space-between">
   <ul class="tag-list">
@@ -49,11 +51,11 @@
       {% if request.user.is_authenticated %}
       <img class="clickable"
            onclick = "upvoteEvent({{ post.id }},
-                                   {% if post.vote.exists %}
-                                    true
-                                   {% else %}
-                                    false
-                                   {% endif %});"
+           {% if post.vote.exists %}
+           true
+           {% else %}
+           false
+           {% endif %});"
            src="/images/up.png">
       {% else %}
       <img src="/images/up.png">
