@@ -1,4 +1,3 @@
-/* SIZE, MARGIN AND PADDING */
 .post-info li {
   margin-right: var(--small-gap);
   height: 3rem;
@@ -7,13 +6,11 @@
   margin-bottom: var(--small-gap);
 }
 .post-status {
-  height: 2.2rem;
+  min-height: 2.2rem;
+  max-height: 5.2rem;
 }
 .post-text {
   height: 9rem;
-}
-.post-counters li {
-  width: 5rem;
 }
 .post-images li img {
   max-height: 10rem;
@@ -23,23 +20,30 @@
 .post-time {
   margin-right: var(--small-gap);
 }
+.post-options {
+  display: flex;
+}
 .post-options>li {
+  margin-left: var(--small-gap);
+}
+.post-options>li>a {
   padding: var(--small-gap);
 }
 .post-indicators, .post-counters {
   justify-content: flex-end;
 }
+.post-counters {
+  height: 2.2rem;
+  align-self: end;
+  margin-bottom: var(--small-gap);
+}
 .post-counters>li {
   width: 5em;
-  margin-right: var(--small-gap);
+  margin-left: var(--small-gap);
 }
 .post-counters>li a {
   aspect-ratio: 1/1;
 }
-/*}}}*/
-
-/* SPECIFICS {{{*/
 .post-title {
   font-weight: bold;
 }
-/*}}}*/

@@ -3,6 +3,7 @@
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/comment-template.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/post-details.css' %}" type="text/css">
 {% endblock %}
 
@@ -30,24 +31,11 @@
   </li>
   {% endif %}
 </ul>
-<div>
+<ul class="post-list container-list">
   {% for comment in post.comment.all %}
-  <br><hr>
-  <p>
-  <img src="{{ comment.user.picture.url }}">
-  {{ comment.user.usertag }}, {{ comment.created|timesince }}
-  {% if comment.was_edited %}
-  <small><bold>Edited</bold></small>
-  {% endif %}
-  {% if request.user == comment.user%}
-  <a href="{% url 'core:comment-edit' comment.id %}">Edit</a>
-  <a href="{% url 'core:comment-delete' comment.id %}">Delete</a>
-  {% endif %}
-  </p>
-  {{ comment.text }}
-  <br>
-  <a href="{% url 'core:comment-vote' comment.id %}">Vote</a>
-  {{ comment.vote_count }}
+  <li>
+    {% include 'core/comment-template.html' %}
+  </li>
   {% endfor %}
-</div>
+</ul>
 {% endblock %}

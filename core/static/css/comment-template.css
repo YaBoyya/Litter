@@ -1,0 +1,30 @@
+.comment-info li {
+  margin-right: var(--small-gap);
+  height: 3rem;
+}
+.comment-text {
+  margin-top: var(--small-gap);
+  height: 3rem;
+}
+.comment-time {
+  margin-right: var(--small-gap);
+}
+.comment-options {
+  display: flex;
+}
+.comment-options>li {
+  margin-left: var(--small-gap);
+}
+.comment-options>li>a {
+  padding: var(--small-gap);
+}
+.comment-indicators, .comment-counters {
+  justify-content: flex-end;
+}
+.comment-counters>li {
+  width: 3em;
+  margin-left: var(--small-gap);
+}
+.comment-counters>li a {
+  aspect-ratio: 1/1;
+}

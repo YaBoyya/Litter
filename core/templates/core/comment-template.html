@@ -1,16 +1,53 @@
-<br><hr>
-<p>
-<img src="{{ comment.user.picture.url }}">
-{{ comment.user.usertag }}, {{ comment.created|timesince }}
-{% if comment.was_edited %}
-  <small><bold>Edited</bold></small>
-{% endif %}
-{% if request.user == comment.user%}
-  <a href="{% url 'core:comment-edit' comment.id %}">Edit</a>
-  <a href="{% url 'core:comment-delete' comment.id %}">Delete</a>
-{% endif %}
-</p>
-{{ comment.text }}
-<br>
-<a href="{% url 'core:comment-vote' comment.id %}">Vote</a>
-{{ comment.vote_count }}
+<div>
+  <div class="space-between">
+    <ul class="flex center-vert-list comment-info">
+      <li>
+        <a href="{% url 'profiles:posts' comment.user.usertag %}" class="clickable">
+          <img src="{{ comment.user.picture.url }}">
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'profiles:posts' comment.user.usertag %}" class="nowrap clickable">
+          {{ comment.user.username }} (@{{ comment.user.usertag }})
+        </a>
+      </li>
+      <li class="comment-time">
+        {{ comment.created|timesince }}
+    </ul>
+    <div class="flex center">
+      <ul class="comment-indicators flag-list center-list">
+        {% if comment.was_edited %}
+        <li>E</li>
+        {% endif %}
+      </ul>
+      <ul class="button-list comment-options center-list">
+        {% if request.user == comment.user %}
+        <li><a href="{% url 'core:comment-edit' comment.id %}">Edit</a></li>
+        <li><a href="{% url 'core:comment-delete' comment.id %}">Delete</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="comment-text">
+    {{ comment.text }}
+  </div>
+  <ul class="comment-counters space-between icon-text-list">
+    <li>
+      {% if request.user.is_authenticated %}
+      <img class="clickable"
+           onclick = "upvoteEvent({{ comment.id }},
+           {% if comment.vote.exists %}
+           true
+           {% else %}
+           false
+           {% endif %});"
+           src="/images/up.png">
+      {% else %}
+      <img src="/images/up.png">
+      {% endif %}
+      <span class="comment-vote-count">
+        {{ comment.vote_count }}
+      </span>
+    </li>
+  </ul>
+</div>

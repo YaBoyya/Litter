@@ -196,7 +196,8 @@ body>div {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  flex: 1 0 auto;
+  overflow: hidden;
+  border-radius: 0;
 }
 .tag-list>*, .flag-list>* {
   font-weight: bold;
