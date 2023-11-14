@@ -14,8 +14,7 @@ from .models import Comment, CommentVote, Post, PostVote
 # TODO sorting by Hot, New etc
 @cache_page(10)  # 10 sec
 def feed(request):
-    form = SearchForm(request.GET)
-    # form.is_valid()
+    form = SearchForm(request.GET, auto_id=False)
 
     q = form.data.get('q', '')
     # trend = form.data.get('trend', "")

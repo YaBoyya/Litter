@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from core.models import Post,  Comment
@@ -31,6 +32,7 @@ def profile_stats(request, usertag):
 
 
 # TODO post template
+@login_required(login_url='users:login')
 def profile_following(request, usertag):
     """
     Will create a UserFollowing object,
@@ -49,3 +51,13 @@ def profile_following(request, usertag):
         UserFollowing.objects.create(user=request.user,
                                      followed_user=user_to_follow)
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(login_url='users:login')
+def profile_settings(request, usertag):
+    user = get_object_or_404(LitterUser, usertag=usertag)
+
+    if request.user != user:
+        return redirect('core:feed')
+
+    return render(request, 'profiles/settings.html')
