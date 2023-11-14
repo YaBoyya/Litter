@@ -55,7 +55,10 @@ class Post(models.Model):
     def delete(self):
         if self.picture:
             root = settings.MEDIA_ROOT
-            relative_path = str(self.picture).replace("/", "\\")
+            if root[0]!='/':
+                relative_path = str(self.picture).replace("/", "\\")
+            else:
+                relative_path = str(self.picture)
             absolute_path = os.path.join(root, relative_path)
             os.remove(absolute_path)
         super().delete()

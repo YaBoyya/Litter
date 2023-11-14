@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block cssjs %}
+<link type="text/css" rel="stylesheet" href="{% static 'root/css/delete.css' %}">
+{% endblock %}
+
 {% block content %}
-    <div>
+    <div class="container">
         <form method='POST'>
             {% csrf_token %}
             <p>Are you sure you want to delete "{{obj}}"</p>
-            <a href={{request.META.HTTP_REFERER}}>Cancel</a>
-            <input type="submit" value="Delete">
+            <div id="delete-post-buttons" class="space-between button-list center-list =">
+              <div class="delete-button">
+                <a href={{request.META.HTTP_REFERER}}>Cancel</a>
+              </div>
+              <input class="delete-button" type="submit" value="Delete">
+            </div>
         </form>
     </div>
 {% endblock %}

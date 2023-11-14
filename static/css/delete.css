@@ -1,0 +1,4 @@
+#delete-post-buttons>* {
+  padding: var(--tiny-gap);
+  margin-top: var(--small-gap);
+}
