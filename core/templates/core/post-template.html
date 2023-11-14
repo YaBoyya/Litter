@@ -46,8 +46,21 @@
   </ul>
   <ul class="post-counters space-between icon-text-list">
     <li>
-      <a href="{% url 'core:post-vote' post.id %}"><img src="/images/up.png"></a>
-      {{ post.vote_count }}
+      {% if request.user.is_authenticated %}
+      <img class="clickable"
+           onclick = "upvoteEvent({{ post.id }},
+                                   {% if post.vote.exists %}
+                                    true
+                                   {% else %}
+                                    false
+                                   {% endif %});"
+           src="/images/up.png">
+      {% else %}
+      <img src="/images/up.png">
+      {% endif %}
+      <span class="post-vote-count">
+        {{ post.vote_count }}
+      </span>
     </li>
     <li><img src="images/comment.jpg">{{ post.comment_count }}</li>
   </ul>
