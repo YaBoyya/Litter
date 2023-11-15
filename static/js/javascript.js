@@ -4,6 +4,9 @@ let langs = {
   Easy: "#00ff00",
   Medium: "#ffff00",
   Hard: "#ff0000",
+  E: "#00ff00",
+  M: "#ffff00",
+  H: "#ff0000",
   C: "#0000ff",
   Javascript: "#5E1DB8",
   Java: "#C5D5E9",
@@ -19,13 +22,21 @@ let langs = {
 }
 
 class Post {
-  constructor(postId, upvoted) {
-    this.postId = postId
+  constructor(id, upvoted) {
+    this.id = id
+    this.upvoted = upvoted
+  }
+}
+
+class Comments {
+  constructor(id, upvoted) {
+    this.id = id
     this.upvoted = upvoted
   }
 }
 
 posts = []
+comments = []
 
 function getRandomColor() {
   var letters = '0123456789ABCDEF'
@@ -69,7 +80,7 @@ function selectTagEvent(e) {
   let input = tag.firstChild.getElementsByTagName("input")[0];
   let status = input.checked;
   if(input.getAttribute("type")==="radio") {
-    radios = tag.parentNode.parentNode.getElementsByTagName("li")
+    radios = tag.parentNode.getElementsByTagName("li")
     for(li of radios) { setTagState(li, false) }
   }
   setTagState(tag, !status);
@@ -78,27 +89,55 @@ function selectTagEvent(e) {
 
 function ajax(f, type, url) {
   const xhttp = new XMLHttpRequest();
-  xhttp.onload = f;
+  xhttp.onreadystatechange = function () {
+    if(xhttp.readyState == 4) {
+      if(xhttp.status == 200) {
+        f();
+      } else {
+        console.log("Error in", xhttp)
+      }
+    }
+  };
   xhttp.open(type, url, true);
   xhttp.send();
 }
 
-function upvoteEvent(postId, upvoted) {
+function upvoteCommentEvent(id, upvoted) {
+  event.preventDefault()
+  event.stopPropagation()
+  let counter = event.target.parentNode
+    .getElementsByClassName("comment-vote-count")[0];
+  function UP() {
+    index = comments.findIndex((x)=>x.id==id);
+    if(index==-1) {
+      change = upvoted;
+      comments.push(new Post(id,!upvoted));
+    } else {
+      change = comments[index].upvoted;
+      comments[index].upvoted = !comments[index].upvoted;
+    }
+    counter.textContent = (change?-1:1)+Number(counter.textContent)
+  }
+  ajax(UP, "GET", "/comment/" + id + "/vote");
+}
+
+function upvotePostEvent(id, upvoted) {
+  event.preventDefault()
   event.stopPropagation()
   let counter = event.target.parentNode
     .getElementsByClassName("post-vote-count")[0];
   function UP() {
-    index = posts.findIndex((x)=>x.postId==postId);
+    index = posts.findIndex((x)=>x.id==id);
     if(index==-1) {
       change = upvoted;
-      posts.push(new Post(postId,!upvoted));
+      posts.push(new Post(id,!upvoted));
     } else {
       change = posts[index].upvoted;
       posts[index].upvoted = !posts[index].upvoted;
     }
     counter.textContent = (change?-1:1)+Number(counter.textContent)
   }
-  ajax(UP, "GET", "post/" + postId + "/vote");
+  ajax(UP, "GET", "/post/" + id + "/vote");
 }
 
 function onLoad() {
@@ -106,6 +145,7 @@ function onLoad() {
   for (let ul of document.getElementsByClassName("tag-list")) {
     for (let li of ul.getElementsByTagName("li")) {
       //newline and space before name, don't know why
+      console.log(li.textContent.substring(2))
       li.style.borderColor = langs[li.textContent.substring(2)]
     }
     if (ul.classList.contains("button-list")) {

@@ -35,7 +35,7 @@
     <li>
       {% if request.user.is_authenticated %}
       <img class="clickable"
-           onclick = "upvoteEvent({{ comment.id }},
+           onclick = "upvoteCommentEvent({{ comment.id }},
            {% if comment.vote.exists %}
            true
            {% else %}
