@@ -13,7 +13,6 @@ from .models import LitterUser
 from .tokens import account_activation_token
 
 
-# TODO email activation later on
 def register(request):
     type = 'register'
     context = {'type': type}

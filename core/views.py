@@ -12,8 +12,7 @@ from .models import Comment, CommentVote, Post, PostVote
 # TODO multiple images per post
 # TODO sorting by Hot, New etc
 def feed(request):
-    form = SearchForm(request.GET)
-    # form.is_valid()
+    form = SearchForm(request.GET, auto_id=False)
 
     q = form.data.get('q', '')
     # trend = form.data.get('trend', "")
@@ -99,7 +98,7 @@ def post_edit(request, pk):
 
     form = PostForm(request.POST, instance=post)
     if not form.is_valid():
-        messages.infor(request, "Your post is invalid.")
+        messages.info(request, "Your post is invalid.")
         return redirect(request.path_info)
     obj = form.save(commit=False)
     obj.was_edited = True

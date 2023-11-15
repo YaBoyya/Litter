@@ -26,7 +26,9 @@
         <a href="{% url 'profiles:follow' user.usertag %}">Follow</a>
         {% endif %}
       </li>
-      <li><a href="#">DM</a></li>
+      {% if request.user == user %}
+        <li><a href="{% url 'profiles:settings' user.usertag %}">Edit Profile</a></li>
+      {% endif %}
       <li><a href="#">...</a></li>
     </ul>
   </div>
