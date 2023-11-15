@@ -32,6 +32,7 @@
 
 {% block rightbar %}
 <form method='GET'>
+  {% spaceless %}
   <div id="search" class="center-vert">
       {{ form.q }}
       <button class="button fill-img round">
@@ -39,19 +40,20 @@
       </button>
   </div>
   <ul class="button-list tag-list">
-    {% for trend in form.trend %}
-      <li>{{ trend }}</li>
+    {% for trend in form.trend %} 
+      <li><input type="radio" name="trend" value="{{ trend.data.value }}" selected="{{ trend.data.selected }}"{% if trend.data.attrs.checked %} checked=True {% endif %}>{{ trend.data.label }}</li>
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
     {% for diff in form.difficulty %}
-      <li>{{diff}}</li>
+      <li><input type="radio" name="difficulty" value="{{ diff.data.value }}" selected="{{ diff.data.selected }}"{% if diff.data.attrs.checked %} checked=True {% endif %}>{{ diff.data.label }}</li>
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
     {% for tag in form.languages %}
-      <li>{{ tag }}</li>
+      <li><input type="radio" name="languages" value="{{ tag.data.value }}" selected="{{ tag.data.selected }}"{% if tag.data.attrs.checked %} checked=True {% endif %}>{{ tag.data.label }}</li>
     {% endfor %}
   </ul>
+  {% endspaceless %}
 </form>
 {% endblock %}
