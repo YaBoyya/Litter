@@ -169,17 +169,36 @@ function disablePopupEvent() {
   popupSetState(false)
 }
 
-function onLoad() {
-  //Add listener for tag checkboxes
-  for (let ul of document.getElementsByClassName("tag-list")) {
+function createPostAddTagEvent() {
+  event.preventDefault()
+  event.stopPropagation()
+  let li = document.getElementById("new-post-new-tag")
+  li.style.visibility="unset"
+  li.style.display="unset"
+  li.getElementsByTagName("input")[0].focus()
+}
+
+function collapseTagEvent() {
+  li = event.target.parentNode
+  li.style.visibility="collapse"
+  li.style.display="none"
+}
+
+function initTags() {
+  for(let ul of document.getElementsByClassName("tag-list")) {
     for (let li of ul.getElementsByTagName("li")) {
-      //newline and space before name, don't know why
       li.style.borderColor = langs[li.textContent]
     }
+  }
+}
+
+function onLoad() {
+  //Add listener for tag checkboxes
+  initTags()
+  for (let ul of document.getElementsByClassName("tag-list")) {
     if (ul.classList.contains("button-list")) {
       for (let li of ul.getElementsByTagName("li")) {
-        if (li.firstChild instanceof HTMLInputElement ||
-            li.firstChild.firstChild instanceof HTMLInputElement) {
+        if (li.firstChild instanceof HTMLInputElement) {
           li.addEventListener("click", selectTagEvent)
         }
       }

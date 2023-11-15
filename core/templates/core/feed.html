@@ -19,10 +19,12 @@
     </textarea>
     <div class="flex center-vert">
       <ul class="tag-list center-vert" id="new-post-tag-list">
-        <li class="clickable"> <img src="#"> </li>
-        <li> C </li>
-        <li id="new-post-new-tag"> <input type="search"> </li>
-        <li class="clickable"> + </li>
+        <li class="clickable"><img src="#"></li>
+        <li>C</li>
+        <li id="new-post-new-tag"> 
+          <input onfocusout="collapseTagEvent()" type="search"> 
+        </li>
+        <li onclick="createPostAddTagEvent()" class="clickable">+</li>
       </ul>
     </div>
   </form>

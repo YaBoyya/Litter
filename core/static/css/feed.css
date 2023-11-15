@@ -21,6 +21,8 @@
 #new-post-new-tag {
   width: 7rem;
   padding: 0;
+  visibility: collapse;
+  display: none;
 }
 #new-post-new-tag input {
   width: 100%;
@@ -28,4 +30,3 @@
   border: none;
   padding: var(--tiny-gap);
 }
-
