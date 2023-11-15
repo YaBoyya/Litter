@@ -83,7 +83,7 @@ function popupSetState(state) {
 
 function setTagState(tag, state) {
   if (state) {
-    tag.style.backgroundColor = langs[tag.textContent.substring(2)]
+    tag.style.backgroundColor = langs[tag.textContent]
   } else {
     tag.style.backgroundColor = ""
   }
@@ -92,7 +92,7 @@ function setTagState(tag, state) {
 function selectTagEvent(e) {
   e.preventDefault()
   let tag = e.currentTarget
-  let input = tag.firstChild.getElementsByTagName("input")[0];
+  let input = tag.getElementsByTagName("input")[0];
   let status = input.checked;
   if(input.getAttribute("type")==="radio") {
     radios = tag.parentNode.getElementsByTagName("li")
@@ -172,8 +172,7 @@ function onLoad() {
   for (let ul of document.getElementsByClassName("tag-list")) {
     for (let li of ul.getElementsByTagName("li")) {
       //newline and space before name, don't know why
-      console.log(li.textContent.substring(2))
-      li.style.borderColor = langs[li.textContent.substring(2)]
+      li.style.borderColor = langs[li.textContent]
     }
     if (ul.classList.contains("button-list")) {
       for (let li of ul.getElementsByTagName("li")) {
