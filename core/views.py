@@ -67,7 +67,6 @@ def post_delete(request, pk):
     return redirect('core:feed')
 
 
-# TODO separate comment form
 @cache_page(10)
 def post_details(request, pk):
     post = Post.objects.prefetch_related('comment').get(id=pk)

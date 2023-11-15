@@ -9,7 +9,6 @@ from core.models import Post,  Comment
 from users.models import LitterUser, UserFollowing
 
 
-# TODO settings and others
 def profile_posts(request, usertag):
     posts = Post.objects.filter(user__usertag=usertag).all()
     user = get_object_or_404(LitterUser, usertag=usertag)
@@ -28,11 +27,6 @@ def profile_comments(request, usertag):
 
     context = {'comments': comments, 'user': user, 'is_followed': is_followed}
     return render(request, 'profiles/profile.html', context)
-
-
-# TODO profile stats
-def profile_stats(request, usertag):
-    pass
 
 
 @login_required(login_url='users:login')
@@ -62,7 +56,6 @@ def profile_settings(request, usertag):
 
     if request.user != user:
         return redirect('core:feed')
-# TODO finish settings
     return render(request, 'profiles/profile-settings.html', {'user': user})
 
 
