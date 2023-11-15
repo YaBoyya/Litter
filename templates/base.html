@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title style="visibility: collapse; display: none;">Litter</title>
     <link type="text/css" rel="stylesheet" href="{% static 'root/css/base.css' %}">
-    <script type="text/javascript" src="{% static 'root/js/javascript.js' %}"></script>
+    <script type="text/javascript" src="{% static 'root/js/base.js' %}"></script>
     {% block cssjs %}
     {% endblock %}
   </head>
@@ -52,7 +52,7 @@
       {% block rightbar %}
       {% endblock %}
     </div>
-    <div onclick="disablePopupEvent()" id="popup-background">
+    <div onclick="popupSetState(false)" id="popup-background">
     </div>
     <div id="popup">
       {% block popup %}

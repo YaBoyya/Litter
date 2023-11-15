@@ -2,7 +2,7 @@
 {% block buttons %}
 {% if request.user.is_authenticated %}
 <li>
-  <a onclick="createPostPopupEvent()" {#href="{% url 'core:post-create' %}" #}>+ POST</a>
+  <a onclick="popupSetState(true)" {#href="{% url 'core:post-create' %}" #}>+ POST</a>
 </li>
 {% endif %}
 {% endblock %}

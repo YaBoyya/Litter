@@ -79,7 +79,6 @@ function popupSetState(state) {
       div.style.filter = "none";
     }
   }
-
 }
 
 function setTagState(tag, state) {
@@ -90,7 +89,7 @@ function setTagState(tag, state) {
   }
 }
 
-function selectTagEvent(e) {
+function selectTagE(e) {
   e.preventDefault()
   let tag = e.currentTarget
   let input = tag.getElementsByTagName("input")[0];
@@ -118,7 +117,7 @@ function ajax(f, type, url) {
   xhttp.send();
 }
 
-function upvoteCommentEvent(id, upvoted) {
+function upvoteCommentE(id, upvoted) {
   event.preventDefault()
   event.stopPropagation()
   let counter = event.target.parentNode
@@ -137,7 +136,7 @@ function upvoteCommentEvent(id, upvoted) {
   ajax(UP, "GET", "/comment/" + id + "/vote");
 }
 
-function upvotePostEvent(id, upvoted) {
+function upvotePostE(id, upvoted) {
   event.preventDefault()
   event.stopPropagation()
   let counter = event.target.parentNode
@@ -156,78 +155,7 @@ function upvotePostEvent(id, upvoted) {
   ajax(UP, "GET", "/post/" + id + "/vote");
 }
 
-function createPostPopupEvent() {
-  event.preventDefault()
-  event.stopPropagation()
-  popupSetState(true)
-}
-
-function disablePopupEvent() {
-  event.preventDefault()
-  event.stopPropagation()
-  popupSetState(false)
-}
-
-function createPostPickTagEvent() {
-  let li = document.createElement("li");
-  li.textContent = event.target.textContent;
-  li.addEventListener("click", removeElementEvent)
-  initTag(li)
-  let ul = document.getElementById("new-post-tag-list")
-  let ulLis = ul.children
-  ul.insertBefore(li, ulLis[ulLis.length-2])
-}
-
-function createPostSearchTagEvent() {
-  let text = event.target.value.toLowerCase()
-  let list = event.target.parentNode.getElementsByTagName("ul")[0]
-  for(let li of list.children) {
-    if(!li.textContent.toLowerCase().includes(text)) {
-      li.style.display = "none"
-      li.style.visibility = "collapse"
-    } else {
-      li.style.display = "unset"
-      li.style.visibility = "unset"
-    }
-    styleTagSearchHint()
-  }
-}
-
-function createPostAddTagEvent() {
-  let li = document.getElementById("new-post-new-tag")
-  li.style.visibility="unset"
-  li.style.display="unset"
-  li.getElementsByTagName("input")[0].focus()
-  styleTagSearchHint()
-}
-
-function styleTagSearchHint() {
-  let liList =  Array.from(document.getElementById("new-post-new-tag")
-           .getElementsByClassName("search-hint")[0].children)
-           .filter(
-             (x)=>x.style.visibility!="collapse" && x.style.visibility!="hidden")
-  for(let i=0;i<liList.length-1;i++) {
-    liList[i].style.borderBottomColor = "var(--border-color)";
-    liList[i].style.borderRadius = "0"
-    initTag(liList[i])
-  }
-  liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
-}
-
-function collapseTagEvent() {
-  li = event.target.parentNode
-  li.style.visibility="collapse"
-  li.style.display="none"
-  li.getElementsByTagName("input")[0].value = ""
-  for(li of li.getElementsByTagName("li")) {
-    li.style.visibility="unset"
-    li.style.display="unset"
-  }
-}
-
-function removeElementEvent() {
-  event.stopPropagation();
-  event.preventDefault();
+function removeElement() {
   event.target.remove();
 }
 
@@ -244,16 +172,18 @@ function initTags() {
 }
 
 function onLoad() {
-  //Add listener for tag checkboxes
+  randomPalette()
   initTags()
   for (let ul of document.getElementsByClassName("tag-list")) {
     if (ul.classList.contains("button-list")) {
       for (let li of ul.children) {
         if (li.firstChild instanceof HTMLInputElement) {
-          li.addEventListener("click", selectTagEvent)
+          li.addEventListener("click", selectTagE)
+          if(li.firstChild.checked) {
+            setTagState(li, true)
+          }
         }
       }
     }
   }
-  randomPalette()
 }

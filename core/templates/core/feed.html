@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/list-template.css' %}" type="text/css">
+<script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,18 +24,18 @@
     <div class="flex center-vert">
       <ul class="tag-list center-vert clickable-list" id="new-post-tag-list">
         <li><img src="#"></li>
-        <li onclick="removeElementEvent()">C</li>
+        <li onclick="removeElement()">C</li>
         <li id="new-post-new-tag">
-          <input onkeyup="createPostSearchTagEvent()"
-                 onfocusout="collapseTagEvent()" type="search"
+          <input onkeyup="searchTagE()"
+                 onfocusout="collapseTagSearchE()" type="search"
                  class="tag">
           <ul class="search-hint button-list tag-list">
-            <li onmousedown="createPostPickTagEvent()">C</li>
-            <li onmousedown="createPostPickTagEvent()">Javascript</li>
-            <li onmousedown="createPostPickTagEvent()">Java</li>
+            <li onmousedown="searchPickTagE()">C</li>
+            <li onmousedown="searchPickTagE()">Javascript</li>
+            <li onmousedown="searchPickTagE()">Java</li>
           </ul>
         </li>
-        <li onclick="createPostAddTagEvent()">+</li>
+        <li onclick="showTagSearch()">+</li>
       </ul>
     </div>
   </form>
