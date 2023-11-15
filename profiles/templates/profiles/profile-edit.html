@@ -1,4 +1,8 @@
 <div>
+    {% for message in messages %}
+    <br>
+    {{message}}
+    {% endfor %}
     <form method='POST'>
         {% csrf_token %}
         {{ form.as_p }}
