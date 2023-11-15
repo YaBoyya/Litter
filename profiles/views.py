@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import get_object_or_404, redirect, render
 
+from .decorators import owner_only
 from .forms import EmailForm,    ProfileForm
 from core.models import Post,  Comment
 from users.models import LitterUser, UserFollowing
@@ -51,21 +52,17 @@ def profile_following(request, usertag):
 
 
 @login_required(login_url='users:login')
+@owner_only()
 def profile_settings(request, usertag):
     user = get_object_or_404(LitterUser, usertag=usertag)
-
-    if request.user != user:
-        return redirect('core:feed')
     return render(request, 'profiles/profile-settings.html', {'user': user})
 
 
 # TODO make a decorator is_owner to check is request.user == user
 @login_required(login_url='users:login')
+@owner_only()
 def profile_edit(request, usertag):
     user = get_object_or_404(LitterUser, usertag=usertag)
-
-    if request.user != user:
-        return redirect('core:feed')
 
     if request.method != 'POST':
         return render(request, 'profiles/profile-edit.html',
@@ -81,11 +78,9 @@ def profile_edit(request, usertag):
 
 
 @login_required(login_url='users:login')
+@owner_only()
 def email_change(request, usertag):
     user = get_object_or_404(LitterUser, usertag=usertag)
-
-    if request.user != user:
-        return redirect('core:feed')
 
     if request.method != 'POST':
         return render(request, 'profiles/profile-edit.html',
@@ -102,11 +97,9 @@ def email_change(request, usertag):
 
 
 @login_required(login_url='users:login')
+@owner_only()
 def password_change(request, usertag):
     user = get_object_or_404(LitterUser, usertag=usertag)
-
-    if request.user != user:
-        return redirect('core:feed')
 
     if request.method != 'POST':
         return render(request, 'profiles/profile-edit.html',
