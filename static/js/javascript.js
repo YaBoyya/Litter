@@ -1,25 +1,24 @@
-let langs = {
-  New: "#a0a000",
-  Hot: "#ff0000",
-  Easy: "#00ff00",
-  Medium: "#ffff00",
-  Hard: "#ff0000",
-  E: "#00ff00",
-  M: "#ffff00",
-  H: "#ff0000",
-  C: "#0000ff",
-  Javascript: "#5E1DB8",
-  Java: "#C5D5E9",
-  Python: "#19125D",
-  Cpp: "#07CE0B",
-  Scheme: "#EAB738",
-  Scala: "#2AE44A",
-  Ruby: "#6305FD",
-  Lua: "#684D53",
-  Fortran: "#3F37C3",
-  Matlab: "#7148F2",
-  R: "#D994E9"
-}
+let langs = new Map([ 
+  ["New", "#a0a000"],
+  ["Hot", "#ff0000"],
+  ["Easy", "#00ff00"],
+  ["Medium", "#ffff00"],
+  ["Hard", "#ff0000"],
+  ["E", "#00ff00"],
+  ["M", "#ffff00"],
+  ["H", "#ff0000"],
+  ["C", "#0000ff"],
+  ["Javascript", "#5E1DB8"],
+  ["Java", "#C5D5E9"],
+  ["Python", "#19125D"],
+  ["Cpp", "#07CE0B"],
+  ["Scheme", "#EAB738"],
+  ["Scala", "#2AE44A"],
+  ["Ruby", "#6305FD"],
+  ["Lua", "#684D53"],
+  ["Fortran", "#3F37C3"],
+  ["Matlab", "#7148F2"],
+  ["R", "#D994E9"]])
 
 class Post {
   constructor(id, upvoted) {
@@ -85,7 +84,7 @@ function popupSetState(state) {
 
 function setTagState(tag, state) {
   if (state) {
-    tag.style.backgroundColor = langs[tag.textContent]
+    tag.style.backgroundColor = getComputedStyle(tag).borderColor;
   } else {
     tag.style.backgroundColor = ""
   }
@@ -97,7 +96,7 @@ function selectTagEvent(e) {
   let input = tag.getElementsByTagName("input")[0];
   let status = input.checked;
   if(input.getAttribute("type")==="radio") {
-    radios = tag.parentNode.getElementsByTagName("li")
+    radios = tag.parentNode.children
     for(li of radios) { setTagState(li, false) }
   }
   setTagState(tag, !status);
@@ -169,25 +168,77 @@ function disablePopupEvent() {
   popupSetState(false)
 }
 
+function createPostPickTagEvent() {
+  let li = document.createElement("li");
+  li.textContent = event.target.textContent;
+  li.addEventListener("click", removeElementEvent)
+  initTag(li)
+  let ul = document.getElementById("new-post-tag-list")
+  let ulLis = ul.children
+  ul.insertBefore(li, ulLis[ulLis.length-2])
+}
+
+function createPostSearchTagEvent() {
+  let text = event.target.value.toLowerCase()
+  let list = event.target.parentNode.getElementsByTagName("ul")[0]
+  for(let li of list.children) {
+    if(!li.textContent.toLowerCase().includes(text)) {
+      li.style.display = "none"
+      li.style.visibility = "collapse"
+    } else {
+      li.style.display = "unset"
+      li.style.visibility = "unset"
+    }
+    styleTagSearchHint()
+  }
+}
+
 function createPostAddTagEvent() {
-  event.preventDefault()
-  event.stopPropagation()
   let li = document.getElementById("new-post-new-tag")
   li.style.visibility="unset"
   li.style.display="unset"
   li.getElementsByTagName("input")[0].focus()
+  styleTagSearchHint()
+}
+
+function styleTagSearchHint() {
+  let liList =  Array.from(document.getElementById("new-post-new-tag")
+           .getElementsByClassName("search-hint")[0].children)
+           .filter(
+             (x)=>x.style.visibility!="collapse" && x.style.visibility!="hidden")
+  for(let i=0;i<liList.length-1;i++) {
+    liList[i].style.borderBottomColor = "var(--border-color)";
+    liList[i].style.borderRadius = "0"
+    initTag(liList[i])
+  }
+  liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
 }
 
 function collapseTagEvent() {
   li = event.target.parentNode
   li.style.visibility="collapse"
   li.style.display="none"
+  li.getElementsByTagName("input")[0].value = ""
+  for(li of li.getElementsByTagName("li")) {
+    li.style.visibility="unset"
+    li.style.display="unset"
+  }
+}
+
+function removeElementEvent() {
+  event.stopPropagation();
+  event.preventDefault();
+  event.target.remove();
+}
+
+function initTag(tag) {
+  tag.style.borderColor = langs.get(tag.textContent)
 }
 
 function initTags() {
   for(let ul of document.getElementsByClassName("tag-list")) {
-    for (let li of ul.getElementsByTagName("li")) {
-      li.style.borderColor = langs[li.textContent]
+    for (let li of ul.children) {
+      initTag(li)
     }
   }
 }
@@ -197,7 +248,7 @@ function onLoad() {
   initTags()
   for (let ul of document.getElementsByClassName("tag-list")) {
     if (ul.classList.contains("button-list")) {
-      for (let li of ul.getElementsByTagName("li")) {
+      for (let li of ul.children) {
         if (li.firstChild instanceof HTMLInputElement) {
           li.addEventListener("click", selectTagEvent)
         }
