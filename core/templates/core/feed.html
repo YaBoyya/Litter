@@ -11,6 +11,25 @@
 {% include 'core/feed-list-template.html' %}
 {% endblock %}
 
+{% block popup %}
+<div id="new-post-container" class="container">
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" placeholder="Title" id="new-post-title">
+    <textarea placeholder="Description" id="new-post-description">
+    </textarea>
+    <div class="flex center-vert">
+      <ul class="tag-list center-vert" id="new-post-tag-list">
+        <li class="clickable"> <img src="#"> </li>
+        <li> C </li>
+        <li id="new-post-new-tag"> <input type="search"> </li>
+        <li class="clickable"> + </li>
+      </ul>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+
 {% block rightbar %}
 <form method='GET'>
   <div id="search" class="center-vert">
@@ -25,7 +44,6 @@
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
-    {% comment %} TODO change to single selects both trend and diff {% endcomment %}
     {% for diff in form.difficulty %}
       <li>{{diff}}</li>
     {% endfor %}

@@ -160,7 +160,7 @@ body>div {
 .tag-list {
   margin-bottom: var(--small-gap);
 }
-.tag-list>*, .flag-list>* {
+.tag-list>*, .flag-list>*, .tag {
   min-width: 2.2em;
   margin-right: var(--small-gap);
   padding: var(--tiny-gap);
@@ -199,10 +199,20 @@ body>div {
   overflow: hidden;
   border-radius: 0;
 }
-.tag-list>*, .flag-list>* {
+.tag-list>*, .flag-list>*, .tag {
   font-weight: bold;
   text-align: center;
   flex: 0 0 auto;
   border-style: solid;
+}
+#popup {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100%;
 }
 /*}}}*/

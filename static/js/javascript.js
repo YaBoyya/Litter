@@ -66,6 +66,21 @@ function randomPalette() {
   }
 }
 
+function popupSetState(state) {
+  if(state) {
+    document.getElementById("popup").style.visibility = "unset"
+    for(div of document.getElementsByClassName("blur-on-popup")) {
+      div.style.filter = "blur(5px)";
+    }
+  } else {
+    document.getElementById("popup").style.visibility = "hidden"
+    for(div of document.getElementsByClassName("blur-on-popup")) {
+      div.style.filter = "none";
+    }
+  }
+
+}
+
 function setTagState(tag, state) {
   if (state) {
     tag.style.backgroundColor = langs[tag.textContent.substring(2)]
@@ -138,6 +153,18 @@ function upvotePostEvent(id, upvoted) {
     counter.textContent = (change?-1:1)+Number(counter.textContent)
   }
   ajax(UP, "GET", "/post/" + id + "/vote");
+}
+
+function createPostPopupEvent() {
+  event.preventDefault()
+  event.stopPropagation()
+  popupSetState(true)
+}
+
+function disablePopupEvent() {
+  event.preventDefault()
+  event.stopPropagation()
+  popupSetState(false)
 }
 
 function onLoad() {

@@ -13,7 +13,7 @@
     {% endblock %}
   </head>
   <body onload="onLoad();">
-    <div class="side-bar container">
+    <div class="side-bar container blur-on-popup">
       <a id="logo" href="{% url 'core:feed' %}">
         <img src="{% static 'root/img/logo.webp' %}">
       </a>
@@ -44,6 +44,18 @@
                   {% endif %}
       </ul>
     </div>
+    <div id="main" class="blur-on-popup">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div class="side-bar container blur-on-popup">
+      {% block rightbar %}
+      {% endblock %}
+    </div>
+    <div onclick="disablePopupEvent()" id="popup">
+    {% block popup %}
+    {% endblock %}
+    </div>
     {% comment %}
     TODO: Popup this
     {% for message in messages %}
@@ -51,13 +63,5 @@
     {{message}}
     {% endfor %}
     {% endcomment %}
-    <div id="main">
-      {% block content %}
-      {% endblock %}
-    </div>
-    <div class="side-bar container">
-      {% block rightbar %}
-      {% endblock %}
-    </div>
   </body>
 </html>
