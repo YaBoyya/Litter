@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cache %}
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
@@ -8,7 +9,9 @@
 {% endblock %}
 
 {% block content %}
+{% cache 10 posts %}
 {% include 'core/feed-list-template.html' %}
+{% endcache %}
 {% endblock %}
 
 {% block popup %}

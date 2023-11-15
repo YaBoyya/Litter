@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cache %}
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
@@ -31,6 +32,7 @@
   </li>
   {% endif %}
 </ul>
+{% cache 10 comments %}
 <ul class="post-list container-list">
   {% for comment in post.comment.all %}
   <li>
@@ -38,4 +40,5 @@
   </li>
   {% endfor %}
 </ul>
+{% endcache %}
 {% endblock %}
