@@ -2,31 +2,45 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import owner_only
-from .forms import EmailForm,    ProfileForm
-from core.models import Post,  Comment
+from .forms import EmailForm, ProfileForm
+from core.models import Post, Comment
 from users.models import LitterUser, UserFollowing
 
 
 def profile_posts(request, usertag):
     posts = Post.objects.filter(user__usertag=usertag).all()
     user = get_object_or_404(LitterUser, usertag=usertag)
+    post_points = posts.aggregate(pts=models.Sum('vote_count'))
+    comment_points = Comment.objects.filter(
+        user__usertag=usertag).aggregate(pts=models.Sum('vote_count'))
+    points = post_points['pts'] + comment_points['pts']
+
     is_followed = UserFollowing.objects.filter(user=request.user.id,
                                                followed_user=user).exists()
 
-    context = {'posts': posts, 'user': user, 'is_followed': is_followed}
+    context = {'posts': posts, 'user': user,
+               'is_followed': is_followed, 'points': points}
     return render(request, 'profiles/profile.html', context)
 
 
 def profile_comments(request, usertag):
     comments = Comment.objects.filter(user__usertag=usertag).all()
+
+    post_points = Post.objects.filter(
+        user__usertag=usertag).aggregate(pts=models.Sum('vote_count'))
+    comment_points = comments.aggregate(pts=models.Sum('vote_count'))
+    points = post_points['pts'] + comment_points['pts']
+
     user = get_object_or_404(LitterUser, usertag=usertag)
     is_followed = UserFollowing.objects.filter(user=request.user.id,
                                                followed_user=user).exists()
 
-    context = {'comments': comments, 'user': user, 'is_followed': is_followed}
+    context = {'comments': comments, 'user': user,
+               'is_followed': is_followed, 'points': points}
     return render(request, 'profiles/profile.html', context)
 
 
