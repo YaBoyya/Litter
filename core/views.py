@@ -12,9 +12,19 @@ from .models import Comment, CommentVote, Post, PostVote
 # TODO multiple images per post
 # TODO sorting by Hot, New etc
 def feed(request):
-    form = SearchForm(request.GET)
-    # form.is_valid()
-
+    print(PostForm(request.POST, request.FILES).data)
+    if request.method == 'POST':
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            print(post_form)
+            post = post_form.save(commit=False)
+            post.user = request.user
+            post.save()
+            post_form.save_m2m()
+            return redirect('core:feed')
+            # messages.error(request, "Your post is invalid.")
+    # TODO modify js to set checked=True
+    form = SearchForm(request.GET, auto_id=False)
     q = form.data.get('q', '')
     # trend = form.data.get('trend', "")
     languages = form.data.getlist('languages', None)
@@ -34,7 +44,7 @@ def feed(request):
 
     if languages:
         posts = posts.filter(languages__name__in=languages)
-    context = {'posts': posts, 'q': q, 'form': form}
+    context = {'posts': posts, 'q': q, 'form': form, 'post_form': PostForm()}
     return render(request, 'core/feed.html', context)
 
 
@@ -44,6 +54,7 @@ def post_create(request):
         return render(request, 'core/post-create.html', {'form': PostForm()})
 
     form = PostForm(request.POST, request.FILES)
+    print(form.data)
     if not form.is_valid():
         messages.info(request, "Your post is invalid.")
         return redirect(request.path_info)

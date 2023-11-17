@@ -27,6 +27,9 @@ function collapseTagSearchE() {
 function searchPickTagE() {
   let li = document.createElement("li");
   li.textContent = event.target.textContent;
+  let input = event.target.getElementsByTagName('input')
+  let id = input[0].id
+  document.getElementById(id).checked = !document.getElementById(id).checked;
   li.addEventListener("click", removeElement)
   initTag(li)
   let ul = document.getElementById("new-post-tag-list")

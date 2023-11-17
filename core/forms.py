@@ -5,11 +5,27 @@ from .models import Post, Comment, Language
 
 
 class PostForm(forms.ModelForm):
+    title = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(
+            attrs={'id': 'new-post-title',
+                   'placeholder': 'Title'}
+        )
+    )
+    text = forms.CharField(
+        required=False,
+        max_length=500,
+        widget=forms.Textarea(
+            attrs={'id': 'new-post-description',
+                   'plasceholder': 'Description'}
+        )
+    )
+    picture = forms.FileField(required=False)
     languages = forms.ModelMultipleChoiceField(
         queryset=Language.objects.all(),
         widget=forms.CheckboxSelectMultiple()
     )
-    picture = forms.FileField(required=False)
+    # difficulty = forms.ChoiceField(widget=forms.Select())
 
     class Meta:
         model = Post
@@ -48,6 +64,8 @@ class SearchForm(forms.ModelForm):
                 'name', flat=True)[:10],
         widget=forms.CheckboxSelectMultiple()
     )
+# onclick="document.getElementById('dmsmh_chk').checked
+# = !document.getElementById('dmsmh_chk').checked;"
 
     class Meta:
         model = Post
