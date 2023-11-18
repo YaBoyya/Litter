@@ -6,7 +6,7 @@ from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import owner_only
-from .forms import EmailForm, ProfileForm
+from .forms import EmailForm, LanguageTagForm, ProfileForm
 from core.models import Post, Comment
 from users.models import LitterUser, UserFollowing
 
@@ -72,7 +72,6 @@ def profile_settings(request, usertag):
     return render(request, 'profiles/profile-settings.html', {'user': user})
 
 
-# TODO make a decorator is_owner to check is request.user == user
 @login_required(login_url='users:login')
 @owner_only()
 def profile_edit(request, usertag):
@@ -127,4 +126,21 @@ def password_change(request, usertag):
 
     user = form.save()
     update_session_auth_hash(request, user)
+    return redirect('profiles:posts', usertag)
+
+
+def language_follow(request, usertag):
+    user = get_object_or_404(LitterUser, usertag=usertag)
+
+    if request.method != 'POST':
+        return render(request, 'profiles/profile-edit.html',
+                      {'form': LanguageTagForm(instance=user)})
+
+    form = LanguageTagForm(request.POST, instance=user)
+    # TODO email confirmation?
+    if not form.is_valid():
+        messages.info(request, "Something went wrong.")
+        return redirect(request.path_info)
+
+    form.save()
     return redirect('profiles:posts', usertag)

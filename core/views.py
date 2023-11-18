@@ -37,6 +37,7 @@ def feed(request):
     return render(request, 'core/feed.html', context)
 
 
+# TODO remove this view
 @login_required(login_url='users:login')
 def post_create(request):
     if request.method != 'POST':
@@ -65,7 +66,6 @@ def post_delete(request, pk):
     return redirect('core:feed')
 
 
-# TODO separate comment form
 def post_details(request, pk):
     post = Post.objects.prefetch_related('comment').get(id=pk)
     context = {'post': post, 'form': CommentForm()}

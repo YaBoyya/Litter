@@ -16,4 +16,6 @@ urlpatterns = [
          views.email_change, name='email-change'),
     path('<str:usertag>/settings/password-change',
          views.password_change, name='password-change'),
+    path('<str:usertag>/settings/language-follow',
+         views.language_follow, name='language-follow'),
 ]
