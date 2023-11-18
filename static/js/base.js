@@ -156,7 +156,10 @@ function upvotePostE(id, upvoted) {
 }
 
 function removeElement() {
+  let id = event.target.id;
   event.target.remove();
+  input = document.getElementById(id)
+  document.getElementById(id).checked = false;
 }
 
 function initTag(tag) {

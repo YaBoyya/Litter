@@ -29,9 +29,10 @@ function searchPickTagE() {
   li.textContent = event.target.textContent;
   let input = event.target.getElementsByTagName('input')
   let id = input[0].id
-  document.getElementById(id).checked = !document.getElementById(id).checked;
+  document.getElementById(id).checked = true;
   li.addEventListener("click", removeElement)
   initTag(li)
+  li.id = id
   let ul = document.getElementById("new-post-tag-list")
   let ulLis = ul.children
   ul.insertBefore(li, ulLis[ulLis.length-2])
