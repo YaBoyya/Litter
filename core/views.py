@@ -68,6 +68,7 @@ def post_delete(request, pk):
 
 
 def post_details(request, pk):
+    # TODO fix form data not clearing after redirect
     post = Post.objects.prefetch_related('comment').get(id=pk)
     context = {'post': post, 'form': CommentForm()}
     if request.method != 'POST':
@@ -91,7 +92,6 @@ def post_details(request, pk):
         object_type=Notification.COMMENT,
         object_url=request.path_info
     )
-    context.update({'form': form})
     return render(request, 'core/post-details.html', context)
 
 
