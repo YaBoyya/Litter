@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from .decorators import owner_only
 from .forms import EmailForm, LanguageTagForm, ProfileForm
@@ -58,11 +59,20 @@ def profile_following(request, usertag):
     except (UserFollowing.DoesNotExist):
         follow = None
 
+    print(reverse('profiles:posts', kwargs={'usertag': request.user.usertag}))
     if follow:
         follow.delete()
     else:
         UserFollowing.objects.create(user=request.user,
                                      followed_user=user_to_follow)
+        Notification.objects.create(
+            recipient=user_to_follow,
+            sender=request.user,
+            activity_type=Notification.FOLLOW,
+            object_type=Notification.FOLLOW,
+            object_url=reverse('profiles:posts',
+                               kwargs={'usertag': request.user.usertag})
+        )
     return redirect(request.META.get('HTTP_REFERER'))
 
 

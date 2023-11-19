@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .decorators import author_only
 from .forms import CommentForm, PostForm, SearchForm
 from .models import Comment, CommentVote, Post, PostVote
+from profiles.models import Notification
 
 
 # TODO multiple images per post
@@ -83,6 +84,13 @@ def post_details(request, pk):
     obj.user = request.user
     obj.post = post
     obj.save()
+    Notification.objects.create(
+        recipient=post.user,
+        sender=request.user,
+        activity_type=Notification.COMMENT,
+        object_type=Notification.COMMENT,
+        object_url=request.path_info
+    )
     context.update({'form': form})
     return render(request, 'core/post-details.html', context)
 

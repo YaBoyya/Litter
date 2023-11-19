@@ -2,8 +2,13 @@
 
 {% block content %}
 <div class='container'>
-    {% for notification in notifications %}
-        {{ notification }}
-    {% endfor %}
+    <div>
+        {% for notification in notifications %}
+            <br>
+            <a href="{{ notification.object_url }}">
+                {{ notification }} {{ notification.time_sent|timesince }} ago.
+            </a>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
