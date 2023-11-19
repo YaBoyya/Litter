@@ -52,6 +52,7 @@ def profile_following(request, usertag):
     Will create a UserFollowing object,
     if it already exists it will be deleted
     """
+    # TODO AJAX this
     user_to_follow = get_object_or_404(LitterUser, usertag=usertag)
     try:
         follow = UserFollowing.objects.get(user=request.user.id,
@@ -140,6 +141,8 @@ def password_change(request, usertag):
     return redirect('profiles:posts', usertag)
 
 
+@login_required(login_url='users:login')
+@owner_only()
 def language_follow(request, usertag):
     user = get_object_or_404(LitterUser, usertag=usertag)
 
@@ -156,7 +159,36 @@ def language_follow(request, usertag):
     return redirect('profiles:posts', usertag)
 
 
+@login_required(login_url='users:login')
+@owner_only()
 def notification_list(request, usertag):
     notifications = Notification.objects.filter(recipient__usertag=usertag)
     context = {'notifications': notifications}
     return render(request, 'profiles/notification-list.html', context)
+
+
+@login_required(login_url='users:login')
+@owner_only()
+def notification_delete(request, usertag, pk):
+    # TODO AJAX this
+    notif = get_object_or_404(Notification, id=pk)
+    notif.delete()
+    return redirect('profiles:notifications', usertag)
+
+
+@login_required(login_url='users:login')
+@owner_only()
+def notification_delete_read(request, usertag):
+    # TODO AJAX this
+    Notification.objects.filter(recipient=request.user,
+                                is_unread=False).delete()
+    return redirect('profiles:notifications', usertag)
+
+
+@login_required(login_url='users:login')
+@owner_only()
+def notification_redirect(request, usertag, pk):
+    notif = get_object_or_404(Notification, id=pk)
+    notif.is_unread = False
+    notif.save()
+    return redirect(notif.object_url)

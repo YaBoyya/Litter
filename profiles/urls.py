@@ -11,6 +11,15 @@ urlpatterns = [
 
     path('<str:usertag>/notifications', views.notification_list,
          name='notifications'),
+    path('<str:usertag>/notification/<str:pk>/delete',
+         views.notification_delete,
+         name="notification-delete"),
+    path('<str:usertag>/notification/delete-read',
+         views.notification_delete_read,
+         name="notification-delete-read"),
+    path('<str:usertag>/notification/<str:pk>/redirect',
+         views.notification_redirect,
+         name="notification-redirect"),
 
     path('<str:usertag>/settings', views.profile_settings, name='settings'),
     path('<str:usertag>/settings/profile-edit',
