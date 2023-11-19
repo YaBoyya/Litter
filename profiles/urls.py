@@ -9,6 +9,9 @@ urlpatterns = [
     path('<str:usertag>/comments', views.profile_comments, name='comments'),
     path('<str:usertag>/follow', views.profile_following, name='follow'),
 
+    path('<str:usertag>/notifications', views.notification_list,
+         name='notifications'),
+
     path('<str:usertag>/settings', views.profile_settings, name='settings'),
     path('<str:usertag>/settings/profile-edit',
          views.profile_edit, name='edit'),

@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .decorators import owner_only
 from .forms import EmailForm, LanguageTagForm, ProfileForm
+from .models import Notification
 from core.models import Post, Comment
 from users.models import LitterUser, UserFollowing
 
@@ -137,10 +138,15 @@ def language_follow(request, usertag):
                       {'form': LanguageTagForm(instance=user)})
 
     form = LanguageTagForm(request.POST, instance=user)
-    # TODO email confirmation?
     if not form.is_valid():
         messages.info(request, "Something went wrong.")
         return redirect(request.path_info)
-
+# TODO notification system
     form.save()
     return redirect('profiles:posts', usertag)
+
+
+def notification_list(request, usertag):
+    notifications = Notification.objects.filter(recipient__usertag=usertag)
+    context = {'notifications': notifications}
+    return render(request, 'profiles/notification-list.html', context)

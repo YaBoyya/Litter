@@ -19,29 +19,29 @@
       </a>
       <ul id="nav-list" class="button-list icon-text-list">
         <li><a href="{% url 'core:feed' %}">
-            <img src="{% static 'root/img/home.jpg' %}">Home
+          <img src="{% static 'root/img/home.jpg' %}">Home
+        </a></li>
+        <li><a>
+          <img src="{% static 'root/img/popular.jpg' %}">Popular
+        </a></li>
+        {% if request.user.is_authenticated %}
+          <li><a href="{% url 'profiles:notifications' request.user.usertag %}">
+            <img src="{% static 'root/img/notification.jpg' %}"> Notifications
           </a></li>
           <li><a>
-              <img src="{% static 'root/img/popular.jpg' %}">Popular
-            </a></li>
-            <li><a>
-                <img src="{% static 'root/img/notification.jpg' %}"> Notifications
-              </a></li>
-              <li><a>
-                  <img src="{% static 'root/img/chat.png' %}">Chat
-                </a></li>
-                {% if request.user.is_authenticated %}
-                <li><a href="{% url 'profiles:posts' request.user.usertag %}">
-                    <img src="{% static 'root/img/profile.avif' %}">
-                    <span class="nowrap">
-                      {{request.user.username}} | @{{request.user.usertag}}
-                    </span>
-                  </a></li>
-                  <li><a href="{% url 'users:logout' %}">Logout</a></li>
-                  {% else %}
-                  <li class="flex" ><a href="{% url 'users:register' %}">Register</a></li>
-                  <li><a href="{% url 'users:login' %}">Login</a></li>
-                  {% endif %}
+            <img src="{% static 'root/img/chat.png' %}">Chat
+          </a></li>
+          <li><a href="{% url 'profiles:posts' request.user.usertag %}">
+            <img src="{% static 'root/img/profile.avif' %}">
+            <span class="nowrap">
+              {{request.user.username}} | @{{request.user.usertag}}
+            </span>
+          </a></li>
+          <li><a href="{% url 'users:logout' %}">Logout</a></li>
+        {% else %}
+          <li class="flex" ><a href="{% url 'users:register' %}">Register</a></li>
+          <li><a href="{% url 'users:login' %}">Login</a></li>
+        {% endif %}
       </ul>
     </div>
     <div id="main" class="blur-on-popup">
