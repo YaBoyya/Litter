@@ -92,7 +92,7 @@ def post_details(request, pk):
         object_type=Notification.COMMENT,
         object_url=request.path_info
     )
-    return render(request, 'core/post-details.html', context)
+    return redirect('core:post-details', pk)
 
 
 @login_required(login_url='users:login')

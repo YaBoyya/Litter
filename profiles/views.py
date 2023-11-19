@@ -154,7 +154,6 @@ def language_follow(request, usertag):
     if not form.is_valid():
         messages.info(request, "Something went wrong.")
         return redirect(request.path_info)
-# TODO notification system
     form.save()
     return redirect('profiles:posts', usertag)
 
@@ -193,3 +192,4 @@ def notification_redirect(request, usertag, pk):
     notif.is_unread = False
     notif.save()
     return redirect(notif.object_url)
+# TODO profile pick change form
