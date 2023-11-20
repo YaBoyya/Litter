@@ -85,3 +85,10 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('core:feed')
+
+
+def user_delete(request):
+    if request.method != 'POST':
+        return render(request, 'delete.html', {'obj': request.user.usertag})
+    request.user.delete()
+    return redirect('core:feed')
