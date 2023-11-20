@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='container'>
+    <div>
+        <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
+        {% for notification in notifications %}
+            <br>
+            <a href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
+                {{ notification }} {{ notification.time_sent|timesince }} ago.
+                {% if notification.is_unread %}
+                    UNREAD
+                {% endif %}
+            </a>
+            <hr>
+            <a href="{% url 'profiles:notification-delete' request.user.usertag notification.id %}">
+                X
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

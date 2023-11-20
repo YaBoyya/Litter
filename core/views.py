@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .decorators import author_only
 from .forms import CommentForm, PostForm, SearchForm
 from .models import Comment, CommentVote, Post, PostVote
+from profiles.models import Notification
 
 
 # TODO multiple images per post
@@ -48,6 +49,7 @@ def feed(request):
     return render(request, 'core/feed.html', context)
 
 
+# TODO remove this view
 @login_required(login_url='users:login')
 def post_create(request):
     if request.method != 'POST':
@@ -77,8 +79,8 @@ def post_delete(request, pk):
     return redirect('core:feed')
 
 
-# TODO separate comment form
 def post_details(request, pk):
+    # TODO fix form data not clearing after redirect
     post = Post.objects.prefetch_related('comment').get(id=pk)
     context = {'post': post, 'form': CommentForm()}
     if request.method != 'POST':
@@ -95,8 +97,14 @@ def post_details(request, pk):
     obj.user = request.user
     obj.post = post
     obj.save()
-    context.update({'form': form})
-    return render(request, 'core/post-details.html', context)
+    Notification.objects.create(
+        recipient=post.user,
+        sender=request.user,
+        activity_type=Notification.COMMENT,
+        object_type=Notification.COMMENT,
+        object_url=request.path_info
+    )
+    return redirect('core:post-details', pk)
 
 
 @login_required(login_url='users:login')
@@ -110,7 +118,7 @@ def post_edit(request, pk):
 
     form = PostForm(request.POST, instance=post)
     if not form.is_valid():
-        messages.infor(request, "Your post is invalid.")
+        messages.info(request, "Your post is invalid.")
         return redirect(request.path_info)
     obj = form.save(commit=False)
     obj.was_edited = True
