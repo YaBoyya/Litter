@@ -3,6 +3,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import models
+from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -16,9 +17,10 @@ from users.models import LitterUser, UserFollowing
 def profile_posts(request, usertag):
     posts = Post.objects.filter(user__usertag=usertag).all()
     user = get_object_or_404(LitterUser, usertag=usertag)
-    post_points = posts.aggregate(pts=models.Sum('vote_count'))
+    post_points = posts.aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
     comment_points = Comment.objects.filter(
-        user__usertag=usertag).aggregate(pts=models.Sum('vote_count'))
+        user__usertag=usertag
+        ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
     points = post_points['pts'] + comment_points['pts']
 
     is_followed = UserFollowing.objects.filter(user=request.user.id,
@@ -33,8 +35,11 @@ def profile_comments(request, usertag):
     comments = Comment.objects.filter(user__usertag=usertag).all()
 
     post_points = Post.objects.filter(
-        user__usertag=usertag).aggregate(pts=models.Sum('vote_count'))
-    comment_points = comments.aggregate(pts=models.Sum('vote_count'))
+        user__usertag=usertag
+        ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
+    comment_points = comments.aggregate(
+        pts=Coalesce(models.Sum('vote_count'), 0)
+        )
     points = post_points['pts'] + comment_points['pts']
 
     user = get_object_or_404(LitterUser, usertag=usertag)
@@ -60,7 +65,6 @@ def profile_following(request, usertag):
     except (UserFollowing.DoesNotExist):
         follow = None
 
-    print(reverse('profiles:posts', kwargs={'usertag': request.user.usertag}))
     if follow:
         follow.delete()
     else:
@@ -195,10 +199,8 @@ def notification_read_all(request, usertag):
 @login_required(login_url='users:login')
 @owner_only()
 def notification_redirect(request, usertag, pk):
-    # TODO add ids to comments for more precise redirects
     notif = get_object_or_404(Notification, id=pk)
     notif.is_unread = False
     notif.save()
     return redirect(notif.object_url)
 # TODO profile pick change form
-# TODO add read all notifs
