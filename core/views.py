@@ -90,7 +90,7 @@ def post_details(request, pk):
         sender=request.user,
         activity_type=Notification.COMMENT,
         object_type=Notification.COMMENT,
-        object_url=request.path_info
+        object_url=f"{request.path_info}#{obj.id}"
     )
     return redirect('core:post-details', pk)
 

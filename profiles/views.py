@@ -193,3 +193,4 @@ def notification_redirect(request, usertag, pk):
     notif.save()
     return redirect(notif.object_url)
 # TODO profile pick change form
+# TODO add read all notifs
