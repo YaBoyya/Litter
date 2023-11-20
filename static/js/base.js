@@ -46,22 +46,78 @@ function getRandomColor() {
   return color
 }
 
+function rgb2hsl(rgb) {
+  rgb = rgb.map(x=>x/255)
+  var hsl = Array(3)
+  let max = rgb.reduce((acc,x)=>(acc>x)?acc:x)
+  let min = rgb.reduce((acc,x)=>(acc<x)?acc:x)
+  let c = max-min
+  if(c==0) {
+    hsl[0]=0
+  } else if(max==rgb[0]) {
+    hsl[0]=((rgb[1]-rgb[2])/c)%6
+  } else if(max==rgb[1]) {
+    hsl[0]=(rgb[2]-rgb[0])/c+2
+  } else if(max==rgb[2]) {
+    hsl[0]=(rgb[0]-rgb[1])/c+4
+  }
+  hsl[0]*=60
+  hsl[2] = (max+min)/2
+  if(hsl[2]==0 || hsl[2]==1) {
+    hsl[1] = 0
+  } else {
+    hsl[1] = c/(1-Math.abs(2*hsl[2]-1))
+  }
+  return hsl
+}
+
+function hsl2rgb(hsl) {
+  let c = (1-Math.abs(2*hsl[2]-1))*hsl[1]
+  let hprim = hsl[0]/60
+  let x = c*(1-Math.abs(hprim%2-1))
+  let m = hsl[2]-c/2
+  if(hprim<=1) {
+    rgb = [c, x, 0]
+  } else if(hprim<=2) {
+    rgb = [x, c, 0]
+  } else if(hprim<=3) {
+    rgb = [0, c, x]
+  } else if(hprim<=4) {
+    rgb = [0, x, c]
+  } else if(hprim<=5) {
+    rgb = [x, 0, c]
+  } else if(hprim<=6) {
+    rgb = [c, 0, x]
+  }
+  rgb = rgb.map(x=>Math.round((x+m)*255))
+  return rgb
+}
+
+function rgb2string(rgb) {
+  return rgb.map(x=> {
+    let str = x.toString(16)
+    if(str.length==1)
+      return "0"+str
+    else
+      return str
+  }).reduce((acc,x) => (acc+x))
+}
+
 function randomPalette() {
-  let compStyle = getComputedStyle(document.documentElement, null)
-  var diff = Array(3).fill(0).map(x => Math.floor(Math.random() * 25 + 25))
   var colors = (new Array(5)).fill(0).map(x => (new Array(3)))
-  colors[0] = diff;
+  colors[0] = [Math.random()*360, (Math.random()+0.3)%1-0.3, 0.1]
   for (var i = 1; i < 5; i++) {
-    colors[i][0] = colors[i - 1][0] + diff[0]
-    colors[i][1] = colors[i - 1][1] + diff[1]
-    colors[i][2] = colors[i - 1][2] + diff[2]
+    colors[i] = colors[i - 1].slice(0) //clones array
+    colors[i][2]+=0.15 //lightness
   }
   for (var i = 1; i < 6; i++) {
     document.documentElement.style.setProperty("--color" + i.toString(),
       "#" +
-      colors[i - 1][0].toString(16) +
-      colors[i - 1][1].toString(16) +
-      colors[i - 1][2].toString(16))
+      rgb2string(hsl2rgb(colors[i-1])))
+    colors[i-1][0] = (colors[i-1][0]+45)%360
+    document.documentElement.style.setProperty("--highlight" + i.toString(),
+      "#" +
+      rgb2string(hsl2rgb(colors[i-1])))
   }
 }
 

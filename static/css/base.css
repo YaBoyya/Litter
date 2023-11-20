@@ -21,13 +21,13 @@
   background-color: var(--color2);
   color: var(--color5);
 }
-#nav-list>*, .button:hover, .button-list>*:hover {
+#nav-list>* {
   background-color: var(--color3);
   border-color: var(--border-color);
   color: var(--color1);
 }
 #nav-list>*:hover {
-  background-color: var(--color4);
+  background-color: var(--highlight3);
   color: var(--color1);
 }
 input[type="text"], .button, .button-list>*, input[type="password"],
@@ -38,14 +38,15 @@ input[type="email"], input[type="submit"], textarea, button, .flag-list>*, .flag
   border-color: var(--border-color);
   color: var(--color5);
 }
-input[type="text"]:focus, input[type="password"]:focus,
+.button:hover, .button-list>*:hover, input[type="text"]:focus,
+input[type="submit"]:hover input[type="password"]:focus,
 input[type="email"]:focus, textarea:focus {
-  background-color: var(--color3);
-  color: var(--color1);
+  background-color: var(--highlight2);
+  color: var(--highlight5);
 }
-.button:hover, input[type="submit"]:hover, button:hover {
-  background-color: var(--color4);
-  color: var(--color1);
+.highlight-text {
+  font-weight: bold;
+  text-decoration: underline;
 }
 /*}}}*/
 
@@ -138,7 +139,7 @@ body>div {
   height: 100%;
   width: 100%;
 }
-.space-between {
+.space-between, .space-between-list>* {
   display: flex;
   justify-content: space-between;
 }
@@ -147,6 +148,10 @@ body>div {
 }
 .nowrap {
   white-space: nowrap;
+}
+.fit-content, .fit-content-list>* {
+  width: fit-content;
+  height: fit-content;
 }
 /*}}}*/
 
