@@ -52,16 +52,13 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.title) > 50 else self.title
 
-    def delete(self):
+    def delete(self, *args, **kwargs):
         if self.picture:
             root = settings.MEDIA_ROOT
-            if root[0] != '/':
-                relative_path = str(self.picture).replace("/", "\\")
-            else:
-                relative_path = str(self.picture)
+            relative_path = str(self.picture).replace("/", "\\")
             absolute_path = os.path.join(root, relative_path)
             os.remove(absolute_path)
-        super().delete()
+        super().delete(*args, **kwargs)
 
 
 class Comment(models.Model):

@@ -1,3 +1,6 @@
+import os
+
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
@@ -52,6 +55,14 @@ class LitterUser(AbstractUser):
                                     'profile_pics/'))
     objects = LitterUserManager()
     USERNAME_FIELD = "usertag"
+
+    def delete(self, *args, **kwargs):
+        if self.picture != 'default_pp.png':
+            root = settings.MEDIA_ROOT
+            relative_path = str(self.picture).replace("/", "\\")
+            absolute_path = os.path.join(root, relative_path)
+            os.remove(absolute_path)
+        super().delete()
 
 
 class UserFollowing(models.Model):

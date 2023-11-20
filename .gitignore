@@ -42,7 +42,8 @@ URL_ShortenerDB
 htmlcov
 
 # media
-media
+media/post_pictures
+media/profile_pics
 
 #vim
 .vimrc

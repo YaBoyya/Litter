@@ -97,7 +97,7 @@ def profile_edit(request, usertag):
         return render(request, 'profiles/profile-edit.html',
                       {'form': ProfileForm(instance=user)})
 
-    form = ProfileForm(request.POST, instance=user)
+    form = ProfileForm(request.POST, request.FILES, instance=user)
     if not form.is_valid():
         messages.info(request, "Profile information is not valid.")
         return redirect(request.path_info)

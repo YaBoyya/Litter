@@ -7,7 +7,7 @@ from core.models import Language
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = LitterUser
-        fields = ['username', 'bio']
+        fields = ['username', 'bio', 'picture']
 
 
 class EmailForm(forms.ModelForm):
