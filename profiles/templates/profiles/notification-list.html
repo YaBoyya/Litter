@@ -1,9 +1,10 @@
-{% extends 'base.html' %}
+    {% extends 'base.html' %}
 
 {% block content %}
 <div class='container'>
     <div>
         <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
+        <a href="{% url 'profiles:notification-read-all' request.user.usertag %}">READ ALL</a>
         {% for notification in notifications %}
             <br>
             <a href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">

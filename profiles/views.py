@@ -186,6 +186,14 @@ def notification_delete_read(request, usertag):
 
 @login_required(login_url='users:login')
 @owner_only()
+def notification_read_all(request, usertag):
+    Notification.objects.filter(recipient=request.user,
+                                is_unread=True).update(is_unread=False)
+    return redirect('profiles:notifications', usertag)
+
+
+@login_required(login_url='users:login')
+@owner_only()
 def notification_redirect(request, usertag, pk):
     # TODO add ids to comments for more precise redirects
     notif = get_object_or_404(Notification, id=pk)
