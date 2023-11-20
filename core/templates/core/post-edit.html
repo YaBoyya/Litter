@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cache %}
+
+{% block cssjs %}
+<link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
+<script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div id="new-post-container" class="container">
+  <form method="POST" enctype="multipart/form-data">
+    <input type="text" placeholder="Title" id="new-post-title">
+    <textarea placeholder="Description" id="new-post-description">
+    </textarea>
+    <div class="flex center-vert">
+      <ul class="tag-list center-vert clickable-list" id="new-post-tag-list">
+        <li><img src="#"></li>
+        <li onclick="removeElement()">C</li>
+        <li id="new-post-new-tag">
+          <input onkeyup="searchTagE()"
+                 onfocusout="collapseTagSearchE()" type="search"
+                 class="tag">
+          <ul class="search-hint button-list tag-list">
+            <li onmousedown="searchPickTagE()">C</li>
+            <li onmousedown="searchPickTagE()">Javascript</li>
+            <li onmousedown="searchPickTagE()">Java</li>
+          </ul>
+        </li>
+        <li onclick="showTagSearch()">+</li>
+      </ul>
+    </div>
+  </form>
+</div>
+{% endblock %}
