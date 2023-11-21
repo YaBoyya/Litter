@@ -7,6 +7,9 @@
     <li><a href="{% url 'profiles:email-change' user.usertag %}">Change email<a/></li>
     {# TODO Perhaps the same tag form as in the create post #}
     <li><a href="{% url 'profiles:language-follow' user.usertag %}">Follow language<a/></li>
+    {% if user.laguages %}
     <li>Followed thus far: {% for lang in user.languages.all %} <br> {{lang}} {% endfor %}</li>
+    {% endif %}
+    <li><a href="{% url 'users:delete' %}">Delete account</a></li>
 <ul>
 {% endblock %}

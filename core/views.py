@@ -49,25 +49,6 @@ def feed(request):
     return render(request, 'core/feed.html', context)
 
 
-# TODO remove this view
-@login_required(login_url='users:login')
-def post_create(request):
-    if request.method != 'POST':
-        return render(request, 'core/post-create.html', {'form': PostForm()})
-
-    form = PostForm(request.POST, request.FILES)
-    print(form.data)
-    if not form.is_valid():
-        messages.info(request, "Your post is invalid.")
-        return redirect(request.path_info)
-    print(form.cleaned_data)
-    post = form.save(commit=False)
-    post.user = request.user
-    post.save()
-    form.save_m2m()
-    return redirect('core:feed')
-
-
 @login_required(login_url='users:login')
 @author_only(obj=Post, message="You cannot delete this post.")
 def post_delete(request, pk):
@@ -80,7 +61,6 @@ def post_delete(request, pk):
 
 
 def post_details(request, pk):
-    # TODO fix form data not clearing after redirect
     post = Post.objects.prefetch_related('comment').get(id=pk)
     context = {'post': post, 'form': CommentForm()}
     if request.method != 'POST':
@@ -102,7 +82,7 @@ def post_details(request, pk):
         sender=request.user,
         activity_type=Notification.COMMENT,
         object_type=Notification.COMMENT,
-        object_url=request.path_info
+        object_url=f"{request.path_info}#{obj.id}"
     )
     return redirect('core:post-details', pk)
 

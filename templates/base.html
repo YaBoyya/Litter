@@ -33,7 +33,7 @@
             <img src="{% static 'root/img/chat.png' %}">Chat
           </a></li>
           <li><a href="{% url 'profiles:posts' request.user.usertag %}">
-            <img src="{% static 'root/img/profile.avif' %}">
+            <img src="{{ user.picture.url }}">
             <span class="nowrap">
               {{user.username}} | @{{user.usertag}}
             </span>
