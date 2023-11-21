@@ -48,3 +48,6 @@
   width: 100%;
   flex-wrap: 1;
 }
+#new-post-submit {
+  padding: var(--small-gap);
+}
