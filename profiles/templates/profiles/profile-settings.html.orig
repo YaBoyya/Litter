@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class='container'>
+    <li><a href="{% url 'profiles:edit' user.usertag %}">Edit Profile</a></li>
+    <li><a href="{% url 'profiles:password-change' user.usertag %}">Change password</a></li>
+    <li><a href="{% url 'profiles:email-change' user.usertag %}">Change email</a></li>
+    {# TODO Perhaps the same tag form as in the create post #}
+<<<<<<< HEAD
+    <li><a href="{% url 'profiles:language-follow' user.usertag %}">Follow language<a/></li>
+    {% if user.laguages %}
+=======
+    <li><a href="{% url 'profiles:language-follow' user.usertag %}">Follow language</a></li>
+>>>>>>> front
+    <li>Followed thus far: {% for lang in user.languages.all %} <br> {{lang}} {% endfor %}</li>
+    {% endif %}
+    <li><a href="{% url 'users:delete' %}">Delete account</a></li>
+<ul>
+{% endblock %}

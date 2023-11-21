@@ -148,9 +148,9 @@ function setTagState(tag, state) {
   }
 }
 
-function selectTagE(e) {
-  e.preventDefault()
-  let tag = e.currentTarget
+function selectTagE() {
+  event.preventDefault()
+  let tag = event.currentTarget
   let input = tag.getElementsByTagName("input")[0];
   let status = input.checked;
   if(input.getAttribute("type")==="radio") {
@@ -239,7 +239,8 @@ function onLoad() {
   for (let ul of document.getElementsByClassName("tag-list")) {
     if (ul.classList.contains("button-list")) {
       for (let li of ul.children) {
-        if (li.firstChild instanceof HTMLInputElement) {
+        if (li.firstElementChild instanceof HTMLInputElement) {
+          console.log(li)
           li.addEventListener("click", selectTagE)
           if(li.firstChild.checked) {
             setTagState(li, true)
