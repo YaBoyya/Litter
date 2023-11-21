@@ -7,15 +7,18 @@
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}" type="text/css">
 <script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 {% cache 10 posts %}
 <div class="utility-bar">
   <ul class="button-list">
+    {% if user.is_authenticated %}
     <li>
-      <a onclick="popupSetState(true)" {#href="{% url 'core:post-create' %}" #}>+ POST</a>
+      <a onclick="postCreateShow()">+ POST</a>
     </li>
+    {% endif %}
   </ul>
   <ul class="button-list">
     <li id="sort">
@@ -40,7 +43,7 @@
     {% csrf_token %}
     {{ post.title }}
     {{ post.text }}
-    {{ post.picture }}    
+    {{ post.picture }}
     <div class="flex center-vert">
       <ul class="tag-list center-vert clickable-list" id="new-post-tag-list">
         <li>{{ post.difficulty }}</li>
@@ -56,7 +59,7 @@
         </li>
         <li onclick="showTagSearch()">+</li>
       </ul>
-      <button type="submit">Create</button>
+      <button id="new-post-submit" type="submit">Create</button>
     </div>
   </form>
 </div>

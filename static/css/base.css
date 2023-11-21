@@ -196,18 +196,19 @@ body>div {
   padding: 1vw;
 }
 #popup, #popup-background {
+  width: fit-content;
+  height: fit-content;
+}
+#popup-background {
   position: absolute;
   top: var(--big-gap);
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 0 auto;
-  width: fit-content;
-  height: fit-content;
-}
-#popup-background {
   width: 100vw;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 /*}}}*/
 

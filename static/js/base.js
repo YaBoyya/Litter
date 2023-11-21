@@ -123,17 +123,20 @@ function randomPalette() {
 
 function popupSetState(state) {
   if(state) {
-    document.getElementById("popup").style.visibility = "unset"
     document.getElementById("popup-background").style.visibility = "unset"
     for(div of document.getElementsByClassName("blur-on-popup")) {
       div.style.filter = "blur(5px)";
     }
+    document.getElementById("popup").style.visibility = "unset"
   } else {
-    document.getElementById("popup").style.visibility = "hidden"
     document.getElementById("popup-background").style.visibility = "hidden"
     for(div of document.getElementsByClassName("blur-on-popup")) {
       div.style.filter = "none";
     }
+    for(child of document.getElementById("popup").children) {
+      child.style.visibility = "collapse"
+    }
+    document.getElementById("popup").style.visibility = "hidden"
   }
 }
 

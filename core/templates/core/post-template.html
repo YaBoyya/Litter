@@ -39,7 +39,7 @@
     </div>
     {% if post.picture %}
     <ul class="post-images">
-      <li><img src="{{ post.picture.url }}"></li>
+      <li><img class="clickable" onclick="imgPopupE()" src="{{ post.picture.url }}"></li>
     </ul>
     {% endif %}
   </div>
