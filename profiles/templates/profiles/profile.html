@@ -28,7 +28,7 @@
         {% endif %}
       </li>
       {% if request.user == user %}
-      <li><a href="{% url 'profiles:settings' user.usertag %}">Edit Profile</a></li>
+      <li><a href="{% url 'profiles:settings' user.usertag %}">Edit</a></li>
       {% endif %}
       <li><a href="#">...</a></li>
     </ul>
