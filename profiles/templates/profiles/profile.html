@@ -6,6 +6,7 @@
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/post-template.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/comment-template.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
+<script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -42,10 +43,10 @@
 <div class="utility-bar">
   <ul class="button-list">
     <li>
-      <a href="{% url 'profiles:posts' request.user.usertag %}">Posts</a>
+      <a href="{% url 'profiles:posts' user.usertag %}">Posts</a>
     </li>
     <li>
-      <a href="{% url 'profiles:comments' request.user.usertag %}">Comments</a>
+      <a href="{% url 'profiles:comments' user.usertag %}">Comments</a>
     </li>
   </ul>
   <ul class="button-list"></ul>

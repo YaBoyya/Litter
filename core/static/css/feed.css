@@ -9,6 +9,7 @@
   margin: 0 auto;
   width: 27rem;
   height: fit-content;
+  visibility: hidden;
 }
 #new-post-title {
   width: 25rem;

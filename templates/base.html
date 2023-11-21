@@ -54,11 +54,11 @@
       {% block rightbar %}
       {% endblock %}
     </div>
-    <div onclick="popupSetState(false)" id="popup-background">
-    </div>
-    <div id="popup">
-      {% block popup %}
-      {% endblock %}
+    <div onmousedown="popupSetState(false)" id="popup-background">
+      <div id="popup" onmousedown="event.stopPropagation()">
+        {% block popup %}
+        {% endblock %}
+      </div>
     </div>
     {% comment %}
     TODO: Popup this

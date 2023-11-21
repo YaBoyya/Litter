@@ -7,15 +7,18 @@
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}" type="text/css">
 <script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
+<script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 {% cache 10 posts %}
 <div class="utility-bar">
   <ul class="button-list">
+    {% if user.is_authenticated %}
     <li>
-      <a onclick="popupSetState(true)">+ POST</a>
+      <a onclick="postCreateShow()">+ POST</a>
     </li>
+    {% endif %}
   </ul>
   <ul class="button-list">
     <li id="sort">

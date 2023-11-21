@@ -58,3 +58,8 @@ function styleTagSearch() {
   }
   liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
 }
+
+function postCreateShow() {
+  document.getElementById("new-post-container").style.visibility = "visible"
+  popupSetState(true)
+}
