@@ -177,44 +177,6 @@ function ajax(f, type, url) {
   xhttp.send();
 }
 
-function upvoteCommentE(id, upvoted) {
-  event.preventDefault()
-  event.stopPropagation()
-  let counter = event.target.parentNode
-    .getElementsByClassName("comment-vote-count")[0];
-  function UP() {
-    index = comments.findIndex((x)=>x.id==id);
-    if(index==-1) {
-      change = upvoted;
-      comments.push(new Post(id,!upvoted));
-    } else {
-      change = comments[index].upvoted;
-      comments[index].upvoted = !comments[index].upvoted;
-    }
-    counter.textContent = (change?-1:1)+Number(counter.textContent)
-  }
-  ajax(UP, "GET", "/comment/" + id + "/vote");
-}
-
-function upvotePostE(id, upvoted) {
-  event.preventDefault()
-  event.stopPropagation()
-  let counter = event.target.parentNode
-    .getElementsByClassName("post-vote-count")[0];
-  function UP() {
-    index = posts.findIndex((x)=>x.id==id);
-    if(index==-1) {
-      change = upvoted;
-      posts.push(new Post(id,!upvoted));
-    } else {
-      change = posts[index].upvoted;
-      posts[index].upvoted = !posts[index].upvoted;
-    }
-    counter.textContent = (change?-1:1)+Number(counter.textContent)
-  }
-  ajax(UP, "GET", "/post/" + id + "/vote");
-}
-
 function removeElement() {
   let id = event.target.id;
   event.target.remove();
