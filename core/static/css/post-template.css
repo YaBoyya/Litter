@@ -9,6 +9,9 @@
   min-height: 2.2rem;
   max-height: 5.2rem;
 }
+.post-status>.tag-list {
+  margin-bottom: 0;
+}
 .post-text {
   height: 9rem;
 }
@@ -35,7 +38,6 @@
 .post-counters {
   height: 2.2rem;
   align-self: end;
-  margin-bottom: var(--small-gap);
 }
 .post-counters>li {
   width: 5em;
