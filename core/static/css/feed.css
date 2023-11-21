@@ -36,7 +36,6 @@
 }
 #new-post-new-tag ul {
   width: 7rem;
-  max-height: 20rem;
   overflow: scroll;
   margin: auto;
   border-radius: 0;
@@ -51,6 +50,8 @@
   visibility: collapse;
   display: none;
   overflow: wrap;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 #new-post-tag-list {
   flex-grow: 0;

@@ -18,5 +18,6 @@ function imgPopupE() {
   }
   image.src = event.target.src
   image.style.visibility = "visible"
+  image.style.display = "block"
   popupSetState(true)
 }

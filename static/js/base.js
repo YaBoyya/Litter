@@ -129,14 +129,15 @@ function popupSetState(state) {
     }
     document.getElementById("popup").style.visibility = "unset"
   } else {
-    document.getElementById("popup-background").style.visibility = "hidden"
+    document.getElementById("popup-background").style.visibility = "collapse"
     for(div of document.getElementsByClassName("blur-on-popup")) {
       div.style.filter = "none";
     }
+    document.getElementById("popup").style.visibility = "collapse"
     for(child of document.getElementById("popup").children) {
       child.style.visibility = "collapse"
+      child.style.display = "none"
     }
-    document.getElementById("popup").style.visibility = "hidden"
   }
 }
 

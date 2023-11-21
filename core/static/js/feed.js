@@ -66,5 +66,6 @@ function styleTagSearch() {
 
 function postCreateShow() {
   document.getElementById("new-post-container").style.visibility = "visible"
+  document.getElementById("new-post-container").style.display = "block"
   popupSetState(true)
 }
