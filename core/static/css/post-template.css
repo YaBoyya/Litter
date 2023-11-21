@@ -1,3 +1,6 @@
+.post-list div {
+  border-radius: 0;
+}
 .post-info li {
   margin-right: var(--small-gap);
   height: 3rem;

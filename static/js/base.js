@@ -240,7 +240,6 @@ function onLoad() {
     if (ul.classList.contains("button-list")) {
       for (let li of ul.children) {
         if (li.firstElementChild instanceof HTMLInputElement) {
-          console.log(li)
           li.addEventListener("click", selectTagE)
           if(li.firstChild.checked) {
             setTagState(li, true)

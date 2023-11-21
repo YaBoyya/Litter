@@ -35,7 +35,8 @@
   color: var(--highlight1);
 }
 input[type="text"], .button, .button-list>*, input[type="password"],
-input[type="email"], input[type="submit"], textarea, button, .flag-list>*, .flag
+input[type="email"], input[type="submit"], textarea, button, .flag-list>*, .flag,
+input[type="file"]::file-selector-button
 {
   background-color: var(--color2);
   border-style: solid;
@@ -44,7 +45,8 @@ input[type="email"], input[type="submit"], textarea, button, .flag-list>*, .flag
 }
 .button:hover, .button-list>*:hover, input[type="text"]:focus,
 input[type="submit"]:hover input[type="password"]:focus,
-input[type="email"]:focus, textarea:focus {
+input[type="email"]:focus, textarea:focus,
+input[type="file"]::file-selector-button:hover {
   background-color: var(--highlight2);
   color: var(--highlight5);
 }
@@ -55,7 +57,10 @@ input[type="email"]:focus, textarea:focus {
 /*}}}*/
 
 /* GENERAL STYLES {{{*/
-* {
+html, body {
+  overflow: unset;
+}
+*, *::file-selector-button {
   all: unset;
   margin: 0;
   padding: 0;
@@ -64,6 +69,10 @@ input[type="email"]:focus, textarea:focus {
   outline: none;
   border-radius: var(--radius);
   display: block;
+  overflow: hidden;
+}
+div, ul, form, p, label {
+  border-radius:  0;
 }
 img {
   height: 100%;
@@ -78,8 +87,9 @@ a {
   display: block;
   cursor: pointer;
 }
-input[type="submit"], button {
+input[type="submit"], button, input[type="file"]::file-selector-button {
   cursor: pointer;
+  min-width: fit-content;
 }
 input[type="checkbox"] {
   visibility: collapse;
@@ -90,12 +100,19 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
   margin-right: var(--tiny-gap);
   padding: var(--small-gap);
 }
+input[type="file"] {
+  border-radius: 0;
+  display: unset;
+}
+input[type="file"]::file-selector-button {
+  padding: var(--small-gap);
+}
 body {
   display: flex;
   height: 100%;
   background-color: var(--color1);
 }
-body>div {
+body>* {
   top: 2vh;
   margin-top: 2vh;
 }
@@ -178,6 +195,7 @@ body>div {
 }
 .container, .container-list>* {
   padding: var(--huge-gap);
+  border-radius: var(--radius);
 }
 .container-list>* {
   margin-top:  var(--big-gap);
