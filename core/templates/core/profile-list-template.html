@@ -1,9 +1,0 @@
-{% extends 'core/list-template.html' %}
-{% block buttons %}
-<li>
-  <a href="{% url 'profiles:posts' request.user.usertag %}">Posts</a>
-</li>
-<li>
-  <a href="{% url 'profiles:comments' request.user.usertag %}">Comments</a>
-</li>
-{% endblock %}

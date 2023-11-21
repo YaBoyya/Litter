@@ -5,13 +5,31 @@
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'core/css/list-template.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}" type="text/css">
 <script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 {% cache 10 posts %}
-{% include 'core/feed-list-template.html' %}
+<div class="utility-bar">
+  <ul class="button-list">
+    <li>
+      <a onclick="popupSetState(true)" {#href="{% url 'core:post-create' %}" #}>+ POST</a>
+    </li>
+  </ul>
+  <ul class="button-list">
+    <li id="sort">
+      <a class="center" href="#" >New</a>
+    </li>
+  </ul>
+</div>
+<ul class="post-list container-list">
+  {% for post in posts %}
+  <li onclick="window.location.href='/post/{{ post.id }}'">
+    {% include 'core/post-template.html' %}
+  </li>
+  {% endfor %}
+</ul>
 {% endcache %}
 {% endblock %}
 
@@ -29,7 +47,7 @@
         <li id="new-post-new-tag">
           <input onkeyup="searchTagE()"
                  onfocusout="collapseTagSearchE()" type="search"
-                 class="tag">
+                                                   class="tag">
           <ul class="search-hint button-list tag-list">
             {% for lang in post.languages %}
             <li onmousedown="searchPickTagE()">{{ lang }}</li>
@@ -49,36 +67,36 @@
 {% block rightbar %}
 <form method='GET'>
   <div id="search" class="center-vert">
-      {{ form.q }}
-      <button class="button fill-img round">
-        <img src="images/search.jpg">
-      </button>
+    {{ form.q }}
+    <button class="button fill-img round">
+      <img src="images/search.jpg">
+    </button>
   </div>
   <ul class="button-list tag-list">
     {% for trend in form.trend %} 
-      <li><input type="radio" name="trend"
-         value="{{ trend.data.value }}"
-         selected="{{ trend.data.selected }}"
-         {% if trend.data.attrs.checked %} checked=True {% endif %}>{{ trend.data.label }}</li>
+    <li><input type="radio" name="trend"
+                            value="{{ trend.data.value }}"
+                            selected="{{ trend.data.selected }}"
+                            {% if trend.data.attrs.checked %} checked=True {% endif %}>{{ trend.data.label }}</li>
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
     {% for diff in form.difficulty %}
-      <li><input type="radio" name="difficulty"
-           value="{{ diff.data.value }}"
-           selected="{{ diff.data.selected }}"
-           {% if diff.data.attrs.checked %} checked=True {% endif %}>{{ diff.data.label }}</li>
+    <li><input type="radio" name="difficulty"
+                            value="{{ diff.data.value }}"
+                            selected="{{ diff.data.selected }}"
+                            {% if diff.data.attrs.checked %} checked=True {% endif %}>{{ diff.data.label }}</li>
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
     {% for tag in form.languages %}
-      <li>
-        <input type="checkbox" name="languages"
-               value="{{ tag.data.value }}"
-               selected="{{ tag.data.selected }}"
-               {% if tag.data.attrs.checked %} checked=True {% endif %}>
-        {{ tag.data.label }}
-      </li>
+    <li>
+      <input type="checkbox" name="languages"
+                             value="{{ tag.data.value }}"
+                             selected="{{ tag.data.selected }}"
+                             {% if tag.data.attrs.checked %} checked=True {% endif %}>
+      {{ tag.data.label }}
+    </li>
     {% endfor %}
   </ul>
 </form>

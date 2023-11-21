@@ -1,8 +1,0 @@
-{% extends 'core/list-template.html' %}
-{% block buttons %}
-{% if request.user.is_authenticated %}
-<li>
-  <a onclick="popupSetState(true)" {#href="{% url 'core:post-create' %}" #}>+ POST</a>
-</li>
-{% endif %}
-{% endblock %}

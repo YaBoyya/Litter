@@ -1,0 +1,27 @@
+.utility-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--big-gap);
+}
+.utility-bar>ul>li {
+  height: 3.5rem;
+  position: relative;
+  margin-bottom: var(--small-gap);
+  width: auto;
+}
+.utility-bar>ul {
+  display: flex;
+}
+.utility-bar>ul>li+li {
+  margin-left: var(--small-gap);
+}
+.utility-bar>ul>li~li {
+  margin-right: var(--small-gap);
+}
+.utility-bar>ul>li>a {
+  padding: 0 var(--small-gap);
+  width: calc(100%+var(--small-gap)*2);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}

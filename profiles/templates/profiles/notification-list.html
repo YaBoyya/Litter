@@ -1,22 +1,31 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block cssjs %}
+<link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class='container'>
-    <div>
-        <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
-        {% for notification in notifications %}
-            <br>
-            <a href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
-                {{ notification }} {{ notification.time_sent|timesince }} ago.
-                {% if notification.is_unread %}
-                    UNREAD
-                {% endif %}
-            </a>
-            <hr>
-            <a href="{% url 'profiles:notification-delete' request.user.usertag notification.id %}">
-                X
-            </a>
-        {% endfor %}
-    </div>
+<div class="utility-bar">
+  <ul class="button-list">
+  </ul>
+  <ul class="button-list">
+    <li>
+    <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
+    </li>
+  </ul>
 </div>
+<ul class="container-list space-between-list">
+  {% for notification in notifications %}
+  <li {% if notification.is_unread %} class="highlight-container"> {% endif %}
+    <a href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
+      {{ notification }} {{ notification.time_sent|timesince }} ago.
+    </a>
+    <a class="fit-content" href="{% url 'profiles:notification-delete' request.user.usertag notification.id %}">
+      <img src="#">
+    </a>
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}

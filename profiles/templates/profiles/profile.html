@@ -5,7 +5,7 @@
 <link type="text/css" rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/post-template.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/comment-template.css' %}">
-<link type="text/css" rel="stylesheet" href="{% static 'core/css/list-template.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -28,7 +28,7 @@
         {% endif %}
       </li>
       {% if request.user == user %}
-        <li><a href="{% url 'profiles:settings' user.usertag %}">Edit Profile</a></li>
+      <li><a href="{% url 'profiles:settings' user.usertag %}">Edit Profile</a></li>
       {% endif %}
       <li><a href="#">...</a></li>
     </ul>
@@ -39,14 +39,41 @@
     {% endif %}
   </div>
 </div>
-{% include 'core/profile-list-template.html' %}
+<div class="utility-bar">
+  <ul class="button-list">
+    <li>
+      <a href="{% url 'profiles:posts' request.user.usertag %}">Posts</a>
+    </li>
+    <li>
+      <a href="{% url 'profiles:comments' request.user.usertag %}">Comments</a>
+    </li>
+  </ul>
+  <ul class="button-list"></ul>
+</div>
+{% if posts %}
+<ul class="post-list container-list">
+  {% for post in posts %}
+  <li onclick="window.location.href='/post/{{ post.id }}'">
+    {% include 'core/post-template.html' %}
+  </li>
+  {% endfor %}
+</ul>
+{% elif comments %}
+<ul class="comment-list container-list">
+  {% for comment in comments %}
+  <li>
+    {% include 'core/comment-template.html' %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endblock %}
 {% block rightbar %}
-  Followers: {{ user.followers_count }}
-  <br>
-  Posts: {{ user.post_total }}
-  <br>
-  Comments: {{ user.comment_total }}
-  <br>
-  Points: {{ points }}
+Followers: {{ user.followers_count }}
+<br>
+Posts: {{ user.post_total }}
+<br>
+Comments: {{ user.comment_total }}
+<br>
+Points: {{ points }}
 {% endblock %}

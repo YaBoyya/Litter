@@ -21,6 +21,10 @@
   background-color: var(--color2);
   color: var(--color5);
 }
+.highlight-container, .highlight-container-list>* {
+  background-color: var(--highlight2);
+  color: var(--highlight5);
+}
 #nav-list>* {
   background-color: var(--color3);
   border-color: var(--border-color);
@@ -28,7 +32,7 @@
 }
 #nav-list>*:hover {
   background-color: var(--highlight3);
-  color: var(--color1);
+  color: var(--highlight1);
 }
 input[type="text"], .button, .button-list>*, input[type="password"],
 input[type="email"], input[type="submit"], textarea, button, .flag-list>*, .flag
@@ -176,7 +180,7 @@ body>div {
   padding: var(--huge-gap);
 }
 .container-list>* {
-  margin-bottom:  var(--big-gap);
+  margin-top:  var(--big-gap);
 }
 #main {
   width: 60%;
