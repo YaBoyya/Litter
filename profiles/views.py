@@ -203,4 +203,3 @@ def notification_redirect(request, usertag, pk):
     notif.is_unread = False
     notif.save()
     return redirect(notif.object_url)
-# TODO profile pick change form
