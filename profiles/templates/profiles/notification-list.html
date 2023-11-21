@@ -12,8 +12,10 @@
   </ul>
   <ul class="button-list">
     <li>
-    <a href="{% url 'profiles:notification-read-all' request.user.usertag %}">READ ALL</a>
-    <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
+      <a href="{% url 'profiles:notification-read-all' request.user.usertag %}">READ ALL</a>
+    </li>
+    <li>
+      <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
     </li>
   </ul>
 </div>
