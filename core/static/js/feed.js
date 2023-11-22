@@ -1,18 +1,23 @@
 function searchTagE() {
-  let text = event.target.value.toLowerCase()
-  let list = event.target.parentNode.getElementsByTagName("ul")[0]
-  var counter = 0;
-  for(let li of list.children) {
-    if(!li.textContent.toLowerCase().includes(text) || counter>4) {
-      li.style.display = "none"
-      li.style.visibility = "collapse"
-    } else {
-      li.style.display = "block"
-      li.style.visibility = "visible"
-      counter++;
+  let timer = 0
+  function real(event) {
+    clearTimeout(timer)
+    let text = event.target.value.toLowerCase()
+    let list = event.target.parentNode.getElementsByTagName("ul")[0]
+    var counter = 0;
+    for(let li of list.children) {
+      if(!li.textContent.toLowerCase().trim().startsWith(text) || counter>4) {
+        li.style.display = "none"
+        li.style.visibility = "collapse"
+      } else {
+        li.style.display = "block"
+        li.style.visibility = "visible"
+        counter++;
+      }
+      styleTagSearch()
     }
-    styleTagSearch()
   }
+  timer = setTimeout(real.bind(this,event), 150)
 }
 
 function collapseTagSearchE() {
@@ -52,20 +57,44 @@ function showTagSearch() {
 }
 
 function styleTagSearch() {
-  let liList =  Array.from(document.getElementById("new-post-new-tag")
-    .getElementsByClassName("search-hint")[0].getElementsByTagName("li"))
-    .filter((x)=>getComputedStyle(x).visibility=="visible")
-  for(let i=0;i<liList.length-1;i++) {
-    liList[i].style.borderBottomColor = "var(--border-color)";
-    liList[i].style.borderRadius = "0"
-    initTag(liList[i])
-  }
-  if(liList.length>1)
-    liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
+  refreshPopupMenu(document.getElementById("new-post-new-tag")
+    .getElementsByClassName("popup-menu")[0])
 }
 
 function postCreateShow() {
   document.getElementById("new-post-container").style.visibility = "visible"
   document.getElementById("new-post-container").style.display = "block"
   popupSetState(true)
+}
+
+function sortPopupE(state) {
+  let parent = event.target.parentNode
+  let menu = parent.getElementsByClassName("popup-menu")[0]
+  let button = menu.parentNode.firstElementChild
+  if(state) {
+    menu.style.visibility = "visible"
+    menu.style.display = "block"
+    button.style.borderRadius = "var(--radius) var(--radius) 0 0"
+  } else {
+    menu.style.visibility = "collapse"
+    menu.style.display = "none"
+    button.style.borderRadius = "var(--radius)"
+  }
+}
+
+function sortPopupInit() {
+  let sort = document.getElementById("sort") 
+  let button = sort.firstElementChild
+  let lis = sort.getElementsByClassName("popup-menu")[0].getElementsByTagName("li")
+  for(let li of lis) {
+    if(li.textContent.trim()===button.textContent.trim()) {
+      li.style.visibility = "collapse"
+      li.style.display = "none"
+    }
+  }
+  
+}
+
+function initFeed() {
+  sortPopupInit()
 }

@@ -57,9 +57,6 @@ input[type="file"]::file-selector-button:hover {
 /*}}}*/
 
 /* GENERAL STYLES {{{*/
-html, body {
-  overflow: unset;
-}
 *, *::file-selector-button {
   all: unset;
   margin: 0;
@@ -69,7 +66,7 @@ html, body {
   outline: none;
   border-radius: var(--radius);
   display: block;
-  overflow: hidden;
+  text-overflow: ellipsis;
 }
 div, ul, form, p, label {
   border-radius:  0;
@@ -200,6 +197,10 @@ body>* {
 .container-list>* {
   margin-top:  var(--big-gap);
 }
+.popup-menu>* {
+  width: 100%;
+  height: fit-content;
+}
 #main {
   width: 60%;
 }
@@ -252,11 +253,23 @@ body>* {
 #popup, #popup-background {
   visibility: hidden;
 }
-.search-hint {
-  /*
-  visibility: collapse;
-  display: none;
-  */
+.popup-menu {
   position: absolute;
+  margin: auto;
+  border-radius: 0;
+}
+.popup-menu>* {
+  padding: var(--small-gap);
+  border-top-style: none;
+  border-radius: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+#nav-list>* {
+  overflow: hidden;
+}
+.container, .container-list>*, .button, .button-list>* {
+  overflow: hidden;
 }
 /*}}}*/

@@ -20,9 +20,16 @@
     </li>
     {% endif %}
   </ul>
-  <ul class="button-list">
-    <li id="sort">
-      <a class="center" href="#" >New</a>
+  <ul>
+    <li id="sort" onmouseleave="sortPopupE(false)">
+      <a class="center button" onclick="sortPopupE(true)">
+        New
+      </a>
+      <ul class="popup-menu button-list">
+        <li><a href="#">New</a></li>
+        <li><a href="#">Hot</a></li>
+        <li><a href="#">Top</a></li>
+      </ul>
     </li>
   </ul>
 </div>
@@ -51,7 +58,7 @@
           <input onkeyup="searchTagE()"
                  onfocusout="collapseTagSearchE()" type="search"
                                                    class="tag">
-          <ul class="search-hint button-list tag-list">
+          <ul class="popup-menu button-list tag-list">
             {% for lang in post.languages %}
             <li onmousedown="searchPickTagE()">{{ lang }}</li>
             {% endfor %}
@@ -77,18 +84,28 @@
   </div>
   <ul class="button-list tag-list">
     {% for trend in form.trend %} 
-    <li><input type="radio" name="trend"
+    <li>
+      <input type="radio" name="trend"
                             value="{{ trend.data.value }}"
                             selected="{{ trend.data.selected }}"
-                            {% if trend.data.attrs.checked %} checked=True {% endif %}>{{ trend.data.label }}</li>
+                            {% if trend.data.attrs.checked %} 
+                            checked=True
+                            {% endif %}>
+      {{ trend.data.label }}
+    </li>
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
     {% for diff in form.difficulty %}
-    <li><input type="radio" name="difficulty"
+    <li>
+      <input type="radio" name="difficulty"
                             value="{{ diff.data.value }}"
                             selected="{{ diff.data.selected }}"
-                            {% if diff.data.attrs.checked %} checked=True {% endif %}>{{ diff.data.label }}</li>
+                            {% if diff.data.attrs.checked %} 
+                            checked=True 
+                            {% endif %}>
+      {{ diff.data.label }}
+    </li>
     {% endfor %}
   </ul>
   <ul class="button-list tag-list">
@@ -97,7 +114,9 @@
       <input type="checkbox" name="languages"
                              value="{{ tag.data.value }}"
                              selected="{{ tag.data.selected }}"
-                             {% if tag.data.attrs.checked %} checked=True {% endif %}>
+                             {% if tag.data.attrs.checked %}
+                             checked=True
+                             {% endif %}>
       {{ tag.data.label }}
     </li>
     {% endfor %}

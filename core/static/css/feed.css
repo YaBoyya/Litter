@@ -36,22 +36,11 @@
 }
 #new-post-new-tag ul {
   width: 7rem;
-  overflow: scroll;
-  margin: auto;
-  border-radius: 0;
 }
-#new-post-new-tag ul li {
+#new-post-new-tag ul>* {
   width: 100%;
-  height: fit-content;
-  padding: var(--small-gap);
-  border-top-style: none;
-  border-radius: 0;
-  margin: 0;
-  visibility: collapse;
   display: none;
-  overflow: wrap;
-  overflow-wrap: anywhere;
-  hyphens: auto;
+  visibility: collapse;
 }
 #new-post-tag-list {
   flex-grow: 0;
@@ -60,4 +49,13 @@
 }
 #new-post-submit {
   padding: var(--small-gap);
+}
+#sort {
+  overflow: visible;
+}
+#sort>ul {
+  position: absolute;
+  visibility: collapse;
+  display: none;
+  width: 100%;
 }

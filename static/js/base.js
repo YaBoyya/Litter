@@ -8,7 +8,7 @@ let langs = new Map([
   ["M", "#ffff00"],
   ["H", "#ff0000"],
   ["C", "#0000ff"],
-  ["Javascript", "#5E1DB8"],
+  ["JavaScript", "#5E1DB8"],
   ["Java", "#C5D5E9"],
   ["Python", "#19125D"],
   ["Cpp", "#07CE0B"],
@@ -24,6 +24,14 @@ class Post {
   constructor(id, upvoted) {
     this.id = id
     this.upvoted = upvoted
+  }
+}
+
+function delay(fn, ms) {
+  let timer = 0
+  return function(...args) {
+    clearTimeout(timer)
+    timer = setTimeout(fn.bind(this, ...args), ms || 0)
   }
 }
 
@@ -185,7 +193,7 @@ function removeElement() {
 }
 
 function initTag(tag) {
-  tag.style.borderColor = langs.get(tag.textContent)
+  tag.style.borderColor = langs.get(tag.textContent.trim())
 }
 
 function initTags() {
@@ -196,15 +204,39 @@ function initTags() {
   }
 }
 
+function refreshPopupMenu(menu) {
+  let liList = Array.from(menu.getElementsByTagName("li"))
+  let visible = liList.filter((x)=>getComputedStyle(x).visibility=="visible")
+  for(let i=0;i<visible.length-1;i++) {
+    visible[i].style.borderBottomColor = "var(--border-color)";
+    visible[i].style.borderRadius = "0"
+  }
+  if(visible.length>1)
+    visible[visible.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
+}
+
+function initPopupMenus() {
+  for(let m of document.getElementsByClassName("popup-menu")) {
+    let liList = Array.from(m.getElementsByTagName("li"))
+    for(let i=0;i<liList.length-1;i++) {
+      liList[i].style.borderBottomColor = "var(--border-color)";
+      liList[i].style.borderRadius = "0"
+    }
+    liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
+  }
+}
+
 function onLoad() {
   randomPalette()
   initTags()
+  initPopupMenus()
+  if(initFeed) initFeed()
   for (let ul of document.getElementsByClassName("tag-list")) {
     if (ul.classList.contains("button-list")) {
       for (let li of ul.children) {
         if (li.firstElementChild instanceof HTMLInputElement) {
           li.addEventListener("click", selectTagE)
-          if(li.firstChild.checked) {
+          if(li.firstElementChild.checked) {
             setTagState(li, true)
           }
         }
