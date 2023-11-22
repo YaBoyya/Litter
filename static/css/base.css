@@ -259,12 +259,14 @@ body>* {
   border-radius: 0;
 }
 .popup-menu>* {
-  padding: var(--small-gap);
   border-top-style: none;
   border-radius: 0;
   margin: 0;
   overflow-wrap: anywhere;
   hyphens: auto;
+}
+.popup-menu>*>a {
+  padding: var(--small-gap);
 }
 #nav-list>* {
   overflow: hidden;
