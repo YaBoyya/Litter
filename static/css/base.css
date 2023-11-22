@@ -88,10 +88,6 @@ input[type="submit"], button, input[type="file"]::file-selector-button {
   cursor: pointer;
   min-width: fit-content;
 }
-input[type="checkbox"] {
-  visibility: collapse;
-  display: none;
-}
 input[type="text"], input[type="password"], input[type="email"], textarea {
   flex-grow: 1;
   margin-right: var(--tiny-gap);

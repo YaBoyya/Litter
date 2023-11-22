@@ -52,6 +52,7 @@
 }
 #sort {
   overflow: visible;
+  width: 3.5rem;
 }
 #sort>ul {
   position: absolute;
