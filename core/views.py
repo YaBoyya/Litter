@@ -55,6 +55,33 @@ def feed(request, trend=None):
     return render(request, 'core/feed.html', context)
 
 
+def search(request):
+    form = SearchForm(request.GET, auto_id=False)
+    q = form.data.get('q', '')
+    # trend = form.data.get('trend', '')
+    languages = form.data.getlist('languages', None)
+    print(languages)
+    difficulty = form.data.get('difficulty', None)
+
+    # form = SearchForm(request.GET, auto_id=False, instance=form)
+    if q:
+        # TODO check if it works with .select_related('vote')
+        posts = Post.objects.select_related('user').filter(
+                                    Q(title__icontains=q)
+                                    | Q(text__icontains=q)
+                                    | Q(languages__name__icontains=q))
+    else:
+        posts = Post.objects.select_related('user').all().order_by('-created')
+
+    if difficulty:
+        posts = posts.filter(difficulty=difficulty)
+
+    if languages:
+        posts = posts.filter(languages__name__in=languages)
+    context = {'posts': posts, 'q': q, 'form': form}
+    return render(request, 'core/search.html', context)
+
+
 @login_required(login_url='users:login')
 @author_only(obj=Post, message="You cannot delete this post.")
 def post_delete(request, pk):

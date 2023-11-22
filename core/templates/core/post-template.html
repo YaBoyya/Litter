@@ -2,7 +2,6 @@
   <div class="space-between post-margin">
     <ul class="flex center-vert-list post-info">
       <li>
-        {# TODO set static values for profile pictures dimensions or make them or square ■ because some pics become oval #}
         <a href="{% url 'profiles:posts' post.user.usertag %}" class="clickable">
         <img src="{{ post.user.picture.url }}">
         </a>
