@@ -4,34 +4,21 @@
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}" type="text/css">
 <script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
 <script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+{% cache 10 posts %}
 <div class="utility-bar">
   <ul class="button-list">
-    {% if user.is_authenticated %}
-    <li>
-      <a onclick="postCreateShow()">+ POST</a>
-    </li>
-    {% endif %}
-  </ul>
-  <ul class="button-list">
     <li id="sort">
-      <a class="center" href="{% url 'core:feed-filtered' 'new' %}" >New</a>
-    </li>
-    <li id="sort">
-      <a class="center" href="{% url 'core:feed-filtered' 'hot' %}" >Hot</a>
-    </li>
-    <li id="sort">
-      <a class="center" href="{% url 'core:feed-filtered' 'top' %}" >Top</a>
+      <a class="center" href="#" >New</a>
     </li>
   </ul>
 </div>
-{% cache 10 posts %}
 <ul class="post-list container-list">
   {% for post in posts %}
   <li onclick="window.location.href='/post/{{ post.id }}'">
@@ -42,43 +29,13 @@
 {% endcache %}
 {% endblock %}
 
-{% block popup %}
-{% with post_form as post %}
-<div id="new-post-container" class="container">
-  <form method="POST" enctype="multipart/form-data" action="{% url 'core:search' %}">
-    {% csrf_token %}
-    {{ post.title }}
-    {{ post.text }}
-    {{ post.picture }}
-    <div class="flex center-vert">
-      <ul class="tag-list center-vert clickable-list" id="new-post-tag-list">
-        <li>{{ post.difficulty }}</li>
-        <li id="new-post-new-tag">
-          <input onkeyup="searchTagE()"
-                 onfocusout="collapseTagSearchE()" type="search"
-                                                   class="tag">
-          <ul class="search-hint button-list tag-list">
-            {% for lang in post.languages %}
-            <li onmousedown="searchPickTagE()">{{ lang }}</li>
-            {% endfor %}
-          </ul>
-        </li>
-        <li onclick="showTagSearch()">+</li>
-      </ul>
-      <button id="new-post-submit" type="submit">Create</button>
-    </div>
-  </form>
-</div>
-{% endwith %}
-{% endblock %}
-
 
 {% block rightbar %}
 <form method='GET'>
   <div id="search" class="center-vert">
     {{ form.q }}
-    <button type="submit" class="button fill-img round">
-      <a href="{% url 'core:search' %}"><img src="images/search.jpg"></a>
+    <button class="button fill-img round">
+      <img src="images/search.jpg">
     </button>
   </div>
   <ul class="button-list tag-list">

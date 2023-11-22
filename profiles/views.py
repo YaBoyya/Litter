@@ -11,7 +11,7 @@ from .decorators import owner_only
 from .forms import EmailForm, LanguageTagForm, ProfileForm
 from .models import Notification
 from core.models import Post, Comment
-from users.models import LitterUser, UserFollowing
+from users.models import LitterUser
 
 
 def profile_posts(request, usertag):
@@ -23,8 +23,7 @@ def profile_posts(request, usertag):
         ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
     points = post_points['pts'] + comment_points['pts']
 
-    is_followed = UserFollowing.objects.filter(user=request.user.id,
-                                               followed_user=user).exists()
+    is_followed = request.user in user.followers.all()
 
     context = {'posts': posts, 'user': user,
                'is_followed': is_followed, 'points': points}
@@ -43,8 +42,7 @@ def profile_comments(request, usertag):
     points = post_points['pts'] + comment_points['pts']
 
     user = get_object_or_404(LitterUser, usertag=usertag)
-    is_followed = UserFollowing.objects.filter(user=request.user.id,
-                                               followed_user=user).exists()
+    is_followed = request.user in user.followers.all()
 
     context = {'comments': comments, 'user': user,
                'is_followed': is_followed, 'points': points}
@@ -54,22 +52,18 @@ def profile_comments(request, usertag):
 @login_required(login_url='users:login')
 def profile_following(request, usertag):
     """
-    Will create a UserFollowing object,
+    Will create a follow object in m2m relations,
     if it already exists it will be deleted
     """
     # TODO AJAX this
     user_to_follow = get_object_or_404(LitterUser, usertag=usertag)
-    try:
-        follow = UserFollowing.objects.get(user=request.user.id,
-                                           followed_user=user_to_follow)
-    except (UserFollowing.DoesNotExist):
-        follow = None
+
+    follow = request.user in user_to_follow.followers.all()
 
     if follow:
-        follow.delete()
+        user_to_follow.followers.remove(request.user)
     else:
-        UserFollowing.objects.create(user=request.user,
-                                     followed_user=user_to_follow)
+        user_to_follow.followers.add(request.user)
         Notification.objects.create(
             recipient=user_to_follow,
             sender=request.user,

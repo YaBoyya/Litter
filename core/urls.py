@@ -6,6 +6,7 @@ from . import views
 app_name = "core"
 urlpatterns = [
     path('', views.feed, name="feed"),
+    path('filter/<str:trend>', views.feed, name="feed-filtered"),
 
     path('post/<str:pk>', views.post_details, name='post-details'),
     path('post/<str:pk>/edit', views.post_edit, name="post-edit"),
