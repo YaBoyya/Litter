@@ -25,9 +25,9 @@
         New
       </a>
       <ul class="popup-menu button-list">
-        <li><a href="{% url 'core:feed-filtered' 'new' %}">New</a></li>
-        <li><a href="{% url 'core:feed-filtered' 'hot' %}">Hot</a></li>
-        <li><a href="{% url 'core:feed-filtered' 'top' %}">Top</a></li>
+        <li><a href="{% url 'core:feed-filtered' page 'new' %}">New</a></li>
+        <li><a href="{% url 'core:feed-filtered' page 'hot' %}">Hot</a></li>
+        <li><a href="{% url 'core:feed-filtered' page 'top' %}">Top</a></li>
       </ul>
     </li>
   </ul>

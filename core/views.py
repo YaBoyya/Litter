@@ -12,7 +12,7 @@ from profiles.models import Notification
 
 # TODO multiple images per post
 # TODO sorting by Hot, New etc
-def feed(request, trend=None):
+def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
@@ -26,32 +26,31 @@ def feed(request, trend=None):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
+    posts = Post.objects.all()
+
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
-        trend = 'hot'
+        page == 'popular'
+
+    if page == 'home':
+        posts = posts.filter(
+            Q(user__languages__in=request.user.languages.all())
+            | Q(user__in=request.user.following.all())
+        )
 
     if trend == 'new':
-        posts = Post.objects.select_related('user').order_by('-created')
+        posts = posts.select_related('user').order_by('-created')
     elif trend == 'hot':
-        posts = Post.objects.select_related('user').order_by(
+        posts = posts.select_related('user').order_by(
             '-created',
             '-vote_count',
             '-comment_count',
             )
     elif trend == 'top':
-        posts = Post.objects.select_related(
+        posts = posts.select_related(
             'user').order_by('-vote_count')
-    else:
-        print(request.user.followers.all())
-        posts = Post.objects.filter(
-            Q(user__languages__in=request.user.languages.all())
-            | Q(user__in=request.user.following.all())
-        ).order_by(
-            '-created',
-            '-vote_count',
-            '-comment_count',
-            )
-    context = {'posts': posts, 'trend': trend, 'post_form': PostForm()}
+    context = {'posts': posts, 'trend': trend,
+               'page': page, 'post_form': PostForm()}
     return render(request, 'core/feed.html', context)
 
 
