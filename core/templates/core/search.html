@@ -11,14 +11,8 @@
 {% endblock %}
 
 {% block content %}
+{% include 'core/feed-bar.html' %}
 {% cache 10 posts %}
-<div class="utility-bar">
-  <ul class="button-list">
-    <li id="sort">
-      <a class="center" href="#" >New</a>
-    </li>
-  </ul>
-</div>
 <ul class="post-list container-list">
   {% for post in posts %}
   <li onclick="window.location.href='/post/{{ post.id }}'">

@@ -11,27 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="utility-bar">
-  <ul class="button-list">
-    {% if user.is_authenticated %}
-    <li>
-      <a onclick="postCreateShow()">+ POST</a>
-    </li>
-    {% endif %}
-  </ul>
-  <ul>
-    <li id="sort" onmouseleave="sortPopupE(false)">
-      <a class="center button" onclick="sortPopupE(true)">
-        {{ trend }}
-      </a>
-      <ul class="popup-menu button-list center-list">
-        <li><a href="{% url 'core:feed-filtered' 'new' %}">New</a></li>
-        <li><a href="{% url 'core:feed-filtered' 'hot' %}">Hot</a></li>
-        <li><a href="{% url 'core:feed-filtered' 'top' %}">Top</a></li>
-      </ul>
-    </li>
-  </ul>
-</div>
+{% include 'core/feed-bar.html' %}
 {% cache 10 posts %}
 <ul class="post-list container-list">
   {% for post in posts %}
