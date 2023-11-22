@@ -8,6 +8,8 @@ urlpatterns = [
     path('', views.feed, name="feed"),
     path('filter/<str:trend>', views.feed, name="feed-filtered"),
 
+    path('search', views.search, name="search"),
+
     path('post/<str:pk>', views.post_details, name='post-details'),
     path('post/<str:pk>/edit', views.post_edit, name="post-edit"),
     path('post/<str:pk>/delete', views.post_delete, name="post-delete"),

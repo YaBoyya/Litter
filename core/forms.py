@@ -64,8 +64,6 @@ class SearchForm(forms.ModelForm):
                 'name', flat=True)[:10],
         widget=forms.CheckboxSelectMultiple()
     )
-# onclick="document.getElementById('dmsmh_chk').checked
-# = !document.getElementById('dmsmh_chk').checked;"
 
     class Meta:
         model = Post
