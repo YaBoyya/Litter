@@ -6,7 +6,6 @@
 .utility-bar>ul>li {
   height: 3.5rem;
   position: relative;
-  margin-bottom: var(--small-gap);
   width: auto;
 }
 .utility-bar>ul {
