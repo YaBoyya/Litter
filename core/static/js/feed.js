@@ -83,7 +83,7 @@ function sortPopupE(state) {
 }
 
 function sortPopupInit() {
-  let sort = document.getElementById("sort") 
+  let sort = document.getElementById("sort")
   let button = sort.firstElementChild
   let lis = sort.getElementsByClassName("popup-menu")[0].getElementsByTagName("li")
   for(let li of lis) {
@@ -92,7 +92,6 @@ function sortPopupInit() {
       li.style.display = "none"
     }
   }
-  
 }
 
 function initFeed() {

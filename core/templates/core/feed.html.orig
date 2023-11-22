@@ -19,16 +19,28 @@
     </li>
     {% endif %}
   </ul>
+<<<<<<< HEAD
   <ul>
     <li id="sort" onmouseleave="sortPopupE(false)">
       <a class="center button" onclick="sortPopupE(true)">
         New
       </a>
       <ul class="popup-menu button-list">
-        <li><a href="{% url 'core:feed-filtered' 'new' %}">New</a></li>
-        <li><a href="{% url 'core:feed-filtered' 'hot' %}">Hot</a></li>
-        <li><a href="{% url 'core:feed-filtered' 'top' %}">Top</a></li>
+        <li><a href="#">New</a></li>
+        <li><a href="#">Hot</a></li>
+        <li><a href="#">Top</a></li>
       </ul>
+=======
+  <ul class="button-list">
+    <li id="sort">
+      <a class="center" href="{% url 'core:feed-filtered' 'new' %}" >New</a>
+    </li>
+    <li id="sort">
+      <a class="center" href="{% url 'core:feed-filtered' 'hot' %}" >Hot</a>
+    </li>
+    <li id="sort">
+      <a class="center" href="{% url 'core:feed-filtered' 'top' %}" >Top</a>
+>>>>>>> production
     </li>
   </ul>
 </div>

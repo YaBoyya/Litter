@@ -222,7 +222,8 @@ function initPopupMenus() {
       liList[i].style.borderBottomColor = "var(--border-color)";
       liList[i].style.borderRadius = "0"
     }
-    liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
+    if(liList.length>1)
+      liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
   }
 }
 

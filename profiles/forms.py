@@ -22,6 +22,7 @@ class EmailForm(forms.ModelForm):
 
 class LanguageTagForm(forms.ModelForm):
     languages = forms.ModelMultipleChoiceField(
+        required=False,
         queryset=Language.objects.all(),
         widget=forms.CheckboxSelectMultiple()
     )

@@ -31,7 +31,6 @@ class LitterUserManager(UserManager):
 
 class LitterUser(AbstractUser):
     email = models.EmailField(_("email address"), error_messages={'unique': "This email has already been registered."})  # noqa
-    languages = models.ManyToManyField('core.Language')
     username = models.CharField(
         _("username"),
         max_length=150
@@ -49,6 +48,9 @@ class LitterUser(AbstractUser):
             "unique": _("A user with that usertag already exists."),
         },
     )
+    following = models.ManyToManyField('self', related_name='followers',
+                                       symmetrical=False)
+    languages = models.ManyToManyField('core.Language')
     bio = models.TextField(_("Bio"), max_length=200, null=True, blank=True)
     picture = models.ImageField(default='default_pp.png',
                                 upload_to=PathAndRename(
@@ -63,26 +65,3 @@ class LitterUser(AbstractUser):
             absolute_path = os.path.join(root, relative_path)
             os.remove(absolute_path)
         super().delete()
-
-
-class UserFollowing(models.Model):
-    """
-    If you filter user=request.user, you'll get what he is following
-    and if you filter following_user=request.user, you'll get his followers
-    """
-    # is following
-    user = models.ForeignKey(LitterUser, related_name="following",
-                             on_delete=models.CASCADE)
-    # is being followed
-    followed_user = models.ForeignKey(LitterUser, related_name="followers",
-                                      on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'followed_user'],
-                                    name="unique_followers")
-            ]
-
-    def __str__(self):
-        return f'{self.user.usertag} follows {self.followed_user.usertag}.'
