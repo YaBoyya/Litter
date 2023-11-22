@@ -13,7 +13,6 @@ from profiles.models import Notification
 # TODO multiple images per post
 # TODO sorting by Hot, New etc
 def feed(request, trend=None):
-    print(PostForm(request.POST, request.FILES).data)
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
@@ -23,7 +22,9 @@ def feed(request, trend=None):
             post_form.save_m2m()
             return redirect('core:feed')
 
-    form = SearchForm(request.GET, auto_id=False)
+    if request.GET.get('q') is not None:
+        request.session['q'] = request.GET.get('q')
+        return redirect('core:search')
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
@@ -50,28 +51,27 @@ def feed(request, trend=None):
             '-vote_count',
             '-comment_count',
             )
-    print(posts.values)
-    context = {'posts': posts, 'form': form}
+    context = {'posts': posts, 'trend': trend, 'post_form': PostForm()}
     return render(request, 'core/feed.html', context)
 
 
 def search(request):
     form = SearchForm(request.GET, auto_id=False)
-    q = form.data.get('q', '')
+    q = request.session.pop('q', form.data.get('q', ''))
     # trend = form.data.get('trend', '')
     languages = form.data.getlist('languages', None)
     print(languages)
     difficulty = form.data.get('difficulty', None)
 
-    # form = SearchForm(request.GET, auto_id=False, instance=form)
+    posts = Post.objects.select_related('user').order_by('-created')
+
     if q:
         # TODO check if it works with .select_related('vote')
-        posts = Post.objects.select_related('user').filter(
-                                    Q(title__icontains=q)
-                                    | Q(text__icontains=q)
-                                    | Q(languages__name__icontains=q))
-    else:
-        posts = Post.objects.select_related('user').all().order_by('-created')
+        posts = posts.filter(
+                            Q(title__icontains=q)
+                            | Q(text__icontains=q)
+                            | Q(languages__name__icontains=q)
+                            ).order_by('-created')
 
     if difficulty:
         posts = posts.filter(difficulty=difficulty)
