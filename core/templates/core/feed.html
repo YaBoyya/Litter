@@ -45,7 +45,7 @@
 {% block popup %}
 {% with post_form as post %}
 <div id="new-post-container" class="container">
-  <form method="POST" enctype="multipart/form-data" action="{% url 'core:search' %}">
+  <form method="POST" enctype="multipart/form-data" action="{#% url 'core:search' %#}">
     {% csrf_token %}
     {{ post.title }}
     {{ post.text }}
@@ -78,7 +78,7 @@
   <div id="search" class="center-vert">
     {{ form.q }}
     <button type="submit" class="button fill-img round">
-      <a href="{% url 'core:search' %}"><img src="images/search.jpg"></a>
+      <a href="{#% url 'core:search' %#}"><img src="images/search.jpg"></a>
     </button>
   </div>
   <ul class="button-list tag-list">
