@@ -219,7 +219,7 @@ body>* {
   height: fit-content;
 }
 #popup-background {
-  position: absolute;
+  position: fixed;
   top: var(--big-gap);
   left: 0;
   right: 0;
