@@ -142,6 +142,7 @@ STATICFILES_DIRS = [
     ('root', os.path.join(BASE_DIR, 'static')),
     ('core', os.path.join(BASE_DIR, 'core/static')),
     ('profiles', os.path.join(BASE_DIR, 'profiles/static')),
+    ('users', os.path.join(BASE_DIR, 'users/static')),
 ]
 
 

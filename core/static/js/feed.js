@@ -36,13 +36,13 @@ function searchPickTagE() {
   li.addEventListener("click", removeElement)
   initTag(li)
   li.id = id
-  let ul = document.getElementById("new-post-tag-list")
+  let ul = document.getElementsByClassName("edit-post-tag-list")[0]
   let ulLis = ul.children
   ul.insertBefore(li, ulLis[ulLis.length-2])
 }
 
 function showTagSearch() {
-  let li = document.getElementById("new-post-new-tag")
+  let li = document.getElementsByClassName("edit-post-new-tag")[0]
   li.style.visibility="visible"
   li.style.display="block"
   li.getElementsByTagName("input")[0].focus()
@@ -57,13 +57,16 @@ function showTagSearch() {
 }
 
 function styleTagSearch() {
-  refreshPopupMenu(document.getElementById("new-post-new-tag")
-    .getElementsByClassName("popup-menu")[0])
+  for(let i of document.getElementsByClassName("edit-post-new-tag")[0]
+    .getElementsByClassName("popup-menu")) {
+    refreshPopupMenu(i)
+  }
+
 }
 
 function postCreateShow() {
-  document.getElementById("new-post-container").style.visibility = "visible"
-  document.getElementById("new-post-container").style.display = "block"
+  document.getElementsByClassName("edit-post-container")[0].style.visibility = "visible"
+  document.getElementsByClassName("edit-post-container")[0].style.display = "block"
   popupSetState(true)
 }
 

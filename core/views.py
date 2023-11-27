@@ -125,7 +125,7 @@ def post_edit(request, pk):
     context = {'post': post}
     if request.method != 'POST':
         context.update({'form': PostForm(instance=post)})
-        return render(request, 'edit.html', context)
+        return render(request, 'core/post-edit.html', context)
 
     form = PostForm(request.POST, instance=post)
     if not form.is_valid():

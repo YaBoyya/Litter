@@ -1,19 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'fakepopup.html' %}
+{% load static %}
+
+{% block cssjs %}
+<link type="text/css" rel="stylesheet" href="{% static 'users/css/login-register.css' %}">
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        {% if type == 'register' %}
-            <form method='POST'>
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Signup">
-            <form>
-        {% else %}
-            <form method='POST'>
-                {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" value="Login">
-            </form>
-        {% endif %}
-    </div> 
+{% if type == 'register' %}
+<span class="center-hor">
+  Register
+</span>
+<form method='POST' class="center-list">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <span class="right-align">
+    <input type="submit" value="Signup">
+  </span>
+</form>
+{% else %}
+<span class="center-hor">
+  Login
+</span>
+<form method='POST' class="center-list">
+  {% csrf_token %}
+  {{form.as_p}}
+  <span class="right-align">
+    <input type="submit" value="Login">
+  </span>
+</form>
+{% endif %}
 {% endblock %}
