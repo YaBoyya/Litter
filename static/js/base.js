@@ -218,6 +218,7 @@ function refreshPopupMenu(menu) {
 function initPopupMenus() {
   for(let m of document.getElementsByClassName("popup-menu")) {
     let liList = Array.from(m.getElementsByTagName("li"))
+      .filter(x=>x.style.visibility!="collapse")
     for(let i=0;i<liList.length-1;i++) {
       liList[i].style.borderBottomColor = "var(--border-color)";
       liList[i].style.borderRadius = "0"
@@ -229,9 +230,9 @@ function initPopupMenus() {
 
 function onLoad() {
   randomPalette()
+  if(initFeed) initFeed()
   initTags()
   initPopupMenus()
-  if(initFeed) initFeed()
   for (let ul of document.getElementsByClassName("tag-list")) {
     if (ul.classList.contains("button-list")) {
       for (let li of ul.children) {

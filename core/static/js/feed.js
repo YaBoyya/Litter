@@ -61,7 +61,6 @@ function styleTagSearch() {
     .getElementsByClassName("popup-menu")) {
     refreshPopupMenu(i)
   }
-
 }
 
 function postCreateShow() {
