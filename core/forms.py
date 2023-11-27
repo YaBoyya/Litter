@@ -8,7 +8,7 @@ class PostForm(forms.ModelForm):
     title = forms.CharField(
         max_length=100,
         widget=forms.TextInput(
-            attrs={'id': 'new-post-title',
+            attrs={'class': 'edit-post-title',
                    'placeholder': 'Title'}
         )
     )
@@ -16,7 +16,7 @@ class PostForm(forms.ModelForm):
         required=False,
         max_length=500,
         widget=forms.Textarea(
-            attrs={'id': 'new-post-description',
+            attrs={'class': 'edit-post-description',
                    'plasceholder': 'Description'}
         )
     )

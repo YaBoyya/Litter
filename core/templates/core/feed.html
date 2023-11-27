@@ -25,16 +25,16 @@
 
 {% block popup %}
 {% with post_form as post %}
-<div id="new-post-container" class="container">
+<div class="container edit-post-container">
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ post.title }}
     {{ post.text }}
     {{ post.picture }}
     <div class="flex center-vert">
-      <ul class="tag-list center-vert clickable-list" id="new-post-tag-list">
+      <ul class="tag-list center-vert clickable-list edit-post-tag-list">
         <li>{{ post.difficulty }}</li>
-        <li id="new-post-new-tag">
+        <li class="edit-post-new-tag">
           <input onkeyup="searchTagE()"
                  onfocusout="collapseTagSearchE()" type="search"
                                                    class="tag">
@@ -46,7 +46,7 @@
         </li>
         <li onclick="showTagSearch()">+</li>
       </ul>
-      <button id="new-post-submit" type="submit">Create</button>
+      <button class="edit-post-submit" type="submit">Create</button>
     </div>
   </form>
 </div>
