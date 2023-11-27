@@ -22,7 +22,7 @@
   <ul>
     <li id="sort" onmouseleave="sortPopupE(false)">
       <a class="center button" onclick="sortPopupE(true)">
-        New
+        {{ trend }}
       </a>
       <ul class="popup-menu button-list">
         <li><a href="{% url 'core:feed-filtered' page 'new' %}">New</a></li>

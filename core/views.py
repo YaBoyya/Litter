@@ -11,7 +11,6 @@ from profiles.models import Notification
 
 
 # TODO multiple images per post
-# TODO sorting by Hot, New etc
 def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
@@ -30,7 +29,7 @@ def feed(request, page='home', trend='hot'):
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
-        page == 'popular'
+        page = 'popular'
 
     if page == 'home':
         posts = posts.filter(
