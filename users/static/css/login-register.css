@@ -1,0 +1,9 @@
+#main form>* {
+  margin-top: var(--huge-gap);
+}
+#main {
+  max-width: 35rem;
+}
+#main input {
+  padding: var(--big-gap);
+}
