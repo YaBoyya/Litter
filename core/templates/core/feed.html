@@ -24,22 +24,21 @@
 {% endblock %}
 
 {% block popup %}
-{% with post_form as post %}
 <div class="container edit-post-container">
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ post.title }}
-    {{ post.text }}
-    {{ post.picture }}
+    {{ form.title }}
+    {{ form.text }}
+    {{ form.picture }}
     <div class="flex center-vert">
       <ul class="tag-list center-vert clickable-list edit-post-tag-list">
-        <li>{{ post.difficulty }}</li>
+        <li>{{ form.difficulty }}</li>
         <li class="edit-post-new-tag">
           <input onkeyup="searchTagE()"
                  onfocusout="collapseTagSearchE()" type="search"
                                                    class="tag">
           <ul class="popup-menu button-list tag-list">
-            {% for lang in post.languages %}
+            {% for lang in form.languages %}
             <li onmousedown="searchPickTagE()">{{ lang }}</li>
             {% endfor %}
           </ul>
@@ -50,7 +49,6 @@
     </div>
   </form>
 </div>
-{% endwith %}
 {% endblock %}
 
 

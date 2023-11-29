@@ -49,7 +49,7 @@ def feed(request, page='home', trend='hot'):
         posts = posts.select_related(
             'user').order_by('-vote_count')
     context = {'posts': posts, 'trend': trend,
-               'page': page, 'post_form': PostForm()}
+               'page': page, 'form': PostForm()}
     return render(request, 'core/feed.html', context)
 
 
