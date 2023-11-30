@@ -90,6 +90,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Litter.wsgi.application'
 ASGI_APPLICATION = 'Litter.asgi.application'
+# TODO perhaps Redis itegration for production?
+# in memory is for local only
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer'
