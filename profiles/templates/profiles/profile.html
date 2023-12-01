@@ -20,6 +20,9 @@
     </div>
     <ul id="profile-buttons" class="flex button-list center-list">
       <li>
+        <a href="{% url 'chat:redirect' user.id %}">Message</a>
+      </li>
+      <li>
         {% if is_followed %}
         <a href="{% url 'profiles:follow' user.usertag %}">
           Unfollow
