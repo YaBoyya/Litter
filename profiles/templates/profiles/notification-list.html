@@ -21,7 +21,7 @@
 </div>
 <ul class="container-list space-between-list">
   {% for notification in notifications %}
-  <li {% if notification.is_unread %} class="highlight-container"> {% endif %}
+  <li {% if notification.is_unread %} class="highlight-container"{% endif %}>
     <a href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
       {{ notification }} {{ notification.time_sent|timesince }} ago.
     </a>
