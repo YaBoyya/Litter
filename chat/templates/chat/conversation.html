@@ -12,7 +12,11 @@
   {% endif %}
 </h2>
 <div id='messages'>
-          
+  {% for message in messages %}
+    <br><hr>
+    {{message.user.username}} {{message.sent|timesince}}<br>
+    {{message.text}}
+  {% endfor %}
 </div>
 <form id='form'>
   <input type="text" name="message"/>
