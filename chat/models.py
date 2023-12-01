@@ -9,7 +9,9 @@ class ChatRoom(models.Model):
 
 
 class Message(models.Model):
-    chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
+    # TODO change id to uuid4
+    chatroom = models.ForeignKey(ChatRoom, related_name="messages",
+                                 on_delete=models.CASCADE)
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
     text = models.CharField(_("Text"))
     sent = models.DateTimeField(auto_now_add=True)
