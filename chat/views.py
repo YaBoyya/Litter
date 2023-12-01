@@ -24,6 +24,8 @@ def chat_redirect(request, pk):
 
 def chat_room(request, pk):
     room = get_object_or_404(ChatRoom, id=pk)
+    recipients = room.users.exclude(id=request.user.id)
     messages = room.messages.all()
-    context = {'room': room, 'messages': messages, 'pk': pk}
+    context = {'room': room, 'messages': messages,
+               'pk': pk, 'recipients': recipients}
     return render(request, 'chat/conversation.html', context)

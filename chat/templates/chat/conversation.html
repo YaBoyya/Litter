@@ -2,6 +2,15 @@
 
 
 {% block chat %}
+<h2>
+  {% if room.title %}
+   {{ room.title }}
+  {% else %}
+    {% for recipient in recipients %}
+      {{recipient.username}}
+    {% endfor %}
+  {% endif %}
+</h2>
 <div id='messages'>
           
 </div>
