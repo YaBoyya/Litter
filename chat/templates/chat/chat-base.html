@@ -54,9 +54,11 @@
         if(data.type === 'chat'){
           let messages = document.getElementById('messages')
 
-          messages.insertAdjacentHTML('beforeend',`<div>
-                                        <p>${data.message}</p>
-                                      </div>`)
+          messages.insertAdjacentHTML('beforeend', `
+                                        <br><hr>
+                                        ${data.sender} ${data.sent} <br>
+                                        ${data.message}
+                                        `)
         }
       }
       let pk = {{ request.user.pk }}

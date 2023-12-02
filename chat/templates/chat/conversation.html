@@ -6,8 +6,10 @@
   {% if room.title %}
    {{ room.title }}
   {% else %}
-    {% for recipient in recipients %}
-      {{recipient.username}}
+    {% for user in room.users.all %}
+      {% if user != request.user %}
+        {{user}}
+      {% endif %}
     {% endfor %}
   {% endif %}
 </h2>
