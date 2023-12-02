@@ -6,7 +6,9 @@ from users.models import LitterUser
 
 
 def lobby(request):
-    return render(request, "chat/chat-base.html")
+    rooms = ChatRoom.objects.filter(users=request.user)
+    context = {'rooms': rooms}
+    return render(request, "chat/chat-base.html",  context)
 
 
 def chat_redirect(request, pk):

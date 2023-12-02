@@ -17,3 +17,6 @@ class Message(models.Model):
     sent = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
+
+    class Meta:
+        get_latest_by = ['sent']
