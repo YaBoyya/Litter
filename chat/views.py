@@ -7,7 +7,9 @@ from users.models import LitterUser
 
 def lobby(request):
     rooms = ChatRoom.objects.filter(users=request.user)
-    context = {'rooms': rooms}
+    q = request.session.pop('q', request.GET.get('q', ''))
+    search_rooms = ChatRoom.objects.filter(is_private=False, title__contains=q)
+    context = {'rooms': rooms, 'search_rooms': search_rooms, 'q': q}
     return render(request, "chat/chat-base.html",  context)
 
 
@@ -24,7 +26,19 @@ def chat_redirect(request, pk):
     return redirect('chat:room', room.uuid)
 
 
+def group_join(request, uuid):
+    room = ChatRoom.objects.get(uuid=uuid)
+    if request.user in room.users.all():
+        room.users.remove(request.user)
+    else:
+        room.users.add(request.user)
+    return redirect('chat:room', uuid)
+
+
 def chat_room(request, uuid):
+    if request.GET.get('q'):
+        request.session['q'] = request.GET.get('q')
+        return redirect('chat:lobby')
     rooms = ChatRoom.objects.filter(users=request.user)
     room = get_object_or_404(ChatRoom, uuid=uuid)
     messages = room.messages.all()

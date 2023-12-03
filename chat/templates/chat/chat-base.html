@@ -15,6 +15,10 @@
   <body onload="onLoad();">
     <div>
       <h1>Chat</h1>
+      <form method='GET'>
+        <input type="text" name="q" value="{{ q }}" placeholder="Search...">
+        <a href="{% url 'chat:lobby' %}"><button type="submit" class="button fill-img round">Search</button></a>      
+      </form>
       <ul>
         {% for room in rooms %}
           <li>
@@ -39,7 +43,26 @@
     </div>
     <div>
       {% block chat %}
-       
+      <ul>
+        {% for room in search_rooms %}
+          <li>
+            <a href="{% url 'chat:room' room.uuid %}">
+              {% if room.title %}
+              {{ room.title }}
+              {% else %}
+                {% for user in room.users.all %}
+                  {% if user != request.user %}
+                    {{user}}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+              <br>
+              {% if room.messages.latest %}
+                {{ room.messages.latest.user.username }}: {{ room.messages.latest.text }}
+              {% endif %}
+            </a>
+          </li>
+        {% endfor %}
       {% endblock %}
     </div>
 
