@@ -45,6 +45,9 @@ def chat_room(request, uuid):
         return redirect('chat:lobby')
     rooms = ChatRoom.objects.filter(users=request.user)
     room = get_object_or_404(ChatRoom, uuid=uuid)
+    if request.user not in room.users.all():
+        # TODO Change it to decorator?
+        return redirect('chat:lobby')
     messages = room.messages.all()
     context = {'rooms': rooms, 'room': room,
                'messages': messages}
