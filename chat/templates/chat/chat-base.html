@@ -18,7 +18,7 @@
       <ul>
         {% for room in rooms %}
           <li>
-            <a href="{% url 'chat:room' room.id %}">
+            <a href="{% url 'chat:room' room.uuid %}">
               {% if room.title %}
               {{ room.title }}
               {% else %}

@@ -10,7 +10,7 @@ from users.models import LitterUser
 
 class ChatConsumer(WebsocketConsumer):
     def create_chat(self, msg, pk):
-        room = ChatRoom.objects.get(id=self.room_group_name)
+        room = ChatRoom.objects.get(uuid=self.room_group_name)
         sender = LitterUser.objects.get(id=pk)
         return Message.objects.create(chatroom=room,
                                       user=sender,

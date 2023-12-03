@@ -21,13 +21,13 @@ def chat_redirect(request, pk):
         room = ChatRoom.objects.create()
         room.users.add(request.user, user)
     print(room)
-    return redirect('chat:room', room.id)
+    return redirect('chat:room', room.uuid)
 
 
-def chat_room(request, pk):
+def chat_room(request, uuid):
     rooms = ChatRoom.objects.filter(users=request.user)
-    room = get_object_or_404(ChatRoom, id=pk)
+    room = get_object_or_404(ChatRoom, uuid=uuid)
     messages = room.messages.all()
     context = {'rooms': rooms, 'room': room,
-               'messages': messages, 'pk': pk}
+               'messages': messages}
     return render(request, 'chat/conversation.html', context)

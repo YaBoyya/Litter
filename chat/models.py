@@ -1,9 +1,11 @@
+import uuid
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
 class ChatRoom(models.Model):
-    # TODO change id to uuid4
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     users = models.ManyToManyField('users.LitterUser')
     title = models.CharField(_("Title"), null=True)
     is_private = models.BooleanField(default=True)
