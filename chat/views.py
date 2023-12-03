@@ -7,9 +7,13 @@ from users.models import LitterUser
 
 def lobby(request):
     rooms = ChatRoom.objects.filter(users=request.user)
+    context = {'rooms': rooms}
     q = request.session.pop('q', request.GET.get('q', ''))
-    search_rooms = ChatRoom.objects.filter(is_private=False, title__contains=q)
-    context = {'rooms': rooms, 'search_rooms': search_rooms, 'q': q}
+    if q:
+        search_rooms = ChatRoom.objects.filter(is_private=False,
+                                               title__contains=q)
+        context.update({'search_rooms': search_rooms, 'q': q})
+
     return render(request, "chat/chat-base.html",  context)
 
 
