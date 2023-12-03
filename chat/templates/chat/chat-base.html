@@ -56,6 +56,11 @@
                   {% endif %}
                 {% endfor %}
               {% endif %}
+              {% if request.user in room.users.all %}
+                <a href="{% url 'chat:group-join' room.uuid %}">Leave</a>
+              {% else %}
+                <a href="{% url 'chat:group-join' room.uuid %}">Join</a>
+              {% endif %}
               <br>
               {% if room.messages.latest %}
                 {{ room.messages.latest.user.username }}: {{ room.messages.latest.text }}

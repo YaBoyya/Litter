@@ -13,13 +13,6 @@
     {% endfor %}
   {% endif %}
 </h2>
-{% if not room.is_private %}
-  {% if request.user in room.users.all %}
-    <a href="{% url 'chat:group-join' room.uuid %}">Leave</a>
-  {% else %}
-    <a href="{% url 'chat:group-join' room.uuid %}">Join</a>
-  {% endif %}
-{% endif %}
 <div id='messages'>
   {% for message in messages %}
     <br><hr>
