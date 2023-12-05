@@ -11,7 +11,7 @@ def lobby(request):
     q = request.session.pop('q', request.GET.get('q', ''))
     if q:
         search_rooms = ChatRoom.objects.filter(is_private=False,
-                                               title__contains=q)
+                                               title__icontains=q)
         context.update({'search_rooms': search_rooms, 'q': q})
 
     return render(request, "chat/chat-base.html",  context)
