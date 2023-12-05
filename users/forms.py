@@ -1,11 +1,23 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
 
 from .models import LitterUser
 
 
 class RegisterForm(UserCreationForm):
+    password1 = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+    )
+    password2 = forms.CharField(
+        label=_("Password confirmation"),
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        strip=False,
+    )
+
     class Meta:
         model = LitterUser
         fields = ['usertag', 'email', 'password1', 'password2']
