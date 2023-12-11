@@ -87,6 +87,9 @@ class PostVote(models.Model):
                                     name="Unique post vote.")
             ]
 
+    def __str__(self):
+        return f"Vote on a post \"{self.post}\" by {self.user.username}"
+
 
 class CommentVote(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
@@ -99,3 +102,6 @@ class CommentVote(models.Model):
             models.UniqueConstraint(fields=['user', 'comment'],
                                     name="Unique comment vote.")
             ]
+
+    def __str__(self):
+        return f"Vote on a post \"{self.comment}\" by {self.user.username}"
