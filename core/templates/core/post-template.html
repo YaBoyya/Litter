@@ -54,6 +54,7 @@
   <ul class="post-counters space-between icon-text-list">
     <li>
       {% if request.user.is_authenticated %}
+      {# TODO: fix upvotes are not clickable #}
       <img class="clickable"
            onclick = "upvotePostE({{ post.id }},
            {% if post.vote.exists %}
