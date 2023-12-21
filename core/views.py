@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -48,7 +49,13 @@ def feed(request, page='home', trend='hot'):
     elif trend == 'top':
         posts = posts.select_related(
             'user').order_by('-vote_count')
-    context = {'posts': posts, 'trend': trend,
+
+    paginator = Paginator(posts, 25)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'posts': page_obj, 'trend': trend,
                'page': page, 'form': PostForm()}
     return render(request, 'core/feed.html', context)
 
@@ -76,7 +83,13 @@ def search(request):
 
     if languages:
         posts = posts.filter(languages__name__in=languages)
-    context = {'posts': posts, 'q': q, 'form': form}
+
+    paginator = Paginator(posts, 25)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'posts': page_obj, 'q': q, 'form': form}
     return render(request, 'core/search.html', context)
 
 
