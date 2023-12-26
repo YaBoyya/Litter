@@ -1,6 +1,7 @@
 #!C://Coding/GitHub/Litter/.venv/scripts/activate
 from datetime import datetime, timedelta
 import json
+from os import walk
 import random
 
 
@@ -22,6 +23,13 @@ postvote_count = 10 * comment_count
 commentvote_count = 10 * postvote_count
 
 
+def get_files_paths(path: str):
+    loc = next(walk(path), ([], None, []))
+    dirname = loc[0][8:] + '/'
+    filenames = loc[2]
+    return [dirname + filename for filename in filenames]
+
+
 def generate_time(end_time=None):
     start = datetime.now()
     end = end_time or (datetime.now() - timedelta(days=365))
@@ -32,7 +40,6 @@ def not_naive(time):
     return str(time).replace(" ", "T")[:-3] + "Z"
 
 
-# TODO add to votes
 def pseudorandom(M, N, max):
     tups = []
     i = 1
@@ -68,9 +75,13 @@ def language_fixture():
 
 def litteruser_fixture():
     listed_data = []
+    profile_pics = get_files_paths("./media/fixture_profile_pics")
+    profile_pics.append("default_pp.png")
     for i in range(1, user_count):
         join = generate_time()
         username = faker.unique.user_name()
+        if i % 100 == 0:
+            print(f"{i}/{user_count}")
         listed_data.append(
             {
                 "model": "users.litteruser",
@@ -88,7 +99,7 @@ def litteruser_fixture():
                     "username": username,
                     "usertag": username.lower(),
                     "bio": None,
-                    "picture": "default_pp.png",  # TODO: Make a fixture pool of pics
+                    "picture": random.choice(profile_pics),
                     "groups": [],
                     "user_permissions": [],
                     "following": sorted(
@@ -108,7 +119,10 @@ def litteruser_fixture():
 
 def post_fixture():
     listed_data = []
+    post_pics = get_files_paths("./media/fixture_post_pics")
     for i in range(1, post_count):
+        if i % 1000 == 0:
+            print(f"{i}/{post_count}")
         listed_data.append(
             {
                 "model": "core.post",
@@ -119,7 +133,8 @@ def post_fixture():
                     "title": faker.catch_phrase(),
                     "text": faker.paragraph(nb_sentences=3,
                                             variable_nb_sentences=True),
-                    "picture": "",  # TODO: Make a fixture pool of pics
+                    "picture": random.choice(post_pics)
+                    if random.random() > 0.4 else "",
                     "difficulty": random.choice(["E", "M", "H"]),
                     "views": random.randrange(post_count),
                     "created": not_naive(generate_time()),
@@ -138,6 +153,8 @@ def post_fixture():
 def comment_fixture():
     listed_data = []
     for i in range(1, comment_count):
+        if i % 1000 == 0:
+            print(f"{i}/{comment_count}")
         listed_data.append(
             {
                 "model": "core.comment",
@@ -204,15 +221,15 @@ def commentvote_fixture():
         json.dump(listed_data, outfile)
 
 
-language_fixture()
-print("Language done.")
+# language_fixture()
+# print("Language done.")
 litteruser_fixture()
 print("LitterUser done.")
 post_fixture()
 print("Post done.")
-comment_fixture()
-print("Comment done.")
-postvote_fixture()
-print("PostVote done.")
-commentvote_fixture()
-print("CommentVote done.")
+# comment_fixture()
+# print("Comment done.")
+# postvote_fixture()
+# print("PostVote done.")
+# commentvote_fixture()
+# print("CommentVote done.")
