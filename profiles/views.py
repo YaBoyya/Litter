@@ -15,8 +15,8 @@ from users.models import LitterUser
 
 
 def profile_posts(request, usertag):
-    # TODO n+1 problem with sql calls fix
-    posts = Post.objects.filter(user__usertag=usertag).all()
+    posts = Post.objects.filter(user__usertag=usertag
+                                ).prefetch_related('user')
     user = get_object_or_404(LitterUser, usertag=usertag)
     post_points = posts.aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
     comment_points = Comment.objects.filter(
@@ -32,9 +32,8 @@ def profile_posts(request, usertag):
 
 
 def profile_comments(request, usertag):
-    # TODO n+1 problem with sql calls fix
-    comments = Comment.objects.filter(user__usertag=usertag).all()
-
+    comments = Comment.objects.filter(user__usertag=usertag
+                                      ).prefetch_related('user')
     post_points = Post.objects.filter(
         user__usertag=usertag
         ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
