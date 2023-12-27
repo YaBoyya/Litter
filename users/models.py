@@ -18,14 +18,13 @@ class LitterUserManager(UserManager):
 
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().annotate(
-            comment_total=models.Count('comment', distinct=True),
-            followers_count=models.Count('followers', distinct=True),
             notification_count=models.Count(
                 'recipient',
                 filter=models.Q(recipient__is_unread=True),
                 distinct=True
                 ),
             post_total=models.Count('post', distinct=True),
+            comment_total=models.Count('comment', distinct=True),
         )
 
 
