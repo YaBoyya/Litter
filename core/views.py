@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -26,7 +26,8 @@ def feed(request, page='home', trend='hot'):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
-    posts = Post.objects.all()
+    posts = Post.objects.select_related(
+        'user').prefetch_related(Prefetch('languages'))
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
@@ -38,17 +39,17 @@ def feed(request, page='home', trend='hot'):
             | Q(user__in=request.user.following.all())
         )
 
-    if trend == 'new':
-        posts = posts.select_related('user').order_by('-created')
-    elif trend == 'hot':
-        posts = posts.select_related('user').order_by(
-            '-created',
-            '-vote_count',
-            '-comment_count',
-            )
-    elif trend == 'top':
-        posts = posts.select_related(
-            'user').order_by('-vote_count')
+    # if trend == 'new':
+    #     posts = posts.select_related('user').order_by('-created')
+    # elif trend == 'hot':
+    #     posts = posts.select_related('user').order_by(
+    #         '-created',
+    #         '-vote_count',
+    #         '-comment_count',
+    #         )
+    # elif trend == 'top':
+    #     posts = posts.select_related(
+    #         'user').order_by('-vote_count')
 
     paginator = Paginator(posts, 25)
 
@@ -68,10 +69,10 @@ def search(request):
     print(languages)
     difficulty = form.data.get('difficulty', None)
 
-    posts = Post.objects.select_related('user').order_by('-created')
+    posts = Post.objects.select_related(
+        'user').prefetch_related(Prefetch('languages')).order_by('-created')
 
     if q:
-        # TODO check if it works with .select_related('vote')
         posts = posts.filter(
                             Q(title__icontains=q)
                             | Q(text__icontains=q)
