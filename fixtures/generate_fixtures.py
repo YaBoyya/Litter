@@ -22,6 +22,9 @@ comment_count = 10 * post_count
 postvote_count = 10 * comment_count
 commentvote_count = 10 * postvote_count
 
+post_votes_list = [0 for _ in range(post_count)]
+comment_votes_list = [0 for _ in range(comment_count)]
+
 
 def get_files_paths(path: str):
     loc = next(walk(path), ([], None, []))
@@ -134,7 +137,7 @@ def post_fixture():
                     "text": faker.paragraph(nb_sentences=3,
                                             variable_nb_sentences=True),
                     "picture": random.choice(post_pics)
-                    if random.random() > 0.4 else "",
+                    if random.random() < 0.4 else "",
                     "difficulty": random.choice(["E", "M", "H"]),
                     "views": random.randrange(post_count),
                     "created": not_naive(generate_time()),
@@ -142,7 +145,8 @@ def post_fixture():
                     "languages": sorted(
                         [random.randrange(1, language_count)
                          for r in range(random.randrange(1, 5))]
-                        )
+                        ),
+                    "total_votes": post_votes_list[i]
                 }
             }
         )
@@ -165,7 +169,8 @@ def comment_fixture():
                     "post": random.randrange(1, post_count),
                     "text": faker.sentence(),
                     "created": not_naive(generate_time()),
-                    "was_edited": random.choice([False, True])
+                    "was_edited": random.choice([False, True]),
+                    "total_votes": comment_votes_list[i]
                 }
             }
         )
@@ -179,6 +184,7 @@ def postvote_fixture():
     print("Git")
     for i in range(1, postvote_count):
         user_id, post_id = rand_id[i-1]
+        post_votes_list[post_id] += 1
         if i % 1000 == 0:
             print(f"{i}/{postvote_count}")
         listed_data.append(
@@ -203,6 +209,7 @@ def commentvote_fixture():
     print("Git")
     for i in range(1, commentvote_count):
         user_id, comment_id = rand_id[i-1]
+        comment_votes_list[comment_id] += 1
         if i % 1000 == 0:
             print(f"{i}/{commentvote_count}")
         listed_data.append(
@@ -221,15 +228,15 @@ def commentvote_fixture():
         json.dump(listed_data, outfile)
 
 
-# language_fixture()
-# print("Language done.")
-litteruser_fixture()
-print("LitterUser done.")
+language_fixture()
+print("Language done.")
+commentvote_fixture()
+print("CommentVote done.")
+postvote_fixture()
+print("PostVote done.")
+comment_fixture()
+print("Comment done.")
 post_fixture()
 print("Post done.")
-# comment_fixture()
-# print("Comment done.")
-# postvote_fixture()
-# print("PostVote done.")
-# commentvote_fixture()
-# print("CommentVote done.")
+litteruser_fixture()
+print("LitterUser done.")
