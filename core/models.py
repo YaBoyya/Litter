@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
-from .managers import CommentManager, PostManager
+from .managers import PostManager
 
 
 @deconstructible
@@ -35,7 +35,7 @@ class Post(models.Model):
                             blank=True)
     picture = models.ImageField(upload_to=PathAndRename('post_pictures/'),
                                 null=True)
-
+    total_votes = models.IntegerField(default=0)
     DIFFICULTY = [
         ('E', 'Easy'),
         ('M', 'Medium'),
@@ -68,8 +68,7 @@ class Comment(models.Model):
     text = models.CharField(_("Text"), max_length=200)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     was_edited = models.BooleanField(_('Was edited'), default=False)
-
-    objects = CommentManager()
+    total_votes = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.text) > 50 else self.text
@@ -77,7 +76,7 @@ class Comment(models.Model):
 
 class PostVote(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
-    post = models.ForeignKey(Post, related_name='vote',
+    post = models.ForeignKey(Post, related_name='postvote',
                              on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
 
@@ -93,7 +92,7 @@ class PostVote(models.Model):
 
 class CommentVote(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
-    comment = models.ForeignKey(Comment, related_name='vote',
+    comment = models.ForeignKey(Comment, related_name='commentvote',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
 

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Prefetch, Q
+from django.db.models import F, Prefetch, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -11,6 +11,7 @@ from .models import Comment, CommentVote, Post, PostVote
 from profiles.models import Notification
 
 
+# TODO construct a feed
 # TODO multiple images per post
 def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
@@ -44,12 +45,12 @@ def feed(request, page='home', trend='hot'):
     # elif trend == 'hot':
     #     posts = posts.select_related('user').order_by(
     #         '-created',
-    #         '-vote_count',
+    #         '-total_votes',
     #         '-comment_count',
     #         )
     # elif trend == 'top':
     #     posts = posts.select_related(
-    #         'user').order_by('-vote_count')
+    #         'user').order_by('-total_votes')
 
     paginator = Paginator(posts, 25)
 
@@ -163,9 +164,11 @@ def post_vote(request, pk):
 
     if vote:
         vote.delete()
+        post.total_votes = F('total_votes') - 1
         return HttpResponse(status=200)
 
     PostVote.objects.create(user=request.user, post=post)
+    post.total_votes = F('total_votes') + 1
     return HttpResponse(status=200)
 
 
@@ -210,7 +213,9 @@ def comment_vote(request, pk):
 
     if vote:
         vote.delete()
+        comment.total_votes = F('total_votes') - 1
         return HttpResponse(status=200)
 
     CommentVote.objects.create(user=request.user, comment=comment)
+    comment.total_votes = F('total_votes') + 1
     return HttpResponse(status=200)

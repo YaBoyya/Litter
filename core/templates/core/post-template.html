@@ -55,6 +55,7 @@
     <li>
       {% if request.user.is_authenticated %}
       {# TODO: fix upvotes are not clickable #}
+      {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
       <img class="clickable"
            onclick = "upvotePostE({{ post.id }},
            {% if post.vote.exists %}
@@ -67,7 +68,7 @@
       <img src="/images/up.png">
       {% endif %}
       <span class="post-vote-count">
-        {{ post.vote_count }}
+        {{ post.total_votes }}
       </span>
     </li>
     <li><img src="images/comment.jpg">{{ post.comment_count }}</li>

@@ -22,10 +22,10 @@ def profile_posts(request, usertag):
     is_followed = request.user in user.followers.all()
     followers_count = len(LitterUser.objects.filter(following=user.id))
 
-    post_points = posts.aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
+    post_points = posts.aggregate(pts=Coalesce(models.Sum('total_votes'), 0))
     comment_points = Comment.objects.filter(
         user__usertag=usertag
-        ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
+        ).aggregate(pts=Coalesce(models.Sum('total_votes'), 0))
     points = post_points['pts'] + comment_points['pts']
 
     context = {'posts': posts, 'user': user, 'is_followed': is_followed,
@@ -43,9 +43,9 @@ def profile_comments(request, usertag):
 
     post_points = Post.objects.filter(
         user__usertag=usertag
-        ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
+        ).aggregate(pts=Coalesce(models.Sum('total_votes'), 0))
     comment_points = comments.aggregate(
-        pts=Coalesce(models.Sum('vote_count'), 0)
+        pts=Coalesce(models.Sum('total_votes'), 0)
         )
     points = post_points['pts'] + comment_points['pts']
 
