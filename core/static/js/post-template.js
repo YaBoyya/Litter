@@ -27,16 +27,22 @@ function upvoteCommentE(id, upvoted) {
   event.stopPropagation()
   let counter = event.target.parentNode
     .getElementsByClassName("comment-vote-count")[0];
+  let img = counter.previousElementSibling;
   function UP() {
     index = comments.findIndex((x)=>x.id==id);
     if(index==-1) {
       change = upvoted;
-      comments.push(new Post(id,!upvoted));
+      comments.push(new Comment(id,!upvoted));
     } else {
       change = comments[index].upvoted;
       comments[index].upvoted = !comments[index].upvoted;
     }
     counter.textContent = (change?-1:1)+Number(counter.textContent)
+    if(change == 1) {
+      img.src = img.src.replace("down", "up");
+    } else {
+      img.src = img.src.replace("up", "down");
+    }
   }
   ajax(UP, "GET", "/comment/" + id + "/vote");
 }
@@ -46,6 +52,7 @@ function upvotePostE(id, upvoted) {
   event.stopPropagation()
   let counter = event.target.parentNode
     .getElementsByClassName("post-vote-count")[0];
+  let img = counter.previousElementSibling;
   function UP() {
     index = posts.findIndex((x)=>x.id==id);
     if(index==-1) {
@@ -56,6 +63,11 @@ function upvotePostE(id, upvoted) {
       posts[index].upvoted = !posts[index].upvoted;
     }
     counter.textContent = (change?-1:1)+Number(counter.textContent)
+    if(change == 1) {
+      img.src = img.src.replace("down", "up");
+    } else {
+      img.src = img.src.replace("up", "down");
+    }
   }
   ajax(UP, "GET", "/post/" + id + "/vote");
 }

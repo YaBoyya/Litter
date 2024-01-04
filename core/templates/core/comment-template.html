@@ -1,3 +1,5 @@
+{% load static %}
+
 <div>
   <div class="space-between">
     <ul class="flex center-vert-list comment-info">
@@ -33,18 +35,22 @@
   </div>
   <ul class="comment-counters space-between icon-text-list">
     <li>
+      <img class="dark-mode
       {% if request.user.is_authenticated %}
-      <img class="clickable"
-           onclick = "upvoteCommentEvent({{ comment.id }},
-           {% if comment.vote.exists %}
-           true
-           {% else %}
-           false
-           {% endif %});"
-           src="/images/up.png">
+        clickable" onclick = "upvoteCommentE({{ comment.id }},
+         {% if comment.vote.exists %}
+         true
+         {% else %}
+         false
+         {% endif %});"
+         {% if comment.vote.exists %}
+         src="{% static 'core/img/down.png' %}"
+         {% else %}
+         src="{% static 'core/img/up.png' %}"
+         {% endif %}
       {% else %}
-      <img src="/images/up.png">
-      {% endif %}
+      " src="{% static 'core/img/up.png' %}"
+      {% endif %}>
       <span class="comment-vote-count">
         {{ comment.vote_count }}
       </span>

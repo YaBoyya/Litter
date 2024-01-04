@@ -55,22 +55,23 @@
   </ul>
   <ul class="post-counters space-between icon-text-list">
     <li>
+      <img class="dark-mode
       {% if request.user.is_authenticated %}
-      <img class="clickable dark-mode"
-           onclick = "upvotePostE({{ post.id }},
-           {% if post.vote.exists %}
-           true
-           {% else %}
-           false
-           {% endif %});"
-           {% if post.vote.exists %}
-           src="{% static 'core/img/down.png' %}"
-           {% else %}
-           src="{% static 'core/img/up.png' %}"
-           {% endif %}>
+        clickable" onclick = "upvotePostE({{ post.id }},
+        {% if post.postvote.exists %}
+          true
+        {% else %}
+          false
+        {% endif %});"
+          {% if post.postvote.exists %}
+            src="{% static 'core/img/down.png' %}"
+          {% else %}
+            src="{% static 'core/img/up.png' %}"
+          {% endif %}
       {% else %}
-      <img src="#">
-      {% endif %}
+        " src="{% static 'core/img/up.png' %}"
+      {% endif %}>
+      {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
       <span class="post-vote-count">
         {{ post.vote_count }}
       </span>

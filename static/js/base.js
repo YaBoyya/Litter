@@ -35,7 +35,7 @@ function delay(fn, ms) {
   }
 }
 
-class Comments {
+class Comment {
   constructor(id, upvoted) {
     this.id = id
     this.upvoted = upvoted

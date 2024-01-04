@@ -38,6 +38,9 @@ input[type="file"]::file-selector-button:hover,
 .selectable-tag-list>li:hover, button:hover, button-list>li:hover {
   background-color: var(--color-highlight);
 }
+.selectable-tag-list>li.new-tag:hover {
+  background-color: unset;
+}
 .color-hi-text {
   font-weight: bold;
   text-decoration: underline;
