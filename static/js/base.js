@@ -259,8 +259,8 @@ function setDarkMode(b) {
     }
     s.setProperty("--color-text", lightColors[0])
     s.setProperty("--color-border", lightColors[0])
-    s.setProperty("--color-highlight", darkColors[1])
-    s.setProperty("--color-important", darkColors[2])
+    s.setProperty("--color-highlight", lightColors[1])
+    s.setProperty("--color-important", lightColors[2])
     for(var i=0;i<5;i++) {
       s.setProperty("--color" + (i+1),
                                                  lightColors[i+3])
