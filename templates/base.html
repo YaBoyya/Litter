@@ -29,9 +29,6 @@
           <li><a href="{% url 'profiles:notifications' request.user.usertag %}">
             <img src="{% static 'root/img/notification.jpg' %}"> Notifications {% if user.notification_count %} | {{ user.notification_count }} {% endif %}
           </a></li>
-          <li><a>
-            <img src="{% static 'root/img/chat.png' %}">Chat
-          </a></li>
           <li><a href="{% url 'profiles:posts' request.user.usertag %}">
             <img src="{{ user.picture.url }}">
             <span class="nowrap">
