@@ -31,9 +31,9 @@
     {{ form.text }}
     {{ form.picture }}
     <div class="flex center-vert">
-      <ul class="tag-list center-vert clickable-list edit-post-tag-list">
+      <ul class="tag-list center-vert clickable-list selectable-tag-list">
         <li>{{ form.difficulty }}</li>
-        <li class="edit-post-new-tag">
+        <li class="new-tag">
           <input onkeyup="searchTagE()"
                  onfocusout="collapseTagSearchE()" type="search"
                                                    class="tag">
@@ -43,7 +43,7 @@
             {% endfor %}
           </ul>
         </li>
-        <li onclick="showTagSearch()">+</li>
+        <li onclick="showTagSearchE()">+</li>
       </ul>
       <button class="edit-post-submit" type="submit">Create</button>
     </div>

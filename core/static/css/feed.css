@@ -21,32 +21,6 @@
   width: 100%;
   height: 15rem;
 }
-.edit-post-new-tag {
-  width: 7rem;
-  padding: 0;
-  visibility: collapse;
-  display: none;
-  border: none;
-  border-radius: 0;
-}
-.edit-post-new-tag input {
-  height: 100%;
-  border-radius: var(--radius) var(--radius) 0 0;
-  margin: 0;
-  width: 100%;
-  cursor: text;
-}
-.edit-post-new-tag ul {
-  width: 7rem;
-}
-.edit-post-new-tag ul>* {
-  width: 100%;
-}
-.edit-post-tag-list {
-  flex-grow: 0;
-  width: 100%;
-  flex-wrap: 1;
-}
 .edit-post-submit {
   padding: var(--small-gap);
 }

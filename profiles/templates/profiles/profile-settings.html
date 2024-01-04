@@ -1,15 +1,42 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block cssjs %}
+<link type="text/css" rel="stylesheet" href="{% static 'profiles/css/profile-settings.css' %}">
+{% endblock %}
 
 {% block content %}
-<ul class='container'>
-    <li><a href="{% url 'profiles:edit' user.usertag %}">Edit Profile</a></li>
-    <li><a href="{% url 'profiles:password-change' user.usertag %}">Change password</a></li>
-    <li><a href="{% url 'profiles:email-change' user.usertag %}">Change email</a></li>
-    {# TODO Perhaps the same tag form as in the create post #}
-    <li><a href="{% url 'profiles:language-follow' user.usertag %}">Follow language</a></li>
-    {% if user.languages %}
-    <li>Followed thus far: {% for lang in user.languages.all %} <br> {{lang}} {% endfor %}</li>
-    {% endif %}
-    <li><a href="{% url 'users:delete' %}">Delete account</a></li>
-<ul>
+<div class="container">
+    <form method="POST" enctype="multipart/form-data">
+        <span class="psettings-header">Edit Profile</span>
+        {% csrf_token %}
+        {{ form.title }}
+        {{ form.text }}
+        {{ form.picture }}
+        <span class="psettings-header">Interests</span>
+        <ul class="tag-list center-vert clickable-list selectable-tag-list">
+            {% for lang in user.languages.all %}
+            <li>{{lang}}</li>
+            {% endfor %}
+            <li class="new-tag">
+                <input onkeyup="searchTagE()"
+                       onfocusout="collapseTagSearchE()" type="search"
+                                                         class="tag">
+                <ul class="popup-menu button-list tag-list">
+                    {% for lang in form.languages %}
+                    <li onmousedown="searchPickTagE()">{{ lang }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li onclick="showTagSearchE()">+</li>
+        </ul>
+        <button class="save-profile-button" type="submit">Save</button>
+    </form>
+    <span class="psettings-header">Security</span>
+    <ul class="button-list security-button-list fit-content-list flex">
+        <li><a href="{% url 'profiles:password-change' user.usertag %}">Change password</a></li>
+        <li><a href="{% url 'profiles:email-change' user.usertag %}">Change email</a></li>
+        <li class="important-button"><a href="{% url 'users:delete' %}">Delete account</a></li>
+    </ul>
+</div>
 {% endblock %}

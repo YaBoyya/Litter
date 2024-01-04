@@ -228,6 +228,77 @@ function initPopupMenus() {
   }
 }
 
+function styleTagSearch() {
+  for(let n of document.getElementsByClassName("new-tag")) {
+    for(let i of n.getElementsByClassName("popup-menu")) {
+      refreshPopupMenu(i)
+    }
+  }
+}
+
+function showTagSearchE() {
+  let li = event.target.parentNode.getElementsByClassName("new-tag")[0]
+  li.style.visibility="visible"
+  li.style.display="block"
+  li.getElementsByTagName("input")[0].focus()
+  let counter = 0
+  console.log(li)
+  for(li of li.getElementsByTagName("li")) {
+    if(counter>4) {
+      li.style.visibility="collapse"
+      li.style.display="none"
+    } else {
+      li.style.visibility="visible"
+      li.style.display="block"
+      counter++;
+    }
+  }
+  styleTagSearch()
+}
+
+function searchPickTagE() {
+  let li = document.createElement("li");
+  li.textContent = event.target.textContent;
+  let input = event.target.getElementsByTagName('input')
+  let id = input[0].id
+  document.getElementById(id).checked = true;
+  li.addEventListener("click", removeElement)
+  initTag(li)
+  li.id = id
+  let ul = document.getElementsByClassName("selectable-tag-list")[0]
+  let ulLis = ul.children
+  ul.insertBefore(li, ulLis[ulLis.length-2])
+}
+
+function collapseTagSearchE() {
+  li = event.target.parentNode
+  li.style.visibility="collapse"
+  li.style.display="none"
+  li.getElementsByTagName("input")[0].value = ""
+}
+
+function searchTagE() {
+  let timer = 0
+  function real(event) {
+    clearTimeout(timer)
+    let text = event.target.value.toLowerCase()
+    let list = event.target.parentNode.getElementsByTagName("ul")[0]
+    var counter = 0;
+    for(let li of list.children) {
+      if(!li.textContent.toLowerCase().trim().startsWith(text) || counter>4) {
+        li.style.display = "none"
+        li.style.visibility = "collapse"
+      } else {
+        li.style.display = "block"
+        li.style.visibility = "visible"
+        counter++;
+      }
+      styleTagSearch()
+    }
+  }
+  timer = setTimeout(real.bind(this,event), 150)
+}
+
 function onLoad() {
   randomPalette()
   if(initFeed) initFeed()
