@@ -10,29 +10,9 @@
 {% endblock %}
 
 {% block content %}
-<ul class="container-list">
-  <li>
-    {% include 'core/post-template.html' %}
-  </li>
-  <li class="center edit-status-list">
-    {% if request.user == post.user %}
-    <a id="edit-button" class="button" href="{% url 'core:post-edit' post.id %}">Edit</a>
-    {% endif %}
-    {% if post.was_edited %}
-    <bold>Edited</bold>
-    {% endif %}
-    <small>{{ post.views }} views</small>
-  </li>
-  {% if request.user.is_authenticated %}
-  <li class="center">
-    <form method='POST'>
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" hidden>
-    </form>
-  </li>
-  {% endif %}
-</ul>
+<div class="container">
+  {% include 'core/post-template.html' %}
+</div>
 {% cache 10 comments %}
 <ul class="post-list container-list">
   {% for comment in post.comment.all %}
@@ -42,4 +22,15 @@
   {% endfor %}
 </ul>
 {% endcache %}
+{% endblock %}
+
+{% block rightbar %}
+<small>{{ post.views }} views</small>
+{% if request.user.is_authenticated %}
+<form method='POST'>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" hidden>
+</form>
+{% endif %}
 {% endblock %}

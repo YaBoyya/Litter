@@ -21,11 +21,16 @@
 .post-text {
   height: 9rem;
 }
+.post-images li {
+  overflow: hidden;
+  border-style: solid;
+  width: fit-content;
+  height: fit-content;
+  margin-bottom: var(--small-gap);
+}
 .post-images li img {
   max-height: 10rem;
   max-width: 10rem;
-  margin-bottom: var(--small-gap);
-  border-style: solid;
 }
 .post-time {
   margin-right: var(--small-gap);
