@@ -54,6 +54,11 @@ class LitterUser(AbstractUser):
     objects = LitterUserManager()
     USERNAME_FIELD = "usertag"
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['usertag'], name="litteruser_usertag_idx")
+        ]
+
     def delete(self, *args, **kwargs):
         if self.picture != 'default_pp.png':
             root = settings.MEDIA_ROOT

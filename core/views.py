@@ -11,8 +11,8 @@ from .models import Comment, CommentVote, Post, PostVote
 from profiles.models import Notification
 
 
-# TODO construct a feed
-# TODO multiple images per post
+# TODO fix sorting
+# TODO add popukarity value to posts for easier and more accurate sorting
 def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
@@ -40,17 +40,16 @@ def feed(request, page='home', trend='hot'):
             | Q(user__in=request.user.following.all())
         )
 
-    # if trend == 'new':
-    #     posts = posts.select_related('user').order_by('-created')
-    # elif trend == 'hot':
-    #     posts = posts.select_related('user').order_by(
-    #         '-created',
-    #         '-total_votes',
-    #         '-comment_count',
-    #         )
-    # elif trend == 'top':
-    #     posts = posts.select_related(
-    #         'user').order_by('-total_votes')
+    if trend == 'new':
+        posts = posts.order_by('-created')
+    elif trend == 'hot':
+        posts = posts.order_by(
+            '-created',
+            '-total_votes',
+            '-comment_count',
+            )
+    elif trend == 'top':
+        posts = posts.order_by('-total_votes')
 
     paginator = Paginator(posts, 25)
 
