@@ -16,18 +16,18 @@
     {% with request.user as user %}
     <div class="side-bar container blur-on-popup">
       <a id="logo" href="{% url 'core:feed' %}">
-        <img src="{% static 'root/img/logo.webp' %}">
+        <img class="dark-mode" src="{% static 'root/img/litter.png' %}">
       </a>
       <ul id="nav-list" class="button-list icon-text-list">
         <li><a href="{% url 'core:feed-filtered' 'home' 'hot' %}">
-          <img src="{% static 'root/img/home.jpg' %}">Home
+          <img class="dark-mode" src="{% static 'root/img/home.png' %}">Home
         </a></li>
         <li><a href="{% url 'core:feed-filtered' 'popular' 'hot' %}">
-          <img src="{% static 'root/img/popular.jpg' %}">Popular
+          <img class="dark-mode" src="{% static 'root/img/popular.png' %}">Popular
         </a></li>
         {% if user.is_authenticated %}
           <li><a href="{% url 'profiles:notifications' request.user.usertag %}">
-            <img src="{% static 'root/img/notification.jpg' %}"> Notifications {% if user.notification_count %} | {{ user.notification_count }} {% endif %}
+            <img class="dark-mode" src="{% static 'root/img/notification.png' %}"> Notifications {% if user.notification_count %} | {{ user.notification_count }} {% endif %}
           </a></li>
           <li><a href="{% url 'profiles:posts' request.user.usertag %}">
             <img src="{{ user.picture.url }}">

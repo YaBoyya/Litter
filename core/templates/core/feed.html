@@ -57,7 +57,9 @@
   <div id="search" class="center-vert">
     <input type="text" name="q" placeholder="Search...">
     <button type="submit" class="button fill-img round">
-      <a href="{#% url 'core:search' %#}"><img src="images/search.jpg"></a>
+      <a href="{#% url 'core:search' %#}">
+        <img class="dark-mode" src="{% static 'core/img/search.png' %}">
+      </a>
     </button>
   </div>
 </form>
