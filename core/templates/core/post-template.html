@@ -68,12 +68,13 @@
           {% else %}
             src="{% static 'core/img/up.png' %}"
           {% endif %}
+      {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
       {% else %}
         " src="{% static 'core/img/up.png' %}"
       {% endif %}>
       {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
       <span class="post-vote-count">
-        {{ post.vote_count }}
+        {{ post.total_votes }}
       </span>
     </li>
     <li><img class="dark-mode" src="{% static 'core/img/comment.png' %}">{{ post.comment_count }}</li>

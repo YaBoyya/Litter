@@ -15,37 +15,42 @@ from users.models import LitterUser
 
 
 def profile_posts(request, usertag):
-    posts = Post.objects.filter(user__usertag=usertag).all()
+    posts = Post.objects.filter(user__usertag=usertag
+                                ).prefetch_related('user')
+
     user = get_object_or_404(LitterUser, usertag=usertag)
-    post_points = posts.aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
+    is_followed = request.user in user.followers.all()
+    followers_count = len(LitterUser.objects.filter(following=user.id))
+
+    post_points = posts.aggregate(pts=Coalesce(models.Sum('total_votes'), 0))
     comment_points = Comment.objects.filter(
         user__usertag=usertag
-        ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
+        ).aggregate(pts=Coalesce(models.Sum('total_votes'), 0))
     points = post_points['pts'] + comment_points['pts']
 
-    is_followed = request.user in user.followers.all()
-
-    context = {'posts': posts, 'user': user,
-               'is_followed': is_followed, 'points': points}
+    context = {'posts': posts, 'user': user, 'is_followed': is_followed,
+               'followers_count': followers_count, 'points': points}
     return render(request, 'profiles/profile.html', context)
 
 
 def profile_comments(request, usertag):
-    comments = Comment.objects.filter(user__usertag=usertag).all()
-
-    post_points = Post.objects.filter(
-        user__usertag=usertag
-        ).aggregate(pts=Coalesce(models.Sum('vote_count'), 0))
-    comment_points = comments.aggregate(
-        pts=Coalesce(models.Sum('vote_count'), 0)
-        )
-    points = post_points['pts'] + comment_points['pts']
+    comments = Comment.objects.filter(user__usertag=usertag
+                                      ).prefetch_related('user')
 
     user = get_object_or_404(LitterUser, usertag=usertag)
     is_followed = request.user in user.followers.all()
+    followers_count = len(LitterUser.objects.filter(following=user.id))
 
-    context = {'comments': comments, 'user': user,
-               'is_followed': is_followed, 'points': points}
+    post_points = Post.objects.filter(
+        user__usertag=usertag
+        ).aggregate(pts=Coalesce(models.Sum('total_votes'), 0))
+    comment_points = comments.aggregate(
+        pts=Coalesce(models.Sum('total_votes'), 0)
+        )
+    points = post_points['pts'] + comment_points['pts']
+
+    context = {'comments': comments, 'user': user, 'is_followed': is_followed,
+               'followers_count': followers_count, 'points': points}
     return render(request, 'profiles/profile.html', context)
 
 

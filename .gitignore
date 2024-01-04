@@ -47,3 +47,6 @@ media/profile_pics
 
 #vim
 .vimrc
+
+# fixtures
+fixtures/*.json

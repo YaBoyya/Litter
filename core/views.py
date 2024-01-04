@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.core.paginator import Paginator
+from django.db.models import F, Prefetch, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -10,7 +11,8 @@ from .models import Comment, CommentVote, Post, PostVote
 from profiles.models import Notification
 
 
-# TODO multiple images per post
+# TODO fix sorting
+# TODO add popukarity value to posts for easier and more accurate sorting
 def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
@@ -25,7 +27,8 @@ def feed(request, page='home', trend='hot'):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
-    posts = Post.objects.all()
+    posts = Post.objects.select_related(
+        'user').prefetch_related(Prefetch('languages'))
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
@@ -38,17 +41,22 @@ def feed(request, page='home', trend='hot'):
         )
 
     if trend == 'new':
-        posts = posts.select_related('user').order_by('-created')
+        posts = posts.order_by('-created')
     elif trend == 'hot':
-        posts = posts.select_related('user').order_by(
+        posts = posts.order_by(
             '-created',
-            '-vote_count',
+            '-total_votes',
             '-comment_count',
             )
     elif trend == 'top':
-        posts = posts.select_related(
-            'user').order_by('-vote_count')
-    context = {'posts': posts, 'trend': trend,
+        posts = posts.order_by('-total_votes')
+
+    paginator = Paginator(posts, 25)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'posts': page_obj, 'trend': trend,
                'page': page, 'form': PostForm()}
     return render(request, 'core/feed.html', context)
 
@@ -61,10 +69,10 @@ def search(request):
     print(languages)
     difficulty = form.data.get('difficulty', None)
 
-    posts = Post.objects.select_related('user').order_by('-created')
+    posts = Post.objects.select_related(
+        'user').prefetch_related(Prefetch('languages')).order_by('-created')
 
     if q:
-        # TODO check if it works with .select_related('vote')
         posts = posts.filter(
                             Q(title__icontains=q)
                             | Q(text__icontains=q)
@@ -76,7 +84,13 @@ def search(request):
 
     if languages:
         posts = posts.filter(languages__name__in=languages)
-    context = {'posts': posts, 'q': q, 'form': form}
+
+    paginator = Paginator(posts, 25)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'posts': page_obj, 'q': q, 'form': form}
     return render(request, 'core/search.html', context)
 
 
@@ -149,9 +163,11 @@ def post_vote(request, pk):
 
     if vote:
         vote.delete()
+        post.total_votes = F('total_votes') - 1
         return HttpResponse(status=200)
 
     PostVote.objects.create(user=request.user, post=post)
+    post.total_votes = F('total_votes') + 1
     return HttpResponse(status=200)
 
 
@@ -196,7 +212,9 @@ def comment_vote(request, pk):
 
     if vote:
         vote.delete()
+        comment.total_votes = F('total_votes') - 1
         return HttpResponse(status=200)
 
     CommentVote.objects.create(user=request.user, comment=comment)
+    comment.total_votes = F('total_votes') + 1
     return HttpResponse(status=200)
