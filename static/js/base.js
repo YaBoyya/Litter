@@ -45,90 +45,6 @@ class Comments {
 posts = []
 comments = []
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF'
-  var color = '#'
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
-}
-
-function rgb2hsl(rgb) {
-  rgb = rgb.map(x=>x/255)
-  var hsl = Array(3)
-  let max = rgb.reduce((acc,x)=>(acc>x)?acc:x)
-  let min = rgb.reduce((acc,x)=>(acc<x)?acc:x)
-  let c = max-min
-  if(c==0) {
-    hsl[0]=0
-  } else if(max==rgb[0]) {
-    hsl[0]=((rgb[1]-rgb[2])/c)%6
-  } else if(max==rgb[1]) {
-    hsl[0]=(rgb[2]-rgb[0])/c+2
-  } else if(max==rgb[2]) {
-    hsl[0]=(rgb[0]-rgb[1])/c+4
-  }
-  hsl[0]*=60
-  hsl[2] = (max+min)/2
-  if(hsl[2]==0 || hsl[2]==1) {
-    hsl[1] = 0
-  } else {
-    hsl[1] = c/(1-Math.abs(2*hsl[2]-1))
-  }
-  return hsl
-}
-
-function hsl2rgb(hsl) {
-  let c = (1-Math.abs(2*hsl[2]-1))*hsl[1]
-  let hprim = hsl[0]/60
-  let x = c*(1-Math.abs(hprim%2-1))
-  let m = hsl[2]-c/2
-  if(hprim<=1) {
-    rgb = [c, x, 0]
-  } else if(hprim<=2) {
-    rgb = [x, c, 0]
-  } else if(hprim<=3) {
-    rgb = [0, c, x]
-  } else if(hprim<=4) {
-    rgb = [0, x, c]
-  } else if(hprim<=5) {
-    rgb = [x, 0, c]
-  } else if(hprim<=6) {
-    rgb = [c, 0, x]
-  }
-  rgb = rgb.map(x=>Math.round((x+m)*255))
-  return rgb
-}
-
-function rgb2string(rgb) {
-  return rgb.map(x=> {
-    let str = x.toString(16)
-    if(str.length==1)
-      return "0"+str
-    else
-      return str
-  }).reduce((acc,x) => (acc+x))
-}
-
-function randomPalette() {
-  var colors = (new Array(5)).fill(0).map(x => (new Array(3)))
-  colors[0] = [Math.random()*360, (Math.random()+0.3)%1-0.3, 0.1]
-  for (var i = 1; i < 5; i++) {
-    colors[i] = colors[i - 1].slice(0) //clones array
-    colors[i][2]+=0.15 //lightness
-  }
-  for (var i = 1; i < 6; i++) {
-    document.documentElement.style.setProperty("--color" + i.toString(),
-      "#" +
-      rgb2string(hsl2rgb(colors[i-1])))
-    colors[i-1][0] = (colors[i-1][0]+45)%360
-    document.documentElement.style.setProperty("--highlight" + i.toString(),
-      "#" +
-      rgb2string(hsl2rgb(colors[i-1])))
-  }
-}
-
 function popupSetState(state) {
   if(state) {
     document.getElementById("popup-background").style.visibility = "unset"
@@ -299,8 +215,61 @@ function searchTagE() {
   timer = setTimeout(real.bind(this,event), 150)
 }
 
+darkColors = [
+  "#eeeeee", //border
+  "#3e3ec3", //highlight
+  "#ee0000", //important
+  //base
+  "#111111",
+  "#333333",
+  "#444444",
+  "#555555",
+  "#666666"
+];
+
+lightColors = [
+  "#111111", //border
+  "#9e9ef3", //highlight
+  "#aa0000", //important
+  //base
+  "#eeeeee",
+  "#bbbbbb",
+  "#aaaaaa",
+  "#999999",
+  "#888888"
+];
+
+function setDarkMode(b) {
+  var s = document.documentElement.style
+  if(b) {
+    for(let item of document.getElementsByClassName("dark-mode")) {
+      item.style.filter = "invert()";
+    }
+    s.setProperty("--color-text", darkColors[0])
+    s.setProperty("--color-border", darkColors[0])
+    s.setProperty("--color-highlight", darkColors[1])
+    s.setProperty("--color-important", darkColors[2])
+    for(var i=0;i<5;i++) {
+      s.setProperty("--color" + (i+1),
+                                                 darkColors[i+3])
+    }
+  } else {
+    for(let item of document.getElementsByClassName("dark-mode")) {
+      item.style.filter = "unset";
+    }
+    s.setProperty("--color-text", lightColors[0])
+    s.setProperty("--color-border", lightColors[0])
+    s.setProperty("--color-highlight", lightColors[1])
+    s.setProperty("--color-important", lightColors[2])
+    for(var i=0;i<5;i++) {
+      s.setProperty("--color" + (i+1),
+                                                 lightColors[i+3])
+    }
+  }
+}
+
 function onLoad() {
-  randomPalette()
+  setDarkMode(Math.floor(Math.random()*2));
   if(initFeed) initFeed()
   initTags()
   initPopupMenus()

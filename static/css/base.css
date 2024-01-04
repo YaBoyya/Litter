@@ -1,6 +1,5 @@
 /* VARIABLES {{{*/
 :root {
---color-important: #f36e6e;
 --font-normal: 14pt;
 --font-big: 19pt;
 --huge-gap: 1.5vw;
@@ -8,45 +7,38 @@
 --small-gap: 0.5vw;
 --tiny-gap: 0.3vw;
 --radius: 2vw;
---border-color: var(--color4);
 }
 /*}}}*/
 
 /* COLORS {{{*/
 .container, .container-list>* {
   background-color: var(--color2);
-  color: var(--color5);
 }
-.highlight-container, .highlight-container-list>* {
-  background-color: var(--highlight2);
-  color: var(--highlight5);
+.color-hi-container, .color-hi-container-list>* {
+  background-color: var(--color-highlight);
 }
 #nav-list>* {
   background-color: var(--color3);
-  border-color: var(--border-color);
-  color: var(--color1);
+  border-color: var(--color-border);
 }
 #nav-list>*:hover {
-  background-color: var(--highlight3);
-  color: var(--highlight1);
+  background-color: var(--color-highlight);
 }
 input[type="text"], .button, .button-list>*, input[type="password"],
 input[type="email"], input[type="submit"], textarea, button, .flag-list>*, .flag,
-input[type="file"]::file-selector-button
-{
+input[type="file"]::file-selector-button {
   background-color: var(--color2);
   border-style: solid;
-  border-color: var(--border-color);
-  color: var(--color5);
+  border-color: var(--color-border);
 }
 .button:hover, .button-list>*:hover, input[type="text"]:focus,
 input[type="submit"]:hover, input[type="password"]:focus,
 input[type="email"]:focus, textarea:focus,
-input[type="file"]::file-selector-button:hover {
-  background-color: var(--highlight2);
-  color: var(--highlight5);
+input[type="file"]::file-selector-button:hover,
+.selectable-tag-list>li:hover, button:hover, button-list>li:hover {
+  background-color: var(--color-highlight);
 }
-.highlight-text {
+.color-hi-text {
   font-weight: bold;
   text-decoration: underline;
 }
@@ -55,7 +47,7 @@ input[type="file"]::file-selector-button:hover {
   border-color: var(--color-important);
 }
 .important-button:hover {
-  color: var(--color1);
+  color: var(--color-text);
   background-color: var(--color-important);
 }
 /*}}}*/
@@ -69,10 +61,12 @@ input[type="file"]::file-selector-button:hover {
   list-style-type: none;
   outline: none;
   border-radius: var(--radius);
+  border-width: 0.12vw;
   display: block;
   text-overflow: ellipsis;
   font-size: var(--font-normal);
-  font-family: sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+  color: var(--color-text);
 }
 div, ul, form, p, label {
   border-radius:  0;
@@ -224,6 +218,7 @@ li.new-tag ul>*, li.new-tag>input {
 .container, .container-list>* {
   padding: var(--huge-gap);
   border-radius: var(--radius);
+  border-style: solid;
 }
 .container-list>* {
   margin-top:  var(--big-gap);
@@ -237,6 +232,7 @@ li.new-tag ul>*, li.new-tag>input {
 }
 #logo {
   height: 6vw;
+  width: fit-content;
 }
 #nav-list>* {
   height: 4vw;
@@ -244,6 +240,9 @@ li.new-tag ul>*, li.new-tag>input {
 }
 #nav-list>*>a {
   padding: 1vw;
+}
+#nav-list img {
+  border-radius: 0;
 }
 #popup, #popup-background {
   width: fit-content;

@@ -1,14 +1,16 @@
+{% load static %}
+
 <div>
   <div class="space-between post-margin">
     <ul class="flex center-vert-list post-info">
       <li>
         <a href="{% url 'profiles:posts' post.user.usertag %}" class="clickable">
-        <img src="{{ post.user.picture.url }}">
+          <img src="{{ post.user.picture.url }}">
         </a>
       </li>
       <li>
         <a href="{% url 'profiles:posts' post.user.usertag %}" class="nowrap clickable">
-        {{ post.user.username }} (@{{ post.user.usertag }})
+          {{ post.user.username }} (@{{ post.user.usertag }})
         </a>
       </li>
       <li class="post-time">
@@ -56,21 +58,25 @@
       {% if request.user.is_authenticated %}
       {# TODO: fix upvotes are not clickable #}
       {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
-      <img class="clickable"
+      <img class="clickable dark-mode"
            onclick = "upvotePostE({{ post.id }},
            {% if post.vote.exists %}
            true
            {% else %}
            false
            {% endif %});"
-           src="/images/up.png">
+           {% if post.vote.exists %}
+           src="{% static 'core/img/down.png' %}"
+           {% else %}
+           src="{% static 'core/img/up.png' %}"
+           {% endif %}>
       {% else %}
-      <img src="/images/up.png">
+      <img src="#">
       {% endif %}
       <span class="post-vote-count">
         {{ post.total_votes }}
       </span>
     </li>
-    <li><img src="images/comment.jpg">{{ post.comment_count }}</li>
+    <li><img class="dark-mode" src="{% static 'core/img/comment.png' %}">{{ post.comment_count }}</li>
   </ul>
 </div>
