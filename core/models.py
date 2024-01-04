@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
-from .managers import CommentManager, PostManager
+from .managers import PostManager
 
 
 @deconstructible
@@ -35,7 +35,7 @@ class Post(models.Model):
                             blank=True)
     picture = models.ImageField(upload_to=PathAndRename('post_pictures/'),
                                 null=True)
-
+    total_votes = models.IntegerField(default=0)
     DIFFICULTY = [
         ('E', 'Easy'),
         ('M', 'Medium'),
@@ -48,6 +48,11 @@ class Post(models.Model):
     was_edited = models.BooleanField(_('Was edited'), default=False)
 
     objects = PostManager()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['user'], name='post_user_idx'),
+        ]
 
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.title) > 50 else self.title
@@ -68,8 +73,13 @@ class Comment(models.Model):
     text = models.CharField(_("Text"), max_length=200)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     was_edited = models.BooleanField(_('Was edited'), default=False)
+    total_votes = models.IntegerField(default=0)
 
-    objects = CommentManager()
+    class Meta:
+        indexes = [
+            models.Index(fields=['user'], name='comment_user_idx'),
+            models.Index(fields=['post'], name='comment_post_idx')
+        ]
 
     def __str__(self):
         return f'{self.text[:50]}...' if len(self.text) > 50 else self.text
@@ -77,7 +87,7 @@ class Comment(models.Model):
 
 class PostVote(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
-    post = models.ForeignKey(Post, related_name='vote',
+    post = models.ForeignKey(Post, related_name='postvote',
                              on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
 
@@ -86,6 +96,10 @@ class PostVote(models.Model):
             models.UniqueConstraint(fields=['user', 'post'],
                                     name="Unique post vote.")
             ]
+        indexes = [
+            models.Index(fields=['user', 'post'],
+                         name="postvote_user_post_idx")
+        ]
 
     def __str__(self):
         return f"Vote on a post \"{self.post}\" by {self.user.username}"
@@ -93,7 +107,7 @@ class PostVote(models.Model):
 
 class CommentVote(models.Model):
     user = models.ForeignKey('users.LitterUser', on_delete=models.DO_NOTHING)
-    comment = models.ForeignKey(Comment, related_name='vote',
+    comment = models.ForeignKey(Comment, related_name='commentvote',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(_("Created"), auto_now_add=True)
 
@@ -102,6 +116,10 @@ class CommentVote(models.Model):
             models.UniqueConstraint(fields=['user', 'comment'],
                                     name="Unique comment vote.")
             ]
+        indexes = [
+            models.Index(fields=['user', 'comment'],
+                         name="commentvote_user_comment_idx")
+        ]
 
     def __str__(self):
         return f"Vote on a post \"{self.comment}\" by {self.user.username}"
