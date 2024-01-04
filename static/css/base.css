@@ -111,7 +111,6 @@ html {
 }
 body {
   display: flex;
-  height: 100%;
   background-color: var(--color1);
 }
 body>* {
@@ -265,6 +264,7 @@ li.new-tag ul>*, li.new-tag>input {
 
 /* SPECIFICS {{{*/
 .side-bar {
+  align-self: flex-start;
   display: inline-block;
   position: sticky;
 }
