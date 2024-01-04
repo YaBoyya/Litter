@@ -4,6 +4,7 @@
 
 {% block cssjs %}
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'profiles/css/notification-list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -22,11 +23,11 @@
 <ul class="container-list space-between-list">
   {% for notification in notifications %}
   <li {% if notification.is_unread %} class="highlight-container"{% endif %}>
-    <a href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
+    <a class="fit-content" href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
       {{ notification }} {{ notification.time_sent|timesince }} ago.
     </a>
     <a class="fit-content" href="{% url 'profiles:notification-delete' request.user.usertag notification.id %}">
-      <img src="#">
+      <img class="x-button clickable dark-mode" src="{% static 'root/img/x.png' %}">
     </a>
   </li>
   {% endfor %}

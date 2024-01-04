@@ -14,7 +14,7 @@
 .container, .container-list>* {
   background-color: var(--color2);
 }
-.color-hi-container, .color-hi-container-list>* {
+.highlight-container, .highlight-container-list>* {
   background-color: var(--color-highlight);
 }
 #nav-list>* {
