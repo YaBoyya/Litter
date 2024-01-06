@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
-from .managers import PostManager
+from .managers import CommentManager, PostManager
 
 
 @deconstructible
@@ -76,6 +76,8 @@ class Comment(models.Model):
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     was_edited = models.BooleanField(_('Was edited'), default=False)
     total_votes = models.IntegerField(default=0)
+
+    objects = CommentManager()
 
     class Meta:
         indexes = [

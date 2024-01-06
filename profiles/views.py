@@ -15,8 +15,8 @@ from users.models import LitterUser
 
 
 def profile_posts(request, usertag):
-    posts = Post.objects.filter(user__usertag=usertag
-                                ).prefetch_related('user')
+    posts = Post.objects.get_voted(request.user).filter(
+        user__usertag=usertag).prefetch_related('user').order_by('-created')
 
     user = get_object_or_404(LitterUser, usertag=usertag)
     is_followed = request.user in user.followers.all()
@@ -34,8 +34,8 @@ def profile_posts(request, usertag):
 
 
 def profile_comments(request, usertag):
-    comments = Comment.objects.filter(user__usertag=usertag
-                                      ).prefetch_related('user')
+    comments = Comment.objects.get_voted(request.user).filter(
+        user__usertag=usertag).prefetch_related('user').order_by('-created')
 
     user = get_object_or_404(LitterUser, usertag=usertag)
     is_followed = request.user in user.followers.all()

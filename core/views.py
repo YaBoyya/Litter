@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import F, Prefetch, Q
+from django.db.models import F, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -11,8 +11,7 @@ from .models import Comment, CommentVote, Post, PostVote
 from profiles.models import Notification
 
 
-# TODO fix sorting
-# TODO add popukarity value to posts for easier and more accurate sorting
+# TODO add popularity value to posts for easier and more accurate sorting
 def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)
@@ -27,8 +26,7 @@ def feed(request, page='home', trend='hot'):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
-    posts = Post.objects.select_related(
-        'user').prefetch_related(Prefetch('languages'))
+    posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
@@ -40,20 +38,8 @@ def feed(request, page='home', trend='hot'):
             | Q(user__in=request.user.following.all())
         )
 
-    if trend == 'new':
-        posts = posts.order_by('-created')
-    elif trend == 'hot':
-        posts = posts.order_by(
-            '-created',
-            '-total_votes',
-            '-comment_count',
-            )
-    elif trend == 'top':
-        posts = posts.order_by('-total_votes')
-
     paginator = Paginator(posts, 25)
-
-    page_number = request.GET.get('page')
+    page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
     context = {'posts': page_obj, 'trend': trend,
@@ -64,13 +50,12 @@ def feed(request, page='home', trend='hot'):
 def search(request):
     form = SearchForm(request.GET, auto_id=False)
     q = request.session.pop('q', form.data.get('q', ''))
-    # trend = form.data.get('trend', '')
+    trend = form.data.get('trend', '')
     languages = form.data.getlist('languages', None)
-    print(languages)
     difficulty = form.data.get('difficulty', None)
 
-    posts = Post.objects.select_related(
-        'user').prefetch_related(Prefetch('languages')).order_by('-created')
+    posts = Post.objects.get_sorted_feed(
+        request.user, sort=trend).order_by('-created')
 
     if q:
         posts = posts.filter(
@@ -106,8 +91,11 @@ def post_delete(request, pk):
 
 
 def post_details(request, pk):
-    post = Post.objects.prefetch_related('comment').get(id=pk)
-    context = {'post': post, 'form': CommentForm()}
+    post = Post.objects.get_voted(request.user).get(id=pk)
+    comments = Comment.objects.get_voted(request.user).filter(
+        post=post).order_by('-created')
+
+    context = {'post': post, 'comments': comments, 'form': CommentForm()}
     if request.method != 'POST':
         post.views += 1
         post.save()
@@ -149,7 +137,6 @@ def post_edit(request, pk):
     obj.was_edited = True
     obj.save()
     form.save_m2m()
-    # TODO change it signals?
     return redirect('core:post-details', pk)
 
 
@@ -163,12 +150,13 @@ def post_vote(request, pk):
 
     if vote:
         vote.delete()
-        post.total_votes = F('total_votes') - 1
+        Post.objects.filter(id=pk).update(total_votes=F("total_votes") - 1)
         return HttpResponse(status=200)
 
     PostVote.objects.create(user=request.user, post=post)
-    post.total_votes = F('total_votes') + 1
+    Post.objects.filter(id=pk).update(total_votes=F("total_votes") + 1)
     return HttpResponse(status=200)
+# TODO Fix upvote display
 
 
 @login_required(login_url='users:login')
@@ -212,9 +200,9 @@ def comment_vote(request, pk):
 
     if vote:
         vote.delete()
-        comment.total_votes = F('total_votes') - 1
+        Comment.objects.filter(id=pk).update(total_votes=F("total_votes") - 1)
         return HttpResponse(status=200)
 
     CommentVote.objects.create(user=request.user, comment=comment)
-    comment.total_votes = F('total_votes') + 1
+    Comment.objects.filter(id=pk).update(total_votes=F("total_votes") + 1)
     return HttpResponse(status=200)
