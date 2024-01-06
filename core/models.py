@@ -52,6 +52,8 @@ class Post(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=['user'], name='post_user_idx'),
+            models.Index(fields=['id'], name='post_id_idx'),
+            models.Index(fields=['-created'], name='post_desc_created_idx')
         ]
 
     def __str__(self):
@@ -98,7 +100,11 @@ class PostVote(models.Model):
             ]
         indexes = [
             models.Index(fields=['user', 'post'],
-                         name="postvote_user_post_idx")
+                         name="postvote_user_post_idx"),
+            models.Index(fields=['post'],
+                         name="postvote_post_idx"),
+            models.Index(fields=['user'],
+                         name="postvote_user_idx"),
         ]
 
     def __str__(self):
