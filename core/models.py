@@ -53,7 +53,8 @@ class Post(models.Model):
         indexes = [
             models.Index(fields=['user'], name='post_user_idx'),
             models.Index(fields=['id'], name='post_id_idx'),
-            models.Index(fields=['-created'], name='post_desc_created_idx')
+            models.Index(fields=['-created'], name='post_desc_created_idx'),
+            models.Index(fields=['created'], name='post_created_idx')
         ]
 
     def __str__(self):

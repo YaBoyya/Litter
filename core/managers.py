@@ -1,7 +1,14 @@
 from django.apps import apps
+from django.utils import timezone
 from django.db import models
-from django.db.models import Exists, OuterRef, Prefetch
+from django.db.models import Exists, F, OuterRef, Prefetch
+from django.db.models.expressions import Func
 from django.db.models.query import QuerySet
+
+
+class Epoch(Func):
+    template = 'EXTRACT(epoch FROM %(expressions)s)::INTEGER'
+    output_field = models.IntegerField()
 
 
 class CommentManager(models.Manager):
@@ -18,8 +25,9 @@ class CommentManager(models.Manager):
 class PostManager(models.Manager):
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().annotate(
-            comment_count=models.Count('comment', distinct=True)
-        )
+            comment_count=models.Count('comment', distinct=True),
+            popularity=(F('views')*F('total_votes')*F('comment_count')
+                        / Epoch(timezone.now() - F('created'))))
 
     def get_voted(self, user=None) -> QuerySet:
         post_vote = apps.get_model('core', 'PostVote')
@@ -38,11 +46,7 @@ class PostManager(models.Manager):
         if sort == 'new':
             return qs.order_by('-created')
         elif sort == 'hot':
-            return qs.order_by(
-                '-created',
-                '-total_votes',
-                '-comment_count',
-                )
+            return qs.order_by('-popularity')
         elif sort == 'top':
             return qs.order_by('-total_votes')
         return qs
