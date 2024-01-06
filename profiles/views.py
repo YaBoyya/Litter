@@ -83,8 +83,17 @@ def profile_following(request, usertag):
 @login_required(login_url='users:login')
 @owner_only()
 def profile_settings(request, usertag):
-    user = get_object_or_404(LitterUser, usertag=usertag)
-    return render(request, 'profiles/profile-settings.html', {'user': user})
+    context = {'form': ProfileForm(instance=request.user)}
+    if request.method != 'POST':
+        return render(
+            request,
+            'profiles/profile-settings.html',
+            {'form': ProfileForm(instance=request.user)})
+
+    form = ProfileForm(request.POST, request.FILES, instance=request.user)
+    if form.is_valid():
+        form.save()
+    return render(request, 'profiles/profile-settings.html', context)
 
 
 @login_required(login_url='users:login')
