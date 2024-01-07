@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import models
 from django.db.models.functions import Coalesce
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -67,17 +68,18 @@ def profile_following(request, usertag):
 
     if follow:
         user_to_follow.followers.remove(request.user)
-    else:
-        user_to_follow.followers.add(request.user)
-        Notification.objects.create(
-            recipient=user_to_follow,
-            sender=request.user,
-            activity_type=Notification.FOLLOW,
-            object_type=Notification.FOLLOW,
-            object_url=reverse('profiles:posts',
-                               kwargs={'usertag': request.user.usertag})
-        )
-    return redirect(request.META.get('HTTP_REFERER'))
+        return HttpResponse(status=200)
+
+    user_to_follow.followers.add(request.user)
+    Notification.objects.create(
+        recipient=user_to_follow,
+        sender=request.user,
+        activity_type=Notification.FOLLOW,
+        object_type=Notification.FOLLOW,
+        object_url=reverse('profiles:posts',
+                           kwargs={'usertag': request.user.usertag})
+    )
+    return HttpResponse(status=200)
 
 
 @login_required(login_url='users:login')
@@ -185,7 +187,7 @@ def notification_delete(request, usertag, pk):
     # TODO AJAX this
     notif = get_object_or_404(Notification, id=pk)
     notif.delete()
-    return redirect('profiles:notifications', usertag)
+    return HttpResponse(status=200)
 
 
 @login_required(login_url='users:login')
@@ -194,7 +196,7 @@ def notification_delete_read(request, usertag):
     # TODO AJAX this
     Notification.objects.filter(recipient=request.user,
                                 is_unread=False).delete()
-    return redirect('profiles:notifications', usertag)
+    return HttpResponse(status=200)
 
 
 @login_required(login_url='users:login')

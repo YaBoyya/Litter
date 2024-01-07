@@ -161,7 +161,6 @@ def post_vote(request, pk):
     PostVote.objects.create(user=request.user, post=post)
     Post.objects.filter(id=pk).update(total_votes=F("total_votes") + 1)
     return HttpResponse(status=200)
-# TODO Fix upvote display
 
 
 @login_required(login_url='users:login')
