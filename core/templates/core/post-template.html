@@ -64,12 +64,12 @@
           false
         {% endif %});"
           {% if post.has_voted %}
-            src="{% static 'core/img/down.png' %}"
+            src="{% static 'core/img/upvote-clicked.png' %}"
           {% else %}
-            src="{% static 'core/img/up.png' %}"
+            src="{% static 'core/img/upvote.png' %}"
           {% endif %}
       {% else %}
-        a src="{% static 'core/img/up.png' %}"
+        " src="{% static 'core/img/upvote.png' %}"
       {% endif %}>
       <span class="post-vote-count">
         {{ post.total_votes }}
