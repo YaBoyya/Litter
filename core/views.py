@@ -26,7 +26,10 @@ def feed(request, page='home', trend='hot'):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
-    posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
+    if request.user.is_authenticated:
+        posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
+    else:
+        posts = Post.objects.get_sorted_feed(sort=trend)
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
@@ -50,12 +53,14 @@ def feed(request, page='home', trend='hot'):
 def search(request):
     form = SearchForm(request.GET, auto_id=False)
     q = request.session.pop('q', form.data.get('q', ''))
-    trend = form.data.get('trend', '')
+    trend = form.data.get('trend', '').lower()
     languages = form.data.getlist('languages', None)
     difficulty = form.data.get('difficulty', None)
 
-    posts = Post.objects.get_sorted_feed(
-        request.user, sort=trend).order_by('-created')
+    if request.user.is_authenticated:
+        posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
+    else:
+        posts = Post.objects.get_sorted_feed(sort=trend)
 
     if q:
         posts = posts.filter(

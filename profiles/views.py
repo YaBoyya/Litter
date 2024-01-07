@@ -96,6 +96,7 @@ def profile_settings(request, usertag):
     return render(request, 'profiles/profile-settings.html', context)
 
 
+# deprecated
 @login_required(login_url='users:login')
 @owner_only()
 def profile_edit(request, usertag):

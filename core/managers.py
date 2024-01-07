@@ -39,7 +39,7 @@ class PostManager(models.Manager):
             )
         )
 
-    def get_sorted_feed(self, user, sort):
+    def get_sorted_feed(self, user=None, sort=None):
         qs = self.get_voted(user).select_related(
                 'user').prefetch_related(Prefetch('languages'))
 
