@@ -38,12 +38,12 @@
       <img class="dark-mode
       {% if request.user.is_authenticated %}
         clickable" onclick = "upvoteCommentE({{ comment.id }},
-         {% if comment.vote.exists %}
+         {% if comment.has_voted %}
          true
          {% else %}
          false
          {% endif %});"
-         {% if comment.vote.exists %}
+         {% if comment.has_voted %}
          src="{% static 'core/img/down.png' %}"
          {% else %}
          src="{% static 'core/img/up.png' %}"

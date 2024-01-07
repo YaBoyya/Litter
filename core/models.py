@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
-from .managers import PostManager
+from .managers import CommentManager, PostManager
 
 
 @deconstructible
@@ -52,6 +52,9 @@ class Post(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=['user'], name='post_user_idx'),
+            models.Index(fields=['id'], name='post_id_idx'),
+            models.Index(fields=['-created'], name='post_desc_created_idx'),
+            models.Index(fields=['created'], name='post_created_idx')
         ]
 
     def __str__(self):
@@ -74,6 +77,8 @@ class Comment(models.Model):
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     was_edited = models.BooleanField(_('Was edited'), default=False)
     total_votes = models.IntegerField(default=0)
+
+    objects = CommentManager()
 
     class Meta:
         indexes = [
@@ -98,7 +103,11 @@ class PostVote(models.Model):
             ]
         indexes = [
             models.Index(fields=['user', 'post'],
-                         name="postvote_user_post_idx")
+                         name="postvote_user_post_idx"),
+            models.Index(fields=['post'],
+                         name="postvote_post_idx"),
+            models.Index(fields=['user'],
+                         name="postvote_user_idx"),
         ]
 
     def __str__(self):

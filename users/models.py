@@ -56,7 +56,8 @@ class LitterUser(AbstractUser):
 
     class Meta:
         indexes = [
-            models.Index(fields=['usertag'], name="litteruser_usertag_idx")
+            models.Index(fields=['usertag'], name="litteruser_usertag_idx"),
+            models.Index(fields=['id'], name="litteruser_id_idx")
         ]
 
     def delete(self, *args, **kwargs):
@@ -66,3 +67,6 @@ class LitterUser(AbstractUser):
             absolute_path = os.path.join(root, relative_path)
             os.remove(absolute_path)
         super().delete()
+
+    def get_vote_list(self):
+        return self.postvote_set.values_list('post_id', flat=True)

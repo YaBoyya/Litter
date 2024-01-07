@@ -17,6 +17,9 @@
   <li onclick="window.location.href='/post/{{ post.id }}'">
     {% include 'core/post-template.html' %}
   </li>
+  {% empty %}
+    {# TODO: Just center and make it look better #}
+    No prompts were found
   {% endfor %}
 </ul>
 {% endblock %}

@@ -58,19 +58,18 @@
       <img class="dark-mode
       {% if request.user.is_authenticated %}
         clickable" onclick = "upvotePostE({{ post.id }},
-        {% if post.postvote.exists %}
+        {% if post.has_voted %}
           true
         {% else %}
           false
         {% endif %});"
-          {% if post.postvote.exists %}
+          {% if post.has_voted %}
             src="{% static 'core/img/down.png' %}"
           {% else %}
             src="{% static 'core/img/up.png' %}"
           {% endif %}
-      {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
       {% else %}
-        " src="{% static 'core/img/up.png' %}"
+        a src="{% static 'core/img/up.png' %}"
       {% endif %}>
       <span class="post-vote-count">
         {{ post.total_votes }}

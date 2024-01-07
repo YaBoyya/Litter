@@ -15,7 +15,7 @@
 </div>
 {% cache 10 comments %}
 <ul class="post-list container-list">
-  {% for comment in post.comment.all %}
+  {% for comment in comments %}
   <li id="{{ comment.id }}">
     {% include 'core/comment-template.html' %}
   </li>
