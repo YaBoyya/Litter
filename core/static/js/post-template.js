@@ -39,9 +39,9 @@ function upvoteCommentE(id, upvoted) {
     }
     counter.textContent = (change?-1:1)+Number(counter.textContent)
     if(change == 1) {
-      img.src = img.src.replace("down", "up");
+      img.src = img.src.replace("upvote-clicked", "upvote");
     } else {
-      img.src = img.src.replace("up", "down");
+      img.src = img.src.replace("upvote", "upvote-clicked");
     }
   }
   ajax(UP, "GET", "/comment/" + id + "/vote");
@@ -64,9 +64,9 @@ function upvotePostE(id, upvoted) {
     }
     counter.textContent = (change?-1:1)+Number(counter.textContent)
     if(change == 1) {
-      img.src = img.src.replace("down", "up");
+      img.src = img.src.replace("upvote-clicked", "upvote");
     } else {
-      img.src = img.src.replace("up", "down");
+      img.src = img.src.replace("upvote", "upvote-clicked");
     }
   }
   ajax(UP, "GET", "/post/" + id + "/vote");

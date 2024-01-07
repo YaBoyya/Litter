@@ -64,13 +64,13 @@
           false
         {% endif %});"
           {% if post.postvote.exists %}
-            src="{% static 'core/img/down.png' %}"
+            src="{% static 'core/img/upvote-clicked.png' %}"
           {% else %}
-            src="{% static 'core/img/up.png' %}"
+            src="{% static 'core/img/upvote.png' %}"
           {% endif %}
       {# TODO: test vote'ing system both in comments and posts, as it has been changed #}
       {% else %}
-        " src="{% static 'core/img/up.png' %}"
+        " src="{% static 'core/img/upvote.png' %}"
       {% endif %}>
       <span class="post-vote-count">
         {{ post.total_votes }}
