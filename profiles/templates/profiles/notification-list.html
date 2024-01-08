@@ -5,6 +5,7 @@
 {% block cssjs %}
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'profiles/css/notification-list.css' %}">
+<script type="text/javascript" src="{% static 'profiles/js/notification-list.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -13,10 +14,10 @@
   </ul>
   <ul class="button-list">
     <li>
-      <a href="{% url 'profiles:notification-read-all' request.user.usertag %}">READ ALL</a>
+      <a onclick="readAllE()">READ ALL</a>
     </li>
     <li>
-      <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
+      <a onclick="deleteReadE()">DELETE READ</a>
     </li>
   </ul>
 </div>
@@ -26,7 +27,7 @@
     <a class="fit-content" href="{% url 'profiles:notification-redirect' request.user.usertag notification.id %}">
       {{ notification }} {{ notification.time_sent|timesince }} ago.
     </a>
-    <a class="fit-content" href="{% url 'profiles:notification-delete' request.user.usertag notification.id %}">
+    <a class="fit-content" onclick="deleteNotificationE({{ notification.id }})">
       <img class="x-button clickable dark-mode" src="{% static 'root/img/x.png' %}">
     </a>
   </li>
