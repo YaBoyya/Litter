@@ -1,9 +1,13 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.paginator import Paginator
 from django.db.models import F, Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+
 
 from .decorators import author_only
 from .forms import CommentForm, PostForm, SearchForm
@@ -26,6 +30,19 @@ def feed(request, page='home', trend='hot'):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
+    context = {'trend': trend, 'page': page, 'form': PostForm()}
+    return render(request, 'core/feed.html', context)
+
+
+def feed_ajax(request, page='home', trend='hot'):
+    if request.method != 'POST':
+        return HttpResponse(status=502)
+
+    response_json = request.POST
+    response_json = json.dumps(response_json)
+    data = json.loads(response_json)
+    page_number = int(data['page_number'])
+
     posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
 
     if (not request.user.is_authenticated
@@ -39,15 +56,15 @@ def feed(request, page='home', trend='hot'):
         )
 
     paginator = Paginator(posts, 25)
-    page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
-    context = {'posts': page_obj, 'trend': trend,
-               'page': page, 'form': PostForm()}
-    return render(request, 'core/feed.html', context)
+    data = serializers.serialize('json', page_obj)
+    data = {'data': data}
+    return JsonResponse(data, safe=False)
 
 
 def search(request):
+    # TODO check if filters are lower
     form = SearchForm(request.GET, auto_id=False)
     q = request.session.pop('q', form.data.get('q', ''))
     trend = form.data.get('trend', '').lower()
@@ -70,6 +87,18 @@ def search(request):
         posts = posts.filter(languages__name__in=languages)
 
     paginator = Paginator(posts, 25)
+
+    if request.method == 'POST':
+        response_json = request.POST
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+
+        page_number = int(data['page_number'])
+        page_obj = paginator.get_page(page_number)
+
+        data = serializers.serialize('json', page_obj)
+        data = {'data': data}
+        return JsonResponse(data, safe=False)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
