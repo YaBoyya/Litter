@@ -1,4 +1,8 @@
-#delete-post-buttons>* {
+#delete-buttons>* {
   padding: var(--tiny-gap);
   margin-top: var(--small-gap);
+  margin-left: var(--small-gap);
+}
+#delete-buttons {
+  justify-content: flex-end;
 }

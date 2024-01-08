@@ -7,16 +7,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <form method='POST'>
-            {% csrf_token %}
-            <p>Are you sure you want to delete "{{obj}}"</p>
-            <div id="delete-post-buttons" class="space-between button-list center-list =">
-              <div class="delete-button">
+<div class="container">
+    <form method='POST'>
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{obj}}"</p>
+        <div id="delete-buttons" class="flex center-list">
+            <button>
                 <a href={{request.META.HTTP_REFERER}}>Cancel</a>
-              </div>
-              <input class="delete-button" type="submit" value="Delete">
-            </div>
-        </form>
-    </div>
+            </button>
+            <input class="important-button" type="submit" value="Delete">
+        </div>
+    </form>
+</div>
 {% endblock %}

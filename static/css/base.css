@@ -45,11 +45,11 @@ input[type="file"]::file-selector-button:hover,
   font-weight: bold;
   text-decoration: underline;
 }
-.important-button {
+.important-button, input.important-button {
   color: var(--color-important);
   border-color: var(--color-important);
 }
-.important-button:hover {
+.important-button:hover, input.important-button:hover {
   color: var(--color-text);
   background-color: var(--color-important);
 }
