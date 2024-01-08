@@ -201,6 +201,9 @@ li.new-tag ul>*, li.new-tag>input {
   width: 100%;
   flex-wrap: 1;
 }
+.header {
+  font-size: var(--font-big);
+}
 /*}}}*/
 
 /* SIZE, MARGIN AND PADDING {{{*/
@@ -225,7 +228,7 @@ li.new-tag ul>*, li.new-tag>input {
   border-radius: var(--radius);
   border-style: solid;
 }
-.container-list>* {
+.container-list>* ~ .container-list>* {
   margin-top:  var(--big-gap);
 }
 .popup-menu>* {

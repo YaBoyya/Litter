@@ -3,7 +3,15 @@
 }
 #main {
   max-width: 35rem;
+  min-width: 30rem;
+}
+#main p {
+  justify-content: space-between;
 }
 #main input {
   padding: var(--big-gap);
+}
+#main input[type=text], #main input[type=password], #main input[type=email] {
+  width: 20rem;
+  flex-grow: 0;
 }
