@@ -7,6 +7,7 @@
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/comment-template.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
 <script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
+<script type="text/javascript" src="{% static 'profiles/js/profile.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -21,11 +22,9 @@
     <ul id="profile-buttons" class="flex button-list center-list">
       <li>
         {% if is_followed %}
-        <a href="{% url 'profiles:follow' user.usertag %}">
-          Unfollow
-        </a>
+        <a onclick="changeFollowE()">Unfollow</a>
         {% else %}
-        <a href="{% url 'profiles:follow' user.usertag %}">Follow</a>
+        <a onclick="changeFollowE()">Follow</a>
         {% endif %}
       </li>
       {% if request.user == user %}

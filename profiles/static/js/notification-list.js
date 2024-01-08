@@ -9,6 +9,7 @@ function deleteReadE() {
   }
   ajax(display, "GET", "notifications/delete-read")
 }
+
 function readAllE() {
   function display() {
     unread = document.getElementById("main")
@@ -19,4 +20,12 @@ function readAllE() {
     }
   }
   ajax(display, "GET", "notifications/read-all")
+}
+
+function deleteNotificationE(id) {
+  t = event.target.parentNode.parentNode
+  function display() {
+    t.remove()
+  }
+  ajax(display, "GET", "notifications/" + id + "/delete")
 }
