@@ -5,6 +5,7 @@
 {% block cssjs %}
 <link type="text/css" rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}">
 <link type="text/css" rel="stylesheet" href="{% static 'profiles/css/notification-list.css' %}">
+<script type="text/javascript" src="{% static 'profiles/js/notification-list.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -13,10 +14,10 @@
   </ul>
   <ul class="button-list">
     <li>
-      <a href="{% url 'profiles:notification-read-all' request.user.usertag %}">READ ALL</a>
+      <a onclick="readAllE()">READ ALL</a>
     </li>
     <li>
-      <a href="{% url 'profiles:notification-delete-read' request.user.usertag %}">DELETE READ</a>
+      <a onclick="deleteReadE()">DELETE READ</a>
     </li>
   </ul>
 </div>
