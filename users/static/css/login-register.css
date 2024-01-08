@@ -11,7 +11,3 @@
 #main input {
   padding: var(--big-gap);
 }
-#main input[type=text], #main input[type=password], #main input[type=email] {
-  width: 20rem;
-  flex-grow: 0;
-}
