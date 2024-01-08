@@ -1,8 +1,8 @@
 function deleteReadE() {
   function display() {
-    read = document.getElementById("main")
+    let read = document.getElementById("main")
       .getElementsByClassName("container-list")[0]
-      .querySelectorAll("li:not(highlight-container)")
+      .querySelectorAll("li:not(.highlight-container)")
     for(let notification of read) {
       notification.remove()
     }
@@ -12,18 +12,18 @@ function deleteReadE() {
 
 function readAllE() {
   function display() {
-    unread = document.getElementById("main")
+    let unread = document.getElementById("main")
       .getElementsByClassName("container-list")[0]
       .getElementsByClassName("highlight-container")
-    for(let notification of unread) {
-      notification.classList.remove("highlight-container")
+    while(unread.length) {
+      unread[0].classList.remove("highlight-container")
     }
   }
   ajax(display, "GET", "notifications/read-all")
 }
 
 function deleteNotificationE(id) {
-  t = event.target.parentNode.parentNode
+  let t = event.target.parentNode.parentNode
   function display() {
     t.remove()
   }
