@@ -1,7 +1,7 @@
 .utility-bar {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--big-gap);
+  margin: var(--big-gap) 0;
 }
 .utility-bar>ul>li {
   height: 3.5rem;

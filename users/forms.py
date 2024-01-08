@@ -7,20 +7,36 @@ from .models import LitterUser
 
 
 class RegisterForm(UserCreationForm):
+    usertag = forms.CharField(
+        label='',
+        widget=forms.TextInput(attrs={'placeholder': _('Usertag')}))
+    email = forms.EmailField(
+        label='',
+        widget=forms.EmailInput(attrs={'placeholder': _('Email')}))
     password1 = forms.CharField(
-        label=_("Password"),
+        label='',
         strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-    )
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password',
+                   'placeholder': _('Password')}))
     password2 = forms.CharField(
-        label=_("Password confirmation"),
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        label='',
         strip=False,
+        widget=forms.PasswordInput(
+            attrs={'autocomplete': 'new-password',
+                   'placeholder': _('Confirm password')})
     )
 
     class Meta:
         model = LitterUser
         fields = ['usertag', 'email', 'password1', 'password2']
+        labels = {
+            "password2": ""
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].label = ""
 
     def clean_usertag(self):
         usertag = self.cleaned_data.get('usertag')
@@ -63,7 +79,13 @@ class RegisterForm(UserCreationForm):
 
 
 class LoginForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    usertag = forms.CharField(
+        label='',
+        widget=forms.TextInput(attrs={'placeholder': _('Usertag')}))
+    password = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(
+            attrs={'placeholder': _('Password')}))
 
     class Meta:
         model = LitterUser

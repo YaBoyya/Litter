@@ -3,6 +3,10 @@
 }
 #main {
   max-width: 35rem;
+  min-width: 30rem;
+}
+#main p {
+  justify-content: space-between;
 }
 #main input {
   padding: var(--big-gap);

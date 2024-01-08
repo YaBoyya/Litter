@@ -11,7 +11,6 @@
 {% endblock %}
 
 {% block content %}
-{% include 'core/feed-bar.html' %}
 <ul class="post-list container-list">
   {% for post in posts %}
   <li onclick="window.location.href='/post/{{ post.id }}'">
@@ -30,11 +29,11 @@
   <div id="search" class="center-vert">
     {{ form.q }}
     <button class="button fill-img round">
-      <img src="images/search.jpg">
+      <img class="dark-mode" src="{% static 'core/img/search.png' %}">
     </button>
   </div>
   <ul class="button-list tag-list">
-    {% for trend in form.trend %} 
+    {% for trend in form.trend %}
     <li><input type="radio" name="trend"
                             value="{{ trend.data.value }}"
                             selected="{{ trend.data.selected }}"
