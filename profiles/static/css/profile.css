@@ -1,4 +1,3 @@
-/* SIZE, MARGIN AND PADDING */
 .post-utility-bar {
   margin-top: var(--big-gap);
 }
@@ -20,7 +19,3 @@
   height: 10rem;
   margin-top: var(--big-gap);
 }
-/*}}}*/
-
-/* SPECIFICS {{{*/
-/*}}}*/

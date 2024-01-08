@@ -273,7 +273,7 @@ function setDarkMode(b) {
 
 function onLoad() {
   setDarkMode(Math.floor(Math.random()*2));
-  if(initFeed) initFeed()
+  if(typeof initFeed === "function") initFeed()
   initTags()
   initPopupMenus()
   for (let ul of document.getElementsByClassName("tag-list")) {

@@ -3,14 +3,11 @@
 {% load cache %}
 
 {% block cssjs %}
-<link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'core/css/comment-template.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/post-details.css' %}" type="text/css">
-<script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container post">
   {% include 'core/post-template.html' %}
 </div>
 {% cache 10 comments %}

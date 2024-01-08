@@ -1,5 +1,10 @@
 {% load static %}
 
+{% block cssjs %}
+<script type="text/javascript" src="{% static 'core/js/comment-template.js' %}"></script>
+<link rel="stylesheet" href="{% static 'core/css/comment-template.css' %}" type="text/css">
+{% endblock %}
+
 <div>
   <div class="space-between">
     <ul class="flex center-vert-list comment-info">
@@ -37,22 +42,22 @@
     <li>
       <img class="dark-mode
       {% if request.user.is_authenticated %}
-        clickable" onclick = "upvoteCommentE({{ comment.id }},
-         {% if comment.has_voted %}
-         true
-         {% else %}
-         false
-         {% endif %});"
-         {% if comment.has_voted %}
-         src="{% static 'core/img/down.png' %}"
-         {% else %}
-         src="{% static 'core/img/up.png' %}"
-         {% endif %}
+      clickable" onclick = "upvoteCommentE({{ comment.id }},
+      {% if comment.has_voted %}
+      true
       {% else %}
-      " src="{% static 'core/img/up.png' %}"
-      {% endif %}>
+      false
+      {% endif %});"
+           {% if comment.has_voted %}
+           src="{% static 'core/img/upvote-clicked.png' %}"
+           {% else %}
+           src="{% static 'core/img/upvote.png' %}"
+           {% endif %}
+           {% else %}
+           " src="{% static 'core/img/upvote.png' %}"
+           {% endif %}>
       <span class="comment-vote-count">
-        {{ comment.total_votes }}
+      {{ comment.total_votes }}
       </span>
     </li>
   </ul>

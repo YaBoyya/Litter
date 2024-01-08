@@ -1,5 +1,10 @@
 {% load static %}
 
+{% block cssjs %}
+<script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
+<link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
+{% endblock %}
+
 <div>
   <div class="space-between post-margin">
     <ul class="flex center-vert-list post-info">
