@@ -228,7 +228,7 @@ li.new-tag ul>*, li.new-tag>input {
   border-radius: var(--radius);
   border-style: solid;
 }
-.container-list>* ~ .container-list>* {
+.container-list>* ~ li {
   margin-top:  var(--big-gap);
 }
 .popup-menu>* {
