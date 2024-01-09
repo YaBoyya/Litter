@@ -13,19 +13,21 @@
 <form method='POST' class="center-list">
   {% csrf_token %}
   {{ form.as_p }}
+  <small>Already have an account? <a href="{% url 'users:login' %}">Log In</a></small>
   <span class="right-align">
-    <input type="submit" value="Signup">
+    <input type="submit" value="Sign Up">
   </span>
 </form>
 {% else %}
 <span class="center-hor">
-  Login
+  Log In
 </span>
 <form method='POST' class="center-list">
   {% csrf_token %}
   {{ form.as_p }}
+  <small>Don't have an account? <a href="{% url 'users:register' %}">Sign Up</a></small>
   <span class="right-align">
-    <input type="submit" value="Login">
+    <input type="submit" value="Log In">
   </span>
 </form>
 {% endif %}

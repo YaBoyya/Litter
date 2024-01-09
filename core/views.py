@@ -26,10 +26,7 @@ def feed(request, page='home', trend='hot'):
         request.session['q'] = request.GET.get('q')
         return redirect('core:search')
 
-    if request.user.is_authenticated:
-        posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
-    else:
-        posts = Post.objects.get_sorted_feed(sort=trend)
+    posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
 
     if (not request.user.is_authenticated
             or not request.user.languages.exists()):
@@ -57,10 +54,7 @@ def search(request):
     languages = form.data.getlist('languages', None)
     difficulty = form.data.get('difficulty', None)
 
-    if request.user.is_authenticated:
-        posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
-    else:
-        posts = Post.objects.get_sorted_feed(sort=trend)
+    posts = Post.objects.get_sorted_feed(user=request.user, sort=trend)
 
     if q:
         posts = posts.filter(
@@ -96,9 +90,14 @@ def post_delete(request, pk):
 
 
 def post_details(request, pk):
-    post = Post.objects.get_voted(request.user).get(id=pk)
-    comments = Comment.objects.get_voted(request.user).filter(
-        post=post).order_by('-created')
+    if request.user.is_authenticated:
+        post = Post.objects.get_voted(request.user).get(id=pk)
+        comments = Comment.objects.get_voted(request.user).filter(
+            post=post).order_by('-created')
+    else:
+        post = Post.objects.get_voted().get(id=pk)
+        comments = Comment.objects.get_voted().filter(
+            post=post).order_by('-created')
 
     context = {'post': post, 'comments': comments, 'form': CommentForm()}
     if request.method != 'POST':

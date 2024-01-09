@@ -14,12 +14,20 @@ class Epoch(Func):
 class CommentManager(models.Manager):
     def get_voted(self, user=None) -> QuerySet:
         comment_vote = apps.get_model('core', 'CommentVote')
-        return super().get_queryset().annotate(
-            has_voted=Exists(comment_vote.objects.filter(
-                user=user,
-                comment_id=OuterRef('pk'))
+        try:
+            return super().get_queryset().annotate(
+                has_voted=Exists(comment_vote.objects.filter(
+                    user=user,
+                    comment_id=OuterRef('pk'))
+                )
             )
-        )
+        except (TypeError):
+            return super().get_queryset().annotate(
+                has_voted=Exists(comment_vote.objects.filter(
+                    user=None,
+                    comment_id=OuterRef('pk'))
+                )
+            )
 
 
 class PostManager(models.Manager):
@@ -31,13 +39,22 @@ class PostManager(models.Manager):
 
     def get_voted(self, user=None) -> QuerySet:
         post_vote = apps.get_model('core', 'PostVote')
-        return self.get_queryset().annotate(
-            comment_count=models.Count('comment', distinct=True),
-            has_voted=Exists(post_vote.objects.filter(
-                user=user,
-                post_id=OuterRef('pk'))
+        try:
+            return self.get_queryset().annotate(
+                comment_count=models.Count('comment', distinct=True),
+                has_voted=Exists(post_vote.objects.filter(
+                    user=user,
+                    post_id=OuterRef('pk'))
+                )
             )
-        )
+        except (TypeError):
+            return self.get_queryset().annotate(
+                comment_count=models.Count('comment', distinct=True),
+                has_voted=Exists(post_vote.objects.filter(
+                    user=None,
+                    post_id=OuterRef('pk'))
+                )
+            )
 
     def get_sorted_feed(self, user=None, sort=None):
         qs = self.get_voted(user).select_related(
