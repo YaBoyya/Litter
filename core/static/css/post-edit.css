@@ -1,0 +1,22 @@
+.edit-post-container {
+  margin: 0 auto;
+  width: 27rem;
+  height: fit-content;
+}
+.edit-post-title, .edit-post-container textarea, .edit-post-container>form>input {
+  width: 100%;
+}
+.edit-post-container a {
+  word-break: break-all;
+}
+.edit-post-description {
+  margin: var(--big-gap) 0;
+  width: 100%;
+  height: 15rem;
+}
+form input[type=submit] {
+  padding: var(--small-gap);
+}
+form a {
+  width: fit-content;
+}

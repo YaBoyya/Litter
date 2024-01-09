@@ -13,9 +13,14 @@
 <form method='POST' class="center-list">
   {% csrf_token %}
   {{ form.as_p }}
-  <small>Already have an account? <a href="{% url 'users:login' %}">Log In</a></small>
+  <div class="left-align">
+    <small>Already have an account?&nbsp;</small>
+    <small>
+      <a class="fit-content" href="{% url 'users:login' %}">Log In</a>
+    </small>
+  </div>
   <span class="right-align">
-    <input type="submit" value="Sign Up">
+    <input type="submit" value="SignUp">
   </span>
 </form>
 {% else %}
@@ -25,9 +30,14 @@
 <form method='POST' class="center-list">
   {% csrf_token %}
   {{ form.as_p }}
-  <small>Don't have an account? <a href="{% url 'users:register' %}">Sign Up</a></small>
+  <div class="left-align">
+    <small>Don't have an account?&nbsp;</small>
+    <small>
+      <a class="fit-content" href="{% url 'users:register' %}">Sign Up</a>
+    </small>
+  </div>
   <span class="right-align">
-    <input type="submit" value="Log In">
+    <input type="submit" value="LogIn">
   </span>
 </form>
 {% endif %}

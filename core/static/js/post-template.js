@@ -1,3 +1,12 @@
+function showCommentCreate() {
+  let cont =  document.getElementById("comment-create-container")
+  if (cont != null) {
+    cont.style.visibility = "visible"
+    cont.style.display = "block"
+    popupSetState(true)
+  }
+}
+
 function upvotePostE(id, upvoted) {
   event.preventDefault()
   event.stopPropagation()
