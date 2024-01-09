@@ -46,3 +46,12 @@ function imgPopupE() {
   image.style.display = "block"
   popupSetState(true)
 }
+
+function showCommentCreate() {
+  let cont =  document.getElementById("comment-create-container")
+  if (cont != null) {
+    cont.style.visibility = "visible"
+    cont.style.display = "block"
+    popupSetState(true)
+  }
+}

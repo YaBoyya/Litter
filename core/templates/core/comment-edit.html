@@ -1,0 +1,16 @@
+{% extends 'fakepopup.html' %}
+{% load static %}
+{% load cache %}
+
+{% block cssjs %}
+<link rel="stylesheet" href="{% static 'core/css/comment-edit.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<form class="align-right" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Edit">
+  </div>
+</form>
+{% endblock %}

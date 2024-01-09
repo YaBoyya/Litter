@@ -13,10 +13,19 @@
 <form method='POST' class="center-list">
   {% csrf_token %}
   {{ form.as_p }}
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
   <div class="left-align">
     <small>Already have an account?&nbsp;</small>
     <small><a class="fit-content" href="{% url 'users:login' %}">Log In</a></small>
   </div>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   <span class="right-align">
     <input type="submit" value="Signup">
   </span>

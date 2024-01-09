@@ -61,6 +61,10 @@ function popupSetState(state) {
       div.style.filter = "none";
     }
     document.getElementById("popup").style.visibility = "collapse"
+   for(child of document.getElementById("popup").children) {
+     child.style.visiblity = "collapse"
+     child.style.display = "none"
+   }
   }
 }
 
@@ -100,11 +104,27 @@ function ajax(f, type, url) {
   xhttp.send();
 }
 
-function removeElement() {
+function removeTagE() {
   let id = event.target.id;
-  event.target.remove();
-  input = document.getElementById(id)
+
+  let li = document.createElement("li")
+  let label = document.createElement("label")
+  label.textContent = event.target.textContent
+  label.htmlFor = id
+  let input = document.createElement("input")
+  input.id = id
+  input.type = "checkbox"
+  input.name = "languages"
+  input.value = 1
+  label.appendChild(input)
+  li.appendChild(label)
+  li.addEventListener("mousedown", searchPickTagE)
+  initTag(li)
   document.getElementById(id).checked = false;
+  let ul = event.target.parentNode.getElementsByClassName("popup-menu")[0]
+  //TODO: Correct order insert
+  ul.insertBefore(li, ul.firstChild)
+  event.target.remove();
 }
 
 function initTag(tag) {
@@ -177,14 +197,17 @@ function searchPickTagE() {
   let li = document.createElement("li");
   li.textContent = event.target.textContent;
   let input = event.target.getElementsByTagName('input')
+  console.log(event.target)
   let id = input[0].id
   document.getElementById(id).checked = true;
-  li.addEventListener("click", removeElement)
+  li.addEventListener("click", removeTagE)
   initTag(li)
   li.id = id
   let ul = document.getElementsByClassName("selectable-tag-list")[0]
   let ulLis = ul.children
   ul.insertBefore(li, ulLis[ulLis.length-2])
+  console.log(event.target)
+  event.target.parentNode.remove()
 }
 
 function collapseTagSearchE() {

@@ -26,6 +26,13 @@ function sortPopupInit() {
   }
 }
 
+function showPostCreate() {
+  let container = document.getElementsByClassName("edit-post-container")[0]
+  container.style.visibility = "visible"
+  container.style.display = "block"
+  popupSetState(true)
+}
+
 function setSearchVisibilityE(val) {
   let button = document.getElementById("search-button")
   let inside = button.getElementsByTagName("a")[0]

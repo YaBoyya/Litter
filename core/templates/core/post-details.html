@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block popup %}
-<div class="container">
+<div id="comment-create-container" class="container">
   <form method='POST'>
     {% csrf_token %}
     {{ form.as_p }}
