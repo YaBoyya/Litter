@@ -27,7 +27,7 @@ class PostManager(models.Manager):
         return super().get_queryset().annotate(
             comment_count=models.Count('comment', distinct=True),
             popularity=(F('views')*F('total_votes')*F('comment_count')
-                        / Epoch(timezone.now() - F('created'))))
+                        / (1+Epoch(timezone.now()-F('created')))))
 
     def get_voted(self, user=None) -> QuerySet:
         post_vote = apps.get_model('core', 'PostVote')
