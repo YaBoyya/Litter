@@ -21,17 +21,12 @@
 {% endcache %}
 {% endblock %}
 
-{% block rightbar %}
-<div id="details-rightbar">
-  <small>views: {{ post.views }}</small>
+{% block popup %}
+<div class="container">
+  <form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Comment">
+  </form>
 </div>
-{% if request.user.is_authenticated %}
-<hr>
-<span class="header">New comment</span>
-<form method='POST'>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" hidden>
-</form>
-{% endif %}
 {% endblock %}

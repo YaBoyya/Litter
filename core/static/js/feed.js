@@ -1,9 +1,3 @@
-function postCreateShow() {
-  document.getElementsByClassName("edit-post-container")[0].style.visibility = "visible"
-  document.getElementsByClassName("edit-post-container")[0].style.display = "block"
-  popupSetState(true)
-}
-
 function sortPopupE(state) {
   let parent = event.target.parentNode
   let menu = parent.getElementsByClassName("popup-menu")[0]
@@ -29,6 +23,24 @@ function sortPopupInit() {
       li.style.visibility = "collapse"
       li.style.display = "none"
     }
+  }
+}
+
+function setSearchVisibilityE(val) {
+  let button = document.getElementById("search-button")
+  let inside = button.getElementsByTagName("a")[0]
+  let input = document.getElementById("search-input")
+  if(val) {
+    inside.style.visibility="collapse"
+    inside.style.display="none"
+    input.style.visibility="unset"
+    input.style.display="unset"
+    input.focus();
+  } else {
+    inside.style.visibility="unset"
+    inside.style.display="flex"
+    input.style.visibility="collapse"
+    input.style.display="none"
   }
 }
 

@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title style="visibility: collapse; display: none;">Litter</title>
     <link type="text/css" rel="stylesheet" href="{% static 'root/css/base.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'root/css/rightbar.css' %}">
     <script type="text/javascript" src="{% static 'root/js/base.js' %}"></script>
     {% block cssjs %}
     {% endblock %}
@@ -27,7 +28,11 @@
         </a></li>
         {% if user.is_authenticated %}
           <li><a href="{% url 'profiles:notifications' request.user.usertag %}">
-            <img class="dark-mode" src="{% static 'root/img/notification.png' %}"> Notifications {% if user.notification_count %} | {{ user.notification_count }} {% endif %}
+            <img class="dark-mode" src="{% static 'root/img/notification.png' %}">
+            Notifications
+            {% if user.notification_count %}
+             | {{ user.notification_count }}
+            {% endif %}
           </a></li>
           <li><a href="{% url 'profiles:posts' request.user.usertag %}">
             <img src="{{ user.picture.url }}">
@@ -45,6 +50,10 @@
     {% endwith %}
     <div id="main" class="blur-on-popup">
       {% block content %}
+      {% endblock %}
+    </div>
+    <div class="side-bar container blur-on-popup">
+      {% block rightbar %}
       {% endblock %}
     </div>
     <div onmousedown="popupSetState(false)" id="popup-background">

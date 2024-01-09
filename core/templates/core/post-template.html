@@ -62,24 +62,27 @@
     <li>
       <img class="dark-mode
       {% if request.user.is_authenticated %}
-        clickable" onclick = "upvotePostE({{ post.id }},
-        {% if post.has_voted %}
-          true
-        {% else %}
-          false
-        {% endif %});"
-          {% if post.has_voted %}
-            src="{% static 'core/img/upvote-clicked.png' %}"
-          {% else %}
-            src="{% static 'core/img/upvote.png' %}"
-          {% endif %}
+      clickable" onclick = "upvotePostE({{ post.id }},
+      {% if post.has_voted %}
+      true
       {% else %}
-        " src="{% static 'core/img/upvote.png' %}"
-      {% endif %}>
+      false
+      {% endif %});"
+           {% if post.has_voted %}
+           src="{% static 'core/img/upvote-clicked.png' %}"
+           {% else %}
+           src="{% static 'core/img/upvote.png' %}"
+           {% endif %}
+           {% else %}
+           " src="{% static 'core/img/upvote.png' %}"
+           {% endif %}>
       <span class="post-vote-count">
-        {{ post.total_votes }}
+      {{ post.total_votes }}
       </span>
     </li>
-    <li><img class="dark-mode" src="{% static 'core/img/comment.png' %}">{{ post.comment_count }}</li>
+    <li>
+      <img class="dark-mode clickable" onclick="popupSetState(true)" src="{% static 'core/img/comment.png' %}">
+      {{ post.comment_count }}
+    </li>
   </ul>
 </div>

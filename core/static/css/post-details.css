@@ -8,9 +8,6 @@
 .post {
   margin-bottom: var(--big-gap);
 }
-#details-rightbar {
-  margin-bottom: var(--huge-gap);
-}
 form {
   display: flex;
   flex-direction: column;
@@ -21,9 +18,10 @@ form p label {
   display: none;
 }
 form input[type=text] {
-  width: 100%;
+  width: 20rem;
+  height: 3rem;
 }
 form input[type=submit] {
-  margin-top: var(--small-gap);
+  margin-top: var(--big-gap);
   padding: var(--tiny-gap);
 }

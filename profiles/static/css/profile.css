@@ -19,3 +19,9 @@
   height: 10rem;
   margin-top: var(--big-gap);
 }
+#profile-stats {
+  justify-content: flex-end;
+}
+#profile-stats>li {
+  margin-left: var(--small-gap);
+}

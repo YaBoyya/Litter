@@ -1,0 +1,13 @@
+#search-input {
+  visibility: collapse;
+  display: none;
+  width: 10rem;
+  height: 100%;
+  border-style: none;
+  border-width: 0;
+  margin: 0;
+}
+form {
+  height: 100%;
+  width: 100%;
+}

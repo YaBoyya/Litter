@@ -30,6 +30,7 @@
       {% if request.user == user %}
       <li><a href="{% url 'profiles:settings' user.usertag %}">Edit</a></li>
       {% endif %}
+      <li><a onclick="popupSetState(true)">Info</a>
     </ul>
   </div>
   <div id="profile-bio">
@@ -37,6 +38,12 @@
     {{ user.bio }}
     {% endif %}
   </div>
+  <ul id="profile-stats" class="flex">
+    <li>Followers: {{ followers_count }}</li>
+    <li>Posts: {{ user.post_total }}</li>
+    <li>Comments: {{ user.comment_total }}</li>
+    <li>Points: {{ points }}</li>
+  </ul>
 </div>
 <div class="utility-bar">
   <ul class="button-list">
@@ -67,12 +74,7 @@
 </ul>
 {% endif %}
 {% endblock %}
-{% block rightbar %}
-Followers: {{ followers_count }}
-<br>
-Posts: {{ user.post_total }}
-<br>
-Comments: {{ user.comment_total }}
-<br>
-Points: {{ points }}
+
+{% block popup %}
+
 {% endblock %}

@@ -246,7 +246,8 @@ li.new-tag ul>*, li.new-tag>input {
   height: fit-content;
 }
 #main {
-  width: 60%;
+  width: 80%;
+  margin-right: var(--big-gap);
 }
 #logo {
   height: 6vw;

@@ -61,10 +61,6 @@ function popupSetState(state) {
       div.style.filter = "none";
     }
     document.getElementById("popup").style.visibility = "collapse"
-    for(child of document.getElementById("popup").children) {
-      child.style.visibility = "collapse"
-      child.style.display = "none"
-    }
   }
 }
 

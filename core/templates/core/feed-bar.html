@@ -1,10 +1,24 @@
+{% load static %}
+
+{% block cssjs %}
+<link rel="stylesheet" href="{% static 'core/css/feed-bar.css' %}" type="text/css">
+{% endblock %}
+
 <div class="utility-bar">
   <ul class="button-list">
     {% if user.is_authenticated %}
     <li>
-      <a onclick="postCreateShow()">+ POST</a>
+      <a onclick="popupSetState(true)">+ POST</a>
     </li>
     {% endif %}
+    <li id="search-button">
+      <a onclick="setSearchVisibilityE(true)">
+        Search
+      </a>
+      <form method='GET'>
+        <input onfocusout="setSearchVisibilityE(false)" id="search-input" type="text" name="q" placeholder="Search...">
+      </form>
+    </li>
   </ul>
   <ul>
     <li id="sort" onmouseleave="sortPopupE(false)">
