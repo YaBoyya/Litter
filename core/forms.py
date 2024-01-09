@@ -33,6 +33,11 @@ class PostForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    text = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'Add a comment...'}),
+        max_length=200,
+        required=True)
+
     class Meta:
         model = Comment
         fields = ['text']
