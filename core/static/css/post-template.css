@@ -58,7 +58,7 @@
 .post-counters>li a {
   aspect-ratio: 1/1;
 }
-.post-counters img {
+.post-counters>li img {
   height: 1.7vw;
   border-radius: 0;
 }

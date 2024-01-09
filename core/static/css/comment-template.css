@@ -28,7 +28,7 @@
 .comment-counters>li a {
   aspect-ratio: 1/1;
 }
-.comment-counters img {
+.comment-counters>li img {
   height: 1.7vw;
   border-radius: 0;
 }

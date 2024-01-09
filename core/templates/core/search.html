@@ -4,9 +4,7 @@
 
 {% block cssjs %}
 <link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'core/css/post-template.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'core/css/utility-bar.css' %}" type="text/css">
-<script type="text/javascript" src="{% static 'core/js/post-template.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -16,8 +14,7 @@
     {% include 'core/post-template.html' %}
   </li>
   {% empty %}
-    {# TODO: Just center and make it look better #}
-    No prompts were found
+    <li class="notice">No prompts were found</li>
   {% endfor %}
 </ul>
 {% endblock %}

@@ -2,6 +2,7 @@
 :root {
 --font-normal: 14pt;
 --font-big: 19pt;
+--font-huge: 24pt;
 --huge-gap: 1.5vw;
 --big-gap: 1vw;
 --small-gap: 0.5vw;
@@ -35,10 +36,10 @@ input[type="file"]::file-selector-button {
 input[type="submit"]:hover, input[type="password"]:focus,
 input[type="email"]:focus, textarea:focus,
 input[type="file"]::file-selector-button:hover,
-.selectable-tag-list>li:hover, button:hover, button-list>li:hover {
+.selectable-tag-list>*:hover, button:hover, button-list>*:hover {
   background-color: var(--color-highlight);
 }
-.selectable-tag-list>li.new-tag:hover {
+.selectable-tag-list>*.new-tag:hover {
   background-color: unset;
 }
 .color-hi-text {
@@ -203,6 +204,9 @@ li.new-tag ul>*, li.new-tag>input {
 }
 .header {
   font-size: var(--font-big);
+}
+.notice {
+  font-size: var(--font-huge);
 }
 /*}}}*/
 
