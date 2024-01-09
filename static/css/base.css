@@ -1,5 +1,6 @@
 /* VARIABLES {{{*/
 :root {
+--font-small: 12pt;
 --font-normal: 14pt;
 --font-big: 19pt;
 --font-huge: 24pt;
@@ -72,6 +73,9 @@ input[type="file"]::file-selector-button:hover,
   font-family: "Source Sans Pro", sans-serif;
   color: var(--color-text);
 }
+small, small * {
+  font-size: var(--font-small);
+}
 hr {
   border-style: solid;
   border-top: none;
@@ -136,6 +140,10 @@ body>* {
 .round {
   border-radius: 100vw;
   aspect-ratio: 1/1;
+}
+.left-align {
+  display: flex;
+  justify-content: flex-start;
 }
 .right-align {
   display: flex;
