@@ -157,11 +157,13 @@ function styleTagSearch() {
 
 function showTagSearchE() {
   let li = event.target.parentNode.getElementsByClassName("new-tag")[0]
+  let but = li.nextElementSibling
   li.style.visibility="visible"
   li.style.display="block"
   li.getElementsByTagName("input")[0].focus()
   let counter = 0
-  console.log(li)
+  but.style.visibility="collapse"
+  but.style.display="none"
   for(li of li.getElementsByTagName("li")) {
     if(counter>4) {
       li.style.visibility="collapse"
@@ -191,8 +193,11 @@ function searchPickTagE() {
 
 function collapseTagSearchE() {
   li = event.target.parentNode
+  let but = li.nextElementSibling
   li.style.visibility="collapse"
   li.style.display="none"
+  but.style.visibility="visible"
+  but.style.display="block"
   li.getElementsByTagName("input")[0].value = ""
 }
 
