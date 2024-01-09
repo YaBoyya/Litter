@@ -8,16 +8,16 @@ class ProfileForm(forms.ModelForm):
     username = forms.CharField(
         max_length=100,
         widget=forms.TextInput(
-            attrs={'class': 'edit-post-title',
-                   'placeholder': 'Title'}
+            attrs={'class': 'psettings-username',
+                   'placeholder': 'Username'}
         )
     )
     bio = forms.CharField(
         required=False,
         max_length=200,
         widget=forms.Textarea(
-            attrs={'class': 'edit-post-description',
-                   'plasceholder': 'Description'}
+            attrs={'class': 'psettings-bio',
+                   'plasceholder': 'Bio'}
         )
     )
     picture = forms.ImageField(required=False)

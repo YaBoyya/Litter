@@ -8,3 +8,22 @@
 .post {
   margin-bottom: var(--big-gap);
 }
+#details-rightbar {
+  margin-bottom: var(--huge-gap);
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+form p label {
+  visibility: collapse;
+  display: none;
+}
+form input[type=text] {
+  width: 100%;
+}
+form input[type=submit] {
+  margin-top: var(--small-gap);
+  padding: var(--tiny-gap);
+}

@@ -72,6 +72,11 @@ input[type="file"]::file-selector-button:hover,
   font-family: "Source Sans Pro", sans-serif;
   color: var(--color-text);
 }
+hr {
+  border-style: solid;
+  border-top: none;
+  margin: var(--big-gap) 0;
+}
 div, ul, form, p, label {
   border-radius:  0;
 }
@@ -204,6 +209,7 @@ li.new-tag ul>*, li.new-tag>input {
 }
 .header {
   font-size: var(--font-big);
+  margin-bottom: var(--big-gap);
 }
 .notice {
   font-size: var(--font-huge);

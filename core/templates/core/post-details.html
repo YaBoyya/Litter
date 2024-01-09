@@ -22,8 +22,12 @@
 {% endblock %}
 
 {% block rightbar %}
-<small>{{ post.views }} views</small>
+<div id="details-rightbar">
+  <small>views: {{ post.views }}</small>
+</div>
 {% if request.user.is_authenticated %}
+<hr>
+<span class="header">New comment</span>
 <form method='POST'>
   {% csrf_token %}
   {{ form.as_p }}

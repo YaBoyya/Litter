@@ -1,13 +1,13 @@
-.psettings-header {
-  font-size: var(--font-big);
-  font-weight: bold;
-  margin: var(--small-gap) 0;
+form input, form textarea {
+  margin-bottom: var(--big-gap);
 }
-
+form img {
+  height: 13vw;
+  margin-bottom: var(--big-gap);
+}
 .save-profile-button {
   padding: var(--tiny-gap);
 }
-
 .security-button-list>li {
   padding: var(--tiny-gap);
 }
