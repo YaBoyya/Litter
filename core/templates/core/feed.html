@@ -38,7 +38,6 @@
                  onfocusout="collapseTagSearchE()" type="search"
                                                    class="tag">
           <ul class="popup-menu button-list tag-list">
-            {# TODO: Saved language tag doesn't disappear after pressing #}
             {% for lang in form.languages %}
             <li onmousedown="searchPickTagE()">{{ lang }}</li>
             {% endfor %}
