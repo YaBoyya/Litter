@@ -3,7 +3,8 @@
 {% load cache %}
 
 {% block cssjs %}
-<link rel="stylesheet" href="{% static 'core/css/post-edit.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'core/css/feed.css' %}" type="text/css">
+<script type="text/javascript" src="{% static 'core/js/feed.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -27,7 +28,7 @@
       </li>
       <li onclick="showTagSearchE()">+</li>
     </ul>
-    <input type="submit" value="Edit">
+    <button class="edit-post-submit" type="submit">Create</button>
   </div>
 </form>
 {% endblock %}

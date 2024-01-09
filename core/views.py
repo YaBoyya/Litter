@@ -180,7 +180,7 @@ def comment_delete(request, pk):
 def comment_edit(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     if request.method != 'POST':
-        return render(request, 'core/comment-edit.html',
+        return render(request, 'edit.html',
                       {'form': CommentForm(instance=comment)})
 
     form = CommentForm(request.POST, instance=comment)
