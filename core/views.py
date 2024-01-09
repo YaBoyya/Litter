@@ -128,10 +128,9 @@ def post_details(request, pk):
 @author_only(obj=Post, message="You cannot edit this post")
 def post_edit(request, pk):
     post = get_object_or_404(Post, id=pk)
-    context = {'post': post}
     if request.method != 'POST':
-        context.update({'form': PostForm(instance=post)})
-        return render(request, 'core/post-edit.html', context)
+        return render(request, 'core/post-edit.html',
+                      {'form': PostForm(instance=post)})
 
     form = PostForm(request.POST, instance=post)
     if not form.is_valid():
