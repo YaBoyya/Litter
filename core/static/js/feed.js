@@ -44,6 +44,13 @@ function setSearchVisibilityE(val) {
   }
 }
 
+function showPostCreate() {
+  let container = document.getElementsByClassName("edit-post-container")[0]
+  container.style.visibility = "visible"
+  container.style.display = "block"
+  popupSetState(true)
+}
+
 function initFeed() {
   sortPopupInit()
 }
