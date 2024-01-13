@@ -77,9 +77,6 @@ def user_login(request):
                         password=form['password'].value())
     if user is None:
         messages.info(request, "Invalid usertag or password.")
-    elif not user.is_active:
-        messages.info(request,
-                      "Please activate your account before logging in.")
     else:
         login(request, user)
         messages.success(request, "Logged in succesfully.")
