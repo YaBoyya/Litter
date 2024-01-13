@@ -16,6 +16,10 @@ class LitterUserManager(UserManager):
         return super().create_superuser(usertag, email, password,
                                         **extra_fields)
 
+    def create_user(self, usertag, email, password, **extra_fields):
+        extra_fields.update({'usertag': usertag})
+        return super().create_user(usertag, email, password, **extra_fields)
+
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().annotate(
             notification_count=models.Count(
