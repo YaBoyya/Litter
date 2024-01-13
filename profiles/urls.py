@@ -25,8 +25,6 @@ urlpatterns = [
          name="notification-redirect"),
 
     path('u/<str:usertag>/settings', views.profile_settings, name='settings'),
-    path('u/<str:usertag>/settings/profile-edit',
-         views.profile_edit, name='edit'),
     path('u/<str:usertag>/settings/email-change',
          views.email_change, name='email-change'),
     path('u/<str:usertag>/settings/password-change',

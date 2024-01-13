@@ -61,7 +61,6 @@ def profile_following(request, usertag):
     Will create a follow object in m2m relations,
     if it already exists it will be deleted
     """
-    # TODO AJAX this
     user_to_follow = get_object_or_404(LitterUser, usertag=usertag)
 
     follow = request.user in user_to_follow.followers.all()
@@ -96,25 +95,6 @@ def profile_settings(request, usertag):
     if form.is_valid():
         form.save()
     return render(request, 'profiles/profile-settings.html', context)
-
-
-# deprecated
-@login_required(login_url='users:login')
-@owner_only()
-def profile_edit(request, usertag):
-    user = get_object_or_404(LitterUser, usertag=usertag)
-
-    if request.method != 'POST':
-        return render(request, 'profiles/profile-edit.html',
-                      {'form': ProfileForm(instance=user)})
-
-    form = ProfileForm(request.POST, request.FILES, instance=user)
-    if not form.is_valid():
-        messages.info(request, "Profile information is not valid.")
-        return redirect(request.path_info)
-
-    form.save()
-    return redirect('profiles:posts', user.usertag)
 
 
 @login_required(login_url='users:login')
