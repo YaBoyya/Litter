@@ -10,7 +10,6 @@
 <div class="container post">
   {% include 'core/post-template.html' %}
 </div>
-{% cache 10 comments %}
 <ul class="post-list container-list">
   {% for comment in comments %}
   <li id="{{ comment.id }}">
@@ -18,7 +17,6 @@
   </li>
   {% endfor %}
 </ul>
-{% endcache %}
 {% endblock %}
 
 {% block popup %}

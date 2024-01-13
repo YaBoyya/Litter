@@ -12,7 +12,6 @@
 
 {% block content %}
 {% include 'core/feed-bar.html' %}
-{% cache 10 posts %}
 <ul class="post-list container-list">
   {% for post in posts %}
   <li onclick="window.location.href='/post/{{ post.id }}'">
@@ -20,7 +19,6 @@
   </li>
   {% endfor %}
 </ul>
-{% endcache %}
 {% endblock %}
 
 {% block popup %}
