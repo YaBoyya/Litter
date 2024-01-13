@@ -60,7 +60,7 @@ def search(request):
         posts = posts.filter(
                             Q(title__icontains=q)
                             | Q(text__icontains=q)
-                            | Q(languages__name__icontains=q)
+                            | Q(languages__name__istartswith=q)
                             ).order_by('-created')
 
     if difficulty:
