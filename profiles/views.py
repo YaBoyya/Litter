@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
 from django.db import models
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse
@@ -9,7 +8,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .decorators import owner_only
-from .forms import EmailForm, LanguageTagForm, ProfileForm
+from .forms import (CleanPasswordChangeForm, EmailForm,
+                    LanguageTagForm, ProfileForm)
 from .models import Notification
 from core.models import Post, Comment
 from users.models import LitterUser
@@ -125,9 +125,9 @@ def password_change(request, usertag):
 
     if request.method != 'POST':
         return render(request, 'profiles/profile-edit.html',
-                      {'form': PasswordChangeForm(user=user)})
+                      {'form': CleanPasswordChangeForm(user=user)})
 
-    form = PasswordChangeForm(user, request.POST)
+    form = CleanPasswordChangeForm(user, request.POST)
     if not form.is_valid():
         messages.info(request, "Invalid password.")
         (form.errors)

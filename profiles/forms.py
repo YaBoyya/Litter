@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.translation import gettext_lazy as _
 
 from users.models import LitterUser
 from core.models import Language
@@ -26,7 +28,6 @@ class ProfileForm(forms.ModelForm):
         queryset=Language.objects.all(),
         widget=forms.CheckboxSelectMultiple()
     )
-# TODO cleanup image field and change it to source if possible
 
     class Meta:
         model = LitterUser
@@ -34,6 +35,10 @@ class ProfileForm(forms.ModelForm):
 
 
 class EmailForm(forms.ModelForm):
+    email = forms.CharField(
+        label='',
+        widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+
     class Meta:
         model = LitterUser
         fields = ['email']
@@ -41,6 +46,32 @@ class EmailForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         return email.lower()
+
+
+class CleanPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        label='',
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "current-password",
+                   "autofocus": True,
+                   "placeholder": _("Old password")}
+        ),
+    )
+    new_password1 = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "new-password",
+                   "placeholder": _("New password")}),
+        strip=False,
+    )
+    new_password2 = forms.CharField(
+        label='',
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "new-password",
+                   "placeholder": _("Confirm password")}),
+    )
 
 
 class LanguageTagForm(forms.ModelForm):
