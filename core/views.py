@@ -11,7 +11,6 @@ from .models import Comment, CommentVote, Post, PostVote
 from profiles.models import Notification
 
 
-# TODO add popularity value to posts for easier and more accurate sorting
 def feed(request, page='home', trend='hot'):
     if request.method == 'POST':
         post_form = PostForm(request.POST, request.FILES)

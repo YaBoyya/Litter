@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from .models import Post, Comment, Language
 
@@ -9,7 +10,7 @@ class PostForm(forms.ModelForm):
         max_length=100,
         widget=forms.TextInput(
             attrs={'class': 'edit-post-title',
-                   'placeholder': 'Title'}
+                   'placeholder': _('Title')}
         )
     )
     text = forms.CharField(
@@ -17,7 +18,7 @@ class PostForm(forms.ModelForm):
         max_length=500,
         widget=forms.Textarea(
             attrs={'class': 'edit-post-description',
-                   'plasceholder': 'Description'}
+                   'plasceholder': _('Description')}
         )
     )
     picture = forms.FileField(required=False)
@@ -25,7 +26,7 @@ class PostForm(forms.ModelForm):
         queryset=Language.objects.all(),
         widget=forms.CheckboxSelectMultiple()
     )
-    # difficulty = forms.ChoiceField(widget=forms.Select())
+    difficulty = forms.ChoiceField(widget=forms.Select())
 
     class Meta:
         model = Post
@@ -34,7 +35,7 @@ class PostForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     text = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': 'Add a comment...'}),
+        widget=forms.TextInput(attrs={'placeholder': _('Add a comment...')}),
         max_length=200,
         required=True)
 
@@ -48,17 +49,17 @@ class SearchForm(forms.ModelForm):
         empty_value='',
         required=False,
         widget=forms.TextInput(
-            attrs={'placeholder': 'Search...'}
+            attrs={'placeholder': _('Search...')}
             )
     )
     trend = forms.ChoiceField(
         required=False,
-        choices=[('New', 'New'), ('Hot', 'Hot')],
+        choices=[('New', _('New')), ('Hot', _('Hot'))],
         widget=forms.RadioSelect()
     )
     difficulty = forms.ChoiceField(
         required=False,
-        choices=[('E', 'Easy'), ('M', 'Medium'), ('H', 'Hard')],
+        choices=[('E', _('Easy')), ('M', _('Medium')), ('H', _('Hard'))],
         widget=forms.RadioSelect()
     )
     languages = forms.ModelMultipleChoiceField(

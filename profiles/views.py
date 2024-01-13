@@ -100,7 +100,6 @@ def profile_settings(request, usertag):
 @login_required(login_url='users:login')
 @owner_only()
 def email_change(request, usertag):
-    # TODO remove labels and add placeholders to form
     user = get_object_or_404(LitterUser, usertag=usertag)
 
     if request.method != 'POST':
@@ -120,7 +119,6 @@ def email_change(request, usertag):
 @login_required(login_url='users:login')
 @owner_only()
 def password_change(request, usertag):
-    # TODO remove labels and add placeholders to form
     user = get_object_or_404(LitterUser, usertag=usertag)
 
     if request.method != 'POST':
