@@ -34,3 +34,5 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ['-time_sent']
+        indexes = [models.Index(fields=['recipient'],
+                                name='notification_recipient_idx')]

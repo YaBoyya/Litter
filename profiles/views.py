@@ -156,7 +156,7 @@ def language_follow(request, usertag):
 @login_required(login_url='users:login')
 @owner_only()
 def notification_list(request, usertag):
-    notifications = Notification.objects.filter(recipient__usertag=usertag)
+    notifications = Notification.objects.filter(recipient=request.user)
     context = {'notifications': notifications}
     return render(request, 'profiles/notification-list.html', context)
 
@@ -164,7 +164,6 @@ def notification_list(request, usertag):
 @login_required(login_url='users:login')
 @owner_only()
 def notification_delete(request, usertag, pk):
-    # TODO AJAX this
     notif = get_object_or_404(Notification, id=pk)
     notif.delete()
     return HttpResponse(status=200)
@@ -173,7 +172,6 @@ def notification_delete(request, usertag, pk):
 @login_required(login_url='users:login')
 @owner_only()
 def notification_delete_read(request, usertag):
-    # TODO AJAX this
     Notification.objects.filter(recipient=request.user,
                                 is_unread=False).delete()
     return HttpResponse(status=200)
