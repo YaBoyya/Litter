@@ -19,7 +19,6 @@ input {
 }
 input[type=submit] {
   padding: var(--small-gap);
-  margin-top: var(--small-gap);
   margin-bottom: 0;
   width: fit-content;
 }
