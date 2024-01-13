@@ -61,7 +61,6 @@ class LitterUser(AbstractUser):
     class Meta:
         indexes = [
             models.Index(fields=['usertag'], name="litteruser_usertag_idx"),
-            models.Index(fields=['id'], name="litteruser_id_idx")
         ]
 
     def delete(self, *args, **kwargs):
