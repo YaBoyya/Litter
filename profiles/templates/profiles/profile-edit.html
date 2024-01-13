@@ -1,11 +1,20 @@
-<div>
+{% extends 'fakepopup.html' %}
+
+{% load static %}
+
+{% block cssjs %}
+<link type="text/css" rel="stylesheet" href="{% static 'profiles/css/profile-edit.css' %}">
+{% endblock %}
+
+{% block content %}
+<ul class="important-text-list">
     {% for message in messages %}
-    <br>
-    {{message}}
+    <li>{{message}}</li>
     {% endfor %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-</div>
+</ul>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
