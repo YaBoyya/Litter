@@ -78,15 +78,16 @@ class RegisterForm(UserCreationForm):
             return email
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     usertag = forms.CharField(
+        max_length=150,
         label='',
-        widget=forms.TextInput(attrs={'placeholder': _('Usertag')}))
+        widget=forms.TextInput(attrs={
+            'id': 'usertag',
+            'placeholder': _('Usertag')}))
     password = forms.CharField(
+        max_length=128,
         label='',
-        widget=forms.PasswordInput(
-            attrs={'placeholder': _('Password')}))
-
-    class Meta:
-        model = LitterUser
-        fields = ['usertag', 'password']
+        widget=forms.PasswordInput(attrs={
+            'id': 'password',
+            'placeholder': _('Password')}))

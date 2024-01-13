@@ -65,10 +65,16 @@ def user_login(request):
     if request.method != 'POST':
         return render(request, 'users/login-register.html', context)
 
+    form = LoginForm(request.POST)
+    context.update({'form': form})
+
+    if not form.is_valid():
+        return render(request, 'users/login-register.html', context)
+
     next = request.GET.get('next', 'core:feed')
     user = authenticate(request,
-                        usertag=request.POST.get('usertag'),
-                        password=request.POST.get('password'))
+                        usertag=form['usertag'].value(),
+                        password=form['password'].value())
     if user is None:
         messages.info(request, "Invalid usertag or password.")
     elif not user.is_active:
