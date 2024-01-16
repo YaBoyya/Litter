@@ -54,7 +54,12 @@
 #page-navigation li {
   margin-left: var(--small-gap);
   margin-top: var(--small-gap);
+  min-width: 2rem;
+  height: 2rem;
 }
 #page-navigation li a {
   padding: var(--small-gap);
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }

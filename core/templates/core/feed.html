@@ -28,7 +28,11 @@
   {% endif %}
 
   {% for i in posts.paginator.get_elided_page_range %}
-    <li><a href="?page={{ i }}">{{ i }}</a></li>
+    <li
+      {% if posts.number == i %}
+      class="highlight-button"
+      {% endif %}
+      ><a href="?page={{ i }}">{{ i }}</a></li>
   {% endfor %}
 
   {% if posts.has_next %}

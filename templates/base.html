@@ -21,25 +21,37 @@
       </a>
       <ul id="nav-list" class="button-list icon-text-list">
         <li><a href="{% url 'core:feed-filtered' 'home' 'hot' %}">
-          <img class="dark-mode" src="{% static 'root/img/home.png' %}">Home
+          <img class="dark-mode" src="{% static 'root/img/home.png' %}">
+          <span>Home</span>
         </a></li>
         <li><a href="{% url 'core:feed-filtered' 'popular' 'hot' %}">
-          <img class="dark-mode" src="{% static 'root/img/popular.png' %}">Popular
+          <img class="dark-mode" src="{% static 'root/img/popular.png' %}">
+          <span>Popular</span>
         </a></li>
         {% if user.is_authenticated %}
           <li><a href="{% url 'profiles:notifications' request.user.usertag %}">
-            <img class="dark-mode" src="{% static 'root/img/notification.png' %}"> Notifications {% if user.notification_count %} | {{ user.notification_count }} {% endif %}
+            <img class="dark-mode" src="{% static 'root/img/notification.png' %}">
+            <span>
+              Notifications
+              {% if user.notification_count %} |
+              {{ user.notification_count }}
+              {% endif %}
+            </span>
           </a></li>
           <li><a href="{% url 'profiles:posts' request.user.usertag %}">
             <img src="{{ user.picture.url }}">
-            <span class="nowrap">
+            <span>
               {{user.username}} | @{{user.usertag}}
             </span>
           </a></li>
           <li><a href="{% url 'users:logout' %}">Logout</a></li>
         {% else %}
-          <li class="flex" ><a href="{% url 'users:register' %}">Register</a></li>
-          <li><a href="{% url 'users:login' %}">Login</a></li>
+          <li class="flex" ><a href="{% url 'users:register' %}">
+              <span>Register</span>
+            </a></li>
+          <li><a href="{% url 'users:login' %}">
+              <span>Login</span>
+            </a></li>
         {% endif %}
       </ul>
     </div>

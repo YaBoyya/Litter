@@ -48,6 +48,9 @@ input[type="file"]::file-selector-button:hover,
   font-weight: bold;
   text-decoration: underline;
 }
+.highlight-button {
+  background-color: var(--color-highlight);
+}
 .important-button, input.important-button {
   color: var(--color-important);
   border-color: var(--color-important);
@@ -271,6 +274,12 @@ li.new-tag ul>*, li.new-tag>input {
 }
 #nav-list>*>a {
   padding: 1vw;
+}
+#nav-list span {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 10vw;
+  display: inline-block;
 }
 #nav-list img {
   border-radius: 0;
