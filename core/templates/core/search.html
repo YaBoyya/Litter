@@ -17,6 +17,29 @@
     <li class="notice">No prompts were found</li>
   {% endfor %}
 </ul>
+{% if posts.has_other_pages %}
+<ul id="page-navigation" class="button-list">
+  {% if posts.has_previous %}
+  <li>
+    <a href="?page={{ posts.previous_page_number }}">← Prev</a>
+  </li>
+  {% endif %}
+
+  {% for i in posts.paginator.get_elided_page_range %}
+    <li
+      {% if posts.number == i %}
+      class="highlight-button"
+      {% endif %}
+      ><a href="?page={{ i }}">{{ i }}</a></li>
+  {% endfor %}
+
+  {% if posts.has_next %}
+  <li>
+    <a href="?page={{ posts.next_page_number }}">Next →</a>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}
 {% endblock %}
 
 
