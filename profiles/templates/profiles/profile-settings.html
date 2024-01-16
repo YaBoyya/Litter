@@ -19,9 +19,6 @@
         {# TODO find smarter workaround #}
         <span class="header">Interests</span>
         <ul class="tag-list center-vert clickable-list selectable-tag-list">
-            {% for lang in request.user.languages.all %}
-            <li>{{lang}}</li>
-            {% endfor %}
             <li class="new-tag">
                 <input onkeyup="searchTagE()"
                        onfocusout="collapseTagSearchE()" type="search"

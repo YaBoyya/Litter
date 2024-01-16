@@ -155,6 +155,13 @@ function initPopupMenus() {
     if(liList.length>1)
       liList[liList.length-1].style.borderRadius = "0 0 var(--radius) var(--radius)"
   }
+  for(let ul of document.getElementsByClassName("popup-menu")) {
+    for(let li of ul.getElementsByTagName("li")) {
+      if(li.getElementsByTagName("input")[0].checked) {
+        addTag(li)
+      }
+    }
+  }
 }
 
 function styleTagSearch() {
@@ -187,13 +194,9 @@ function showTagSearchE() {
   styleTagSearch()
 }
 
-function searchPickTagE() {
+function addTag(tag) {
   let li = document.createElement("li");
-  let target = event.target
-  console.log(target.tagName)
-  while(target.tagName != "LI")
-    target = target.parentNode
-  for(let child of target.children) {
+  for(let child of tag.children) {
     li.appendChild(child);
   }
   li.addEventListener("click", removeTagE)
@@ -201,18 +204,26 @@ function searchPickTagE() {
   li.getElementsByTagName("input")[0].checked = true
   li.visibility = "visible"
   li.display = "block"
-  console.log(li)
-  let ul = document.getElementsByClassName("selectable-tag-list")[0]
+  let ul = tag.parentNode.parentNode.parentNode
+  console.log(ul)
   let ulLis = ul.children
   ul.insertBefore(li, ulLis[ulLis.length-2])
-  target.remove()
+  tag.remove()
+}
+
+function searchPickTagE() {
+  let target = event.target
+  while(target.tagName != "LI")
+    target = target.parentNode
+  addTag(target)
 }
 
 function collapseTagSearchE() {
   li = event.target.parentNode
   let but = li.nextElementSibling
-  li.style.visibility="collapse"
   li.style.display="none"
+  li.style.visibility="collapse"
+  console.log(but)
   but.style.visibility="visible"
   but.style.display="block"
   li.getElementsByTagName("input")[0].value = ""
@@ -292,6 +303,8 @@ function setDarkMode(b) {
     }
   }
 }
+
+
 
 function onLoad() {
   setDarkMode(false);

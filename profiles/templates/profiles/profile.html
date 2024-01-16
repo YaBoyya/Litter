@@ -30,7 +30,6 @@
       {% if request.user == user %}
       <li><a href="{% url 'profiles:settings' user.usertag %}">Edit</a></li>
       {% endif %}
-      <li><a onclick="popupSetState(true)">Info</a>
     </ul>
   </div>
   <div id="profile-bio">

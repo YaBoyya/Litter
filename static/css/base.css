@@ -232,6 +232,10 @@ li.new-tag ul>*, li.new-tag>input {
 .notice {
   font-size: var(--font-huge);
 }
+.selectable-tag-list label input {
+  visibility: collapse;
+  display: none;
+}
 /*}}}*/
 
 /* SIZE, MARGIN AND PADDING {{{*/
