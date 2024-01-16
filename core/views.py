@@ -37,7 +37,7 @@ def feed(request, page='home', trend='hot'):
             | Q(user__in=request.user.following.all())
         )
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 25)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 

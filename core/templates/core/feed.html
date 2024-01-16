@@ -27,7 +27,7 @@
   </li>
   {% endif %}
 
-  {% for i in posts.paginator.page_range %}
+  {% for i in posts.paginator.get_elided_page_range %}
     <li><a href="?page={{ i }}">{{ i }}</a></li>
   {% endfor %}
 
