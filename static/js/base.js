@@ -294,7 +294,7 @@ function setDarkMode(b) {
 }
 
 function onLoad() {
-  setDarkMode(true);
+  setDarkMode(false);
   if(typeof initFeed === "function") initFeed()
   initTags()
   initPopupMenus()
