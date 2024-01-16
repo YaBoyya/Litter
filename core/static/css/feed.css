@@ -21,6 +21,8 @@
   margin: 0 auto;
   width: 27rem;
   height: fit-content;
+  visibility: collapse;
+  display: none;
 }
 .edit-post-title, .edit-post-container textarea, .edit-post-container>form>input {
   width: 100%;

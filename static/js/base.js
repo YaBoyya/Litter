@@ -104,27 +104,21 @@ function ajax(f, type, url) {
   xhttp.send();
 }
 
-+function removeTagE() {
-   let id = event.target.id;
-
-   let li = document.createElement("li")
-   let label = document.createElement("label")
-   label.textContent = event.target.textContent
-   label.htmlFor = id
-   let input = document.createElement("input")
-   input.id = id
-   input.type = "checkbox"
-   input.name = "languages"
-   input.value = 1
-   label.appendChild(input)
-   li.appendChild(label)
-   li.addEventListener("mousedown", searchPickTagE)
-   initTag(li)
-   document.getElementById(id).checked = false;
-   let ul = event.target.parentNode.getElementsByClassName("popup-menu")[0]
-   //TODO: Correct order insert
-   ul.insertBefore(li, ul.firstChild)
-   event.target.remove();
+function removeTagE() {
+  let target = event.target
+  let li = document.createElement("li")
+  while(target.tagName != "LI")
+    target = target.parentNode
+  for(let child of target.children) {
+    li.appendChild(child);
+  }
+  li.addEventListener("mousedown", searchPickTagE)
+  li.checked = false
+  initTag(li)
+  let ul = target.parentNode.getElementsByClassName("popup-menu")[0]
+  //TODO: Correct order insert
+  ul.insertBefore(li, ul.firstChild)
+  target.remove();
  }
 
 function initTag(tag) {
@@ -195,17 +189,23 @@ function showTagSearchE() {
 
 function searchPickTagE() {
   let li = document.createElement("li");
-  li.textContent = event.target.textContent;
-  let input = event.target.getElementsByTagName('input')
-  let id = input[0].id
-  document.getElementById(id).checked = true;
+  let target = event.target
+  console.log(target.tagName)
+  while(target.tagName != "LI")
+    target = target.parentNode
+  for(let child of target.children) {
+    li.appendChild(child);
+  }
   li.addEventListener("click", removeTagE)
   initTag(li)
-  li.id = id
+  li.getElementsByTagName("input")[0].checked = true
+  li.visibility = "visible"
+  li.display = "block"
+  console.log(li)
   let ul = document.getElementsByClassName("selectable-tag-list")[0]
   let ulLis = ul.children
   ul.insertBefore(li, ulLis[ulLis.length-2])
-  event.target.parentNode.remove()
+  target.remove()
 }
 
 function collapseTagSearchE() {
