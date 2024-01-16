@@ -46,3 +46,15 @@
   display: none;
   width: 100%;
 }
+#page-navigation {
+  align-items: flex-end;
+  justify-content: flex-end;
+  display: flex;
+}
+#page-navigation li {
+  margin-left: var(--small-gap);
+  margin-top: var(--small-gap);
+}
+#page-navigation li a {
+  padding: var(--small-gap);
+}

@@ -26,7 +26,6 @@ class PostForm(forms.ModelForm):
         queryset=Language.objects.all(),
         widget=forms.CheckboxSelectMultiple()
     )
-    difficulty = forms.ChoiceField(widget=forms.Select())
 
     class Meta:
         model = Post
