@@ -93,15 +93,15 @@ def litteruser_fixture():
                     "password": hasher.encode(faker.password(), str(i)),
                     "last_login": not_naive(generate_time(end_time=join)),
                     "is_superuser": False,
-                    "first_name": "",
-                    "last_name": "",
+                    "first_name": faker.first_name(),
+                    "last_name": faker.last_name(),
                     "is_staff": False,
                     "is_active": True,
                     "date_joined": not_naive(join),
                     "email": faker.email(),
                     "username": username,
                     "usertag": username.lower(),
-                    "bio": None,
+                    "bio": faker.text(max_nb_chars=200),
                     "picture": random.choice(profile_pics),
                     "groups": [],
                     "user_permissions": [],
@@ -157,7 +157,7 @@ def post_fixture():
 def comment_fixture():
     listed_data = []
     for i in range(1, comment_count):
-        if i % 1000 == 0:
+        if i % 10000 == 0:
             print(f"{i}/{comment_count}")
         listed_data.append(
             {
@@ -185,7 +185,7 @@ def postvote_fixture():
     for i in range(1, postvote_count):
         user_id, post_id = rand_id[i-1]
         post_votes_list[post_id] += 1
-        if i % 1000 == 0:
+        if i % 10000 == 0:
             print(f"{i}/{postvote_count}")
         listed_data.append(
             {
@@ -206,11 +206,10 @@ def postvote_fixture():
 def commentvote_fixture():
     listed_data = []
     rand_id = pseudorandom(user_count, comment_count, commentvote_count)
-    print("Git")
     for i in range(1, commentvote_count):
         user_id, comment_id = rand_id[i-1]
         comment_votes_list[comment_id] += 1
-        if i % 1000 == 0:
+        if i % 100000 == 0:
             print(f"{i}/{commentvote_count}")
         listed_data.append(
             {
