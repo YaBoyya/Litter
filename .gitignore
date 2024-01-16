@@ -35,9 +35,6 @@ __pycache__/
 # test coverage
 .coverage
 
-# DB
-URL_ShortenerDB
-
 #coverage file
 htmlcov
 
