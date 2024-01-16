@@ -10,7 +10,11 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from dotenv import load_dotenv
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Litter.settings.local_settings')  # noqa
+
+load_dotenv()
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Litter.settings.deployment')  # noqa
 
 application = get_wsgi_application()

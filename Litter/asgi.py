@@ -10,7 +10,11 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
+from dotenv import load_dotenv
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Litter.settings.local_settings')  # noqa
+
+load_dotenv()
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Litter.settings.deployment')  # noqa
 
 application = get_asgi_application()
