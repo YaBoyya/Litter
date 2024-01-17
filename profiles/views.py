@@ -107,7 +107,6 @@ def email_change(request, usertag):
                       {'form': EmailForm(instance=user)})
 
     form = EmailForm(request.POST, instance=user)
-    # TODO email confirmation?
     if not form.is_valid():
         messages.info(request, "Invalid email.")
         return redirect(request.path_info)

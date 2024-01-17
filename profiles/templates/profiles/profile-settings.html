@@ -14,9 +14,6 @@
         {% csrf_token %}
         {{ form.username }}
         {{ form.bio }}
-        {# TODO: resize the pic #}
-        {% comment %} {{ form.picture. }} {% endcomment %}
-        {# TODO find smarter workaround #}
         <span class="header">Interests</span>
         <ul class="tag-list center-vert clickable-list selectable-tag-list">
             <li class="new-tag">

@@ -122,7 +122,6 @@ function removeTagE() {
   li.checked = false
   initTag(li)
   let ul = target.parentNode.getElementsByClassName("popup-menu")[0]
-  //TODO: Correct order insert
   ul.insertBefore(li, ul.firstChild)
   target.remove();
  }
