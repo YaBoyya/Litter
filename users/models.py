@@ -47,6 +47,7 @@ class LitterUser(AbstractUser):
         error_messages={
             "unique": _("A user with that usertag already exists."),
         },
+        db_index=True
     )
     following = models.ManyToManyField('self', related_name='followers',
                                        symmetrical=False)
@@ -57,11 +58,6 @@ class LitterUser(AbstractUser):
                                     'profile_pics/'))
     objects = LitterUserManager()
     USERNAME_FIELD = "usertag"
-
-    class Meta:
-        indexes = [
-            models.Index(fields=['usertag'], name="litteruser_usertag_idx"),
-        ]
 
     def delete(self, *args, **kwargs):
         if self.picture != 'default_pp.png':

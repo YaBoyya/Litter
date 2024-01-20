@@ -53,7 +53,7 @@ class Post(models.Model):
         indexes = [
             models.Index(fields=['user'], name='post_user_idx'),
             models.Index(fields=['-created'], name='post_desc_created_idx'),
-            models.Index(fields=['-total_votes'], name='post_created_idx'),
+            models.Index(fields=['-total_votes'], name='post_total_votes_idx'),
         ]
 
     def __str__(self):
@@ -82,7 +82,8 @@ class Comment(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=['user'], name='comment_user_idx'),
-            models.Index(fields=['post'], name='comment_post_idx')
+            models.Index(fields=['post'], name='comment_post_idx'),
+            models.Index(fields=['-created'], name='comment_created_desc_idx')
         ]
 
     def __str__(self):
@@ -98,12 +99,8 @@ class PostVote(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user', 'post'],
-                                    name="Unique post vote.")
+                                    name="postvote_user_post_idx")
             ]
-        indexes = [
-            models.Index(fields=['user', 'post'],
-                         name="postvote_user_post_idx"),
-        ]
 
     def __str__(self):
         return f"Vote on a post \"{self.post}\" by {self.user.username}"
@@ -118,12 +115,8 @@ class CommentVote(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user', 'comment'],
-                                    name="Unique comment vote.")
+                                    name="commentvote_user_comment_idx")
             ]
-        indexes = [
-            models.Index(fields=['user', 'comment'],
-                         name="commentvote_user_comment_idx")
-        ]
 
     def __str__(self):
         return f"Vote on a post \"{self.comment}\" by {self.user.username}"

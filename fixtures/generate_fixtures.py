@@ -139,7 +139,7 @@ def post_fixture():
                     "picture": random.choice(post_pics)
                     if random.random() < 0.4 else "",
                     "difficulty": random.choice(["E", "M", "H"]),
-                    "views": random.randrange(post_count),
+                    "views": random.randrange(user_count),
                     "created": not_naive(generate_time()),
                     "was_edited": random.choice([False, True]),
                     "languages": sorted(
