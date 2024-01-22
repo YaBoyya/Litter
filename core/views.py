@@ -89,14 +89,18 @@ def post_delete(request, pk):
 
 
 def post_details(request, pk):
-    if request.user.is_authenticated:
-        post = Post.objects.get_voted(request.user).get(id=pk)
-        comments = Comment.objects.get_voted(request.user).filter(
-            post=post).order_by('-created')
-    else:
-        post = Post.objects.get_voted().get(id=pk)
-        comments = Comment.objects.get_voted().filter(
-            post=post).order_by('-created')
+    try:
+        if request.user.is_authenticated:
+            post = Post.objects.get_voted(request.user).get(id=pk)
+            comments = Comment.objects.get_voted(request.user).filter(
+                post=post).order_by('-created')
+        else:
+            post = Post.objects.get_voted().get(id=pk)
+            comments = Comment.objects.get_voted().filter(
+                post=post).order_by('-created')
+    except (Post.DoesNotExist):
+        messages.error(request, 'Post does not exist.')
+        return redirect('core:feed')
 
     context = {'post': post, 'comments': comments, 'form': CommentForm()}
     if request.method != 'POST':
